@@ -643,6 +643,146 @@ input[type="range"] {
   margin: 18px 0;
 }
 
+.type-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.type-card {
+  display: grid;
+  gap: 8px;
+  padding: 18px;
+  border-radius: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.04);
+  color: #f7f6f3;
+  text-align: left;
+  cursor: pointer;
+  transition: transform 160ms ease, border-color 160ms ease, background 160ms ease;
+}
+
+.type-card:hover {
+  transform: translateY(-2px);
+}
+
+.type-card.active {
+  border-color: rgba(113, 239, 215, 0.38);
+  background: linear-gradient(180deg, rgba(113, 239, 215, 0.12), rgba(255, 255, 255, 0.04));
+}
+
+.type-card span {
+  color: var(--accent-2);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: 0.72rem;
+}
+
+.type-card p,
+.float-field p,
+.memory-lesson-head span {
+  color: var(--muted);
+  line-height: 1.55;
+}
+
+.wide-input {
+  width: 100%;
+}
+
+.memory-lesson {
+  display: grid;
+  gap: 14px;
+  margin-top: 18px;
+}
+
+.memory-lesson-head {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 8px 16px;
+}
+
+.typed-memory-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.typed-memory-cell {
+  display: grid;
+  gap: 4px;
+  padding: 14px;
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  animation: pulse 2.4s ease-in-out infinite;
+}
+
+.typed-memory-cell span {
+  color: var(--accent);
+}
+
+.typed-memory-cell small {
+  color: var(--muted);
+  word-break: break-word;
+}
+
+.sample-row {
+  margin-bottom: 10px;
+}
+
+.float-bit-layout {
+  display: grid;
+  gap: 16px;
+}
+
+.float-field {
+  padding: 18px;
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.float-field.sign {
+  background: linear-gradient(180deg, rgba(241, 180, 76, 0.12), rgba(255, 255, 255, 0.04));
+}
+
+.float-field.exponent {
+  background: linear-gradient(180deg, rgba(113, 239, 215, 0.12), rgba(255, 255, 255, 0.04));
+}
+
+.float-field.fraction {
+  background: linear-gradient(180deg, rgba(67, 126, 255, 0.12), rgba(255, 255, 255, 0.04));
+}
+
+.float-field span {
+  display: block;
+  margin-bottom: 10px;
+  color: #f7f6f3;
+  font-weight: 700;
+}
+
+.float-bits {
+  display: grid;
+  gap: 8px;
+  margin-bottom: 12px;
+  grid-template-columns: repeat(auto-fit, minmax(28px, 1fr));
+}
+
+.float-bit {
+  display: grid;
+  place-items: center;
+  min-height: 40px;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.04);
+  color: rgba(255, 255, 255, 0.45);
+}
+
+.float-bit.on {
+  color: #f7f6f3;
+  background: linear-gradient(180deg, rgba(113, 239, 215, 0.2), rgba(255, 255, 255, 0.06));
+}
+
 @keyframes flow {
   0% {
     transform: translateX(0) scale(0.65);
@@ -712,6 +852,11 @@ input[type="range"] {
 
   .bit-row {
     grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+
+  .type-grid,
+  .typed-memory-grid {
+    grid-template-columns: 1fr;
   }
 }
 

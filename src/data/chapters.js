@@ -22,4 +22,15 @@ export const chapterCards = [
       { id: "chapter-2-addresses", label: "Address and value" },
     ],
   },
+  {
+    id: "chapter-3",
+    number: "03",
+    title: "Basic Data Types",
+    summary: "Integers, chars, float16, float32, IEEE 754, and memory layout.",
+    sections: [
+      { id: "chapter-3-overview", label: "Type map" },
+      { id: "chapter-3-integers", label: "Integer memory" },
+      { id: "chapter-3-floating", label: "IEEE 754 floats" },
+    ],
+  },
 ];
