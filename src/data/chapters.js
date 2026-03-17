@@ -33,4 +33,16 @@ export const chapterCards = [
       { id: "chapter-3-floating", label: "IEEE 754 floats" },
     ],
   },
+  {
+    id: "chapter-4",
+    number: "04",
+    title: "Variables and Pointers",
+    summary: "Variables, arrays, packed data, pointers, dereferencing and typecasting.",
+    sections: [
+      { id: "chapter-4-variables", label: "Variables" },
+      { id: "chapter-4-arrays", label: "Arrays and packed" },
+      { id: "chapter-4-pointers", label: "Pointers" },
+      { id: "chapter-4-casting", label: "Typecasting" },
+    ],
+  },
 ];

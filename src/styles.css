@@ -783,6 +783,182 @@ input[type="range"] {
   background: linear-gradient(180deg, rgba(113, 239, 215, 0.2), rgba(255, 255, 255, 0.06));
 }
 
+.memory-map-shell {
+  display: grid;
+  gap: 12px;
+  margin-top: 18px;
+}
+
+.memory-map-head {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 8px 16px;
+}
+
+.memory-map-head span,
+.memory-map-cell small,
+.pointer-box small {
+  color: var(--muted);
+}
+
+.memory-map-grid {
+  display: grid;
+  gap: 12px;
+}
+
+.memory-map-cell {
+  display: grid;
+  gap: 4px;
+  padding: 14px;
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  opacity: 0.45;
+  transition: transform 160ms ease, opacity 160ms ease, border-color 160ms ease;
+}
+
+.memory-map-cell.active {
+  opacity: 1;
+  transform: translateY(-2px);
+  border-color: rgba(113, 239, 215, 0.3);
+  background: linear-gradient(180deg, rgba(113, 239, 215, 0.12), rgba(255, 255, 255, 0.04));
+}
+
+.memory-map-cell span {
+  color: var(--accent);
+}
+
+.variable-card,
+.pointer-card,
+.pointer-box {
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.variable-card {
+  display: grid;
+  gap: 8px;
+  padding: 18px;
+}
+
+.variable-card span,
+.pointer-box span {
+  color: var(--accent-2);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: 0.72rem;
+}
+
+.array-stack {
+  display: grid;
+  gap: 18px;
+}
+
+.array-index-row {
+  margin-top: 16px;
+}
+
+.flag-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.flag-button {
+  min-height: 48px;
+  padding: 0 14px;
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.04);
+  color: #f7f6f3;
+  cursor: pointer;
+  transition: transform 160ms ease, border-color 160ms ease, background 160ms ease;
+}
+
+.flag-button:hover {
+  transform: translateY(-2px);
+}
+
+.flag-button.on {
+  border-color: rgba(241, 180, 76, 0.45);
+  background: linear-gradient(180deg, rgba(241, 180, 76, 0.16), rgba(255, 255, 255, 0.04));
+}
+
+.packed-bit-row {
+  margin-top: 18px;
+}
+
+.pointer-card {
+  display: grid;
+  grid-template-columns: 1fr 120px 1fr;
+  gap: 16px;
+  align-items: center;
+  padding: 18px;
+  margin: 18px 0;
+}
+
+.pointer-box {
+  display: grid;
+  gap: 8px;
+  padding: 18px;
+}
+
+.pointer-box.target {
+  background: linear-gradient(180deg, rgba(113, 239, 215, 0.1), rgba(255, 255, 255, 0.04));
+}
+
+.pointer-link {
+  display: grid;
+  place-items: center;
+}
+
+.pointer-line,
+.cast-line {
+  position: relative;
+  width: 100%;
+  height: 4px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.08);
+  overflow: hidden;
+}
+
+.pointer-line.active,
+.cast-line {
+  background: linear-gradient(90deg, rgba(241, 180, 76, 0.18), rgba(113, 239, 215, 0.2));
+}
+
+.pointer-dot,
+.cast-dot {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: #f7f6f3;
+  transform: translateY(-50%);
+}
+
+.pointer-line.active .pointer-dot {
+  animation: travel 1.8s ease-in-out infinite;
+}
+
+.cast-arrow {
+  display: grid;
+  gap: 10px;
+  margin: 18px 0;
+}
+
+.cast-arrow strong {
+  color: var(--accent);
+}
+
+.cast-line .cast-dot {
+  animation: travel 1.9s ease-in-out infinite;
+}
+
 @keyframes flow {
   0% {
     transform: translateX(0) scale(0.65);
@@ -822,6 +998,20 @@ input[type="range"] {
   }
 }
 
+@keyframes travel {
+  0% {
+    left: 0;
+    opacity: 0.25;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    left: calc(100% - 18px);
+    opacity: 0.25;
+  }
+}
+
 @media (max-width: 1180px) {
   .site-layout {
     grid-template-columns: 1fr;
@@ -842,7 +1032,8 @@ input[type="range"] {
   .chapter-grid-wide,
   .repr-grid,
   .stat-grid,
-  .explanation-strip {
+  .explanation-strip,
+  .pointer-card {
     grid-template-columns: 1fr;
   }
 
@@ -856,6 +1047,10 @@ input[type="range"] {
 
   .type-grid,
   .typed-memory-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .flag-grid {
     grid-template-columns: 1fr;
   }
 }
