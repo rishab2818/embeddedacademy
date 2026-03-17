@@ -56,4 +56,16 @@ export const chapterCards = [
       { id: "chapter-5-protocol", label: "Protocol stream" },
     ],
   },
+  {
+    id: "chapter-6",
+    number: "06",
+    title: "What Embedded Is",
+    summary: "Embedded programming, deadlines, MCU vs MPU, code and compiler flow.",
+    sections: [
+      { id: "chapter-6-meaning", label: "What it is" },
+      { id: "chapter-6-timing", label: "Time-bound systems" },
+      { id: "chapter-6-systems", label: "MCU vs MPU" },
+      { id: "chapter-6-compiler", label: "Code and compiler" },
+    ],
+  },
 ];
