@@ -4,6 +4,7 @@ import ChapterOne from "./chapters/ChapterOne";
 import ChapterTwo from "./chapters/ChapterTwo";
 import ChapterThree from "./chapters/ChapterThree";
 import ChapterFour from "./chapters/ChapterFour";
+import ChapterFive from "./chapters/ChapterFive";
 import { chapterCards } from "./data/chapters";
 import { clamp, clampToByte, toBinary, toSignedByte } from "./utils/bitMath";
 
@@ -40,11 +41,12 @@ export default function App() {
               <p className="eyebrow">Embedded Programming Fundamentals</p>
               <h1>Learn how bits, bytes, memory and addresses really work</h1>
               <p className="hero-text">
-                This site now has chapter cards in the sidebar and four interactive lessons.
+                This site now has chapter cards in the sidebar and five interactive lessons.
                 Chapter 1 explains how computers think in bits. Chapter 2 shows memory and
                 addresses. Chapter 3 teaches basic data types, including signed and unsigned
                 integers plus IEEE 754 floating-point memory. Chapter 4 shows how variables,
-                arrays, pointers and typecasting work on top of that memory model.
+                arrays, pointers and typecasting work on top of that memory model. Chapter 5
+                shows the real embedded flow from incoming data to a useful action.
               </p>
 
               <div className="hero-actions">
@@ -59,6 +61,9 @@ export default function App() {
                 </a>
                 <a href="#chapter-4" className="secondary-link">
                   Open chapter 4
+                </a>
+                <a href="#chapter-5" className="secondary-link">
+                  Open chapter 5
                 </a>
               </div>
             </div>
@@ -88,6 +93,10 @@ export default function App() {
                 <span>Newest chapter</span>
                 <strong>Pointers and casting</strong>
               </div>
+              <div className="summary-row">
+                <span>Now added</span>
+                <strong>Embedded I/O flow</strong>
+              </div>
             </div>
           </header>
 
@@ -111,6 +120,7 @@ export default function App() {
 
           <ChapterThree />
           <ChapterFour />
+          <ChapterFive />
         </main>
       </div>
     </div>

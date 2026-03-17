@@ -45,4 +45,15 @@ export const chapterCards = [
       { id: "chapter-4-casting", label: "Typecasting" },
     ],
   },
+  {
+    id: "chapter-5",
+    number: "05",
+    title: "Embedded Input Flow",
+    summary: "Sensors, signals, communication data, memory, decisions and output.",
+    sections: [
+      { id: "chapter-5-pressure", label: "Sensor to LED" },
+      { id: "chapter-5-signals", label: "Signal events" },
+      { id: "chapter-5-protocol", label: "Protocol stream" },
+    ],
+  },
 ];
