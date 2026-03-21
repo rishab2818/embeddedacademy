@@ -4,7 +4,7 @@ export const courseChapters = [
     number: "0",
     title: "Foundations of Embedded Systems",
     summary:
-      "The first six lessons cover bits, memory, data types, pointers, data flow, and the basic idea of embedded systems.",
+      "The first seven lessons cover bits, memory, data types, pointers, data flow, embedded system basics, and hands-on GPIO programming.",
     lessons: [
       {
         id: "0.1",
@@ -71,6 +71,17 @@ export const courseChapters = [
           "The big picture of embedded programming, real-time deadlines, microcontrollers, microprocessors, and compilers.",
         chatbotContext:
           "This lesson explains what embedded programming is, what time-bound or real-time systems are, how microcontrollers differ from microprocessors, and how code becomes machine instructions through a compiler.",
+      },
+      {
+        id: "0.7",
+        slug: "programming-gpio-on-ro-ucontroller",
+        title: "Programming GPIO on RO uController",
+        chapterLabel: "Chapter 0.7",
+        componentKey: "chapterSeven",
+        summary:
+          "Learn GPIO on fake 16-bit and 32-bit RO uControllers using a reusable simulator, a fake driver, live pins, registers, assembly, opcodes, and machine code.",
+        chatbotContext:
+          "This lesson teaches GPIO programming on a fake RO uController 16 and RO uController 32, including output and input examples, fake device driver reading, direct register code, assembly, opcode words, memory, and machine code.",
       },
     ],
   },

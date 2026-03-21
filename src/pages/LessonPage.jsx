@@ -6,6 +6,7 @@ import { findLessonBySlug, flatLessons } from "../data/courseStructure";
 import ChapterFive from "../chapters/ChapterFive";
 import ChapterFour from "../chapters/ChapterFour";
 import ChapterOne from "../chapters/ChapterOne";
+import ChapterSeven from "../chapters/ChapterSeven";
 import ChapterSix from "../chapters/ChapterSix";
 import ChapterThree from "../chapters/ChapterThree";
 import ChapterTwo from "../chapters/ChapterTwo";
@@ -17,6 +18,7 @@ const componentMap = {
   chapterFour: ChapterFour,
   chapterFive: ChapterFive,
   chapterSix: ChapterSix,
+  chapterSeven: ChapterSeven,
 };
 
 export default function LessonPage({ sharedChapterProps }) {

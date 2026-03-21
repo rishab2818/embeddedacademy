@@ -1608,6 +1608,107 @@ input[type="range"] {
   opacity: 0.8;
 }
 
+.lesson-gpio-grid {
+  align-items: start;
+}
+
+.lesson-gpio-controls,
+.lesson-gpio-readouts {
+  display: grid;
+  gap: 18px;
+}
+
+.register-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+  margin-bottom: 18px;
+}
+
+.register-card {
+  height: 100%;
+}
+
+.gpio-board-panel h3,
+.code-pipeline-panel h3 {
+  margin-bottom: 8px;
+}
+
+.gpio-board {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 14px;
+  margin-top: 18px;
+}
+
+.gpio-pin {
+  display: grid;
+  gap: 8px;
+  padding: 16px;
+  min-height: 154px;
+  text-align: left;
+  border-radius: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.04);
+  color: #f7f6f3;
+  transition: transform 160ms ease, border-color 160ms ease, box-shadow 160ms ease;
+}
+
+.gpio-pin.highlighted {
+  border-color: rgba(113, 239, 215, 0.3);
+}
+
+.gpio-pin.output {
+  background: linear-gradient(180deg, rgba(241, 180, 76, 0.11), rgba(255, 255, 255, 0.04));
+}
+
+.gpio-pin.input {
+  background: linear-gradient(180deg, rgba(67, 126, 255, 0.11), rgba(255, 255, 255, 0.04));
+}
+
+.gpio-pin:not(:disabled):hover {
+  transform: translateY(-2px);
+}
+
+.gpio-pin:disabled {
+  cursor: default;
+}
+
+.gpio-pin span {
+  color: var(--accent-2);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: 0.72rem;
+}
+
+.gpio-pin small {
+  color: var(--muted);
+}
+
+.gpio-level {
+  display: inline-grid;
+  place-items: center;
+  min-height: 42px;
+  padding: 0 12px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.gpio-pin.high .gpio-level {
+  background: linear-gradient(180deg, rgba(113, 239, 215, 0.2), rgba(113, 239, 215, 0.07));
+  color: #ebfffb;
+  box-shadow: inset 0 0 18px rgba(113, 239, 215, 0.18);
+}
+
+.gpio-pin.low .gpio-level {
+  color: #bdccd9;
+}
+
+.pipeline-stage-card {
+  margin-top: 18px;
+}
+
 @keyframes floatIn {
   from {
     opacity: 0;
@@ -1736,6 +1837,11 @@ input[type="range"] {
     display: grid;
   }
 
+  .register-grid,
+  .gpio-board {
+    grid-template-columns: 1fr 1fr;
+  }
+
   .fancy-select-menu {
     max-height: 260px;
     overflow: auto;
@@ -1755,6 +1861,11 @@ input[type="range"] {
   .bit-row,
   .lane-grid {
     grid-template-columns: 1fr 1fr;
+  }
+
+  .register-grid,
+  .gpio-board {
+    grid-template-columns: 1fr;
   }
 
   .fancy-select.inline {
