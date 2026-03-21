@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useAIConfig } from "../context/AIConfigContext";
+import FancySelect from "./FancySelect";
 import { getDefaultModel, providerOptions } from "../utils/chatProviders";
 
 export default function ApiConfigPanel({ compact = false }) {
@@ -37,17 +38,15 @@ export default function ApiConfigPanel({ compact = false }) {
 
       <div className="control-row">
         <label htmlFor="provider">Provider</label>
-        <select
-          id="provider"
+        <FancySelect
+          ariaLabel="Provider"
           value={draft.provider}
-          onChange={(event) => handleProviderChange(event.target.value)}
-        >
-          {providerOptions.map((option) => (
-            <option key={option.id} value={option.id}>
-              {option.label}
-            </option>
-          ))}
-        </select>
+          onChange={handleProviderChange}
+          options={providerOptions.map((option) => ({
+            label: option.label,
+            value: option.id,
+          }))}
+        />
       </div>
 
       <div className="control-row">

@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from "react";
+import FancySelect from "../components/FancySelect";
 import MemoryMap from "../components/MemoryMap";
 import SectionHeading from "../components/SectionHeading";
 import { pressureScenario, protocolScenario, signalScenario } from "../data/chapterFive";
@@ -89,24 +90,30 @@ function PressureFlowLab() {
           lines={[
             <>
               reading = MEM[
-              <select value={sourceAddress} onChange={(event) => setSourceAddress(event.target.value)}>
-                {pressureScenario.sourceOptions.map((option) => (
-                  <option key={option} value={option}>
-                    {option}
-                  </option>
-                ))}
-              </select>
+              <FancySelect
+                inline
+                ariaLabel="Pressure source address"
+                value={sourceAddress}
+                onChange={setSourceAddress}
+                options={pressureScenario.sourceOptions.map((option) => ({
+                  label: option,
+                  value: option,
+                }))}
+              />
               ]
             </>,
             <>
               if reading &gt;
-              <select value={threshold} onChange={(event) => setThreshold(Number(event.target.value))}>
-                {pressureScenario.thresholdOptions.map((option) => (
-                  <option key={option} value={option}>
-                    {option}
-                  </option>
-                ))}
-              </select>
+              <FancySelect
+                inline
+                ariaLabel="Pressure threshold"
+                value={threshold}
+                onChange={(nextValue) => setThreshold(Number(nextValue))}
+                options={pressureScenario.thresholdOptions.map((option) => ({
+                  label: String(option),
+                  value: option,
+                }))}
+              />
             </>,
             <>LED = ON else LED = OFF</>,
           ]}
@@ -295,34 +302,43 @@ function ProtocolFlowLab() {
           lines={[
             <>
               if rx[0] =={" "}
-              <select value={startByte} onChange={(event) => setStartByte(event.target.value)}>
-                {protocolScenario.startOptions.map((option) => (
-                  <option key={option} value={option}>
-                    {option}
-                  </option>
-                ))}
-              </select>
+              <FancySelect
+                inline
+                ariaLabel="Protocol start byte"
+                value={startByte}
+                onChange={setStartByte}
+                options={protocolScenario.startOptions.map((option) => ({
+                  label: option,
+                  value: option,
+                }))}
+              />
             </>,
             <>
               data = rx[
-              <select value={valueIndex} onChange={(event) => setValueIndex(Number(event.target.value))}>
-                {protocolScenario.valueIndexOptions.map((option) => (
-                  <option key={option} value={option}>
-                    {option}
-                  </option>
-                ))}
-              </select>
+              <FancySelect
+                inline
+                ariaLabel="Protocol value index"
+                value={valueIndex}
+                onChange={(nextValue) => setValueIndex(Number(nextValue))}
+                options={protocolScenario.valueIndexOptions.map((option) => ({
+                  label: String(option),
+                  value: option,
+                }))}
+              />
               ]
             </>,
             <>
               send data to{" "}
-              <select value={action} onChange={(event) => setAction(event.target.value)}>
-                {protocolScenario.actionOptions.map((option) => (
-                  <option key={option} value={option}>
-                    {option}
-                  </option>
-                ))}
-              </select>
+              <FancySelect
+                inline
+                ariaLabel="Protocol action"
+                value={action}
+                onChange={setAction}
+                options={protocolScenario.actionOptions.map((option) => ({
+                  label: option,
+                  value: option,
+                }))}
+              />
             </>,
           ]}
         />

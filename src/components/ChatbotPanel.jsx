@@ -95,7 +95,7 @@ export default function ChatbotPanel({ lesson }) {
           placeholder="Ask about this chapter..."
           rows={4}
         />
-        <button type="submit" className="primary-link" disabled={loading}>
+        <button type="submit" className="primary-link chat-send-button" disabled={loading}>
           {loading ? "Sending..." : "Send"}
         </button>
       </form>
