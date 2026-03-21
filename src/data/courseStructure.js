@@ -4,7 +4,7 @@ export const courseChapters = [
     number: "0",
     title: "Foundations of Embedded Systems",
     summary:
-      "The first seven lessons cover bits, memory, data types, pointers, data flow, embedded system basics, and hands-on GPIO programming.",
+      "The first six lessons build the base: bits, memory, data types, pointers, data flow, and the big-picture meaning of embedded systems.",
     lessons: [
       {
         id: "0.1",
@@ -72,30 +72,43 @@ export const courseChapters = [
         chatbotContext:
           "This lesson explains what embedded programming is, what time-bound or real-time systems are, how microcontrollers differ from microprocessors, and how code becomes machine instructions through a compiler.",
       },
+    ],
+  },
+  {
+    id: "chapter-1",
+    number: "1",
+    title: "Programming GPIO on RO uController",
+    summary:
+      "A hands-on beginner chapter that teaches GPIO on fake 16-bit and 32-bit controllers using memory-mapped registers, simple examples, and code translation down to machine code.",
+    lessons: [
       {
-        id: "0.7",
+        id: "1.1",
         slug: "programming-gpio-on-ro-ucontroller",
         title: "Programming GPIO on RO uController",
-        chapterLabel: "Chapter 0.7",
+        chapterLabel: "Chapter 1.1",
         componentKey: "chapterSeven",
         summary:
-          "Learn GPIO on fake 16-bit and 32-bit RO uControllers using a reusable simulator, a fake driver, live pins, registers, assembly, opcodes, and machine code.",
+          "Learn GPIO with a simple flow: plain English, memory addresses, C, assembly, opcode, and machine code on 16-bit and 32-bit RO uControllers.",
         chatbotContext:
-          "This lesson teaches GPIO programming on a fake RO uController 16 and RO uController 32, including output and input examples, fake device driver reading, direct register code, assembly, opcode words, memory, and machine code.",
+          "This lesson teaches complete beginners how GPIO works on fake 16-bit and 32-bit RO uControllers, including input and output pins, memory-mapped DIR DATA and INPUT registers, simple C code, assembly, opcodes, machine code, and advanced C views like bitfields packed structs and unions.",
       },
     ],
   },
 ];
 
-export const flatLessons = courseChapters.flatMap((chapter) =>
-  chapter.lessons.map((lesson, index, lessons) => ({
+const lessonSequence = courseChapters.flatMap((chapter) =>
+  chapter.lessons.map((lesson) => ({
     ...lesson,
     chapterId: chapter.id,
     chapterTitle: chapter.title,
-    previousSlug: index > 0 ? lessons[index - 1].slug : null,
-    nextSlug: index < lessons.length - 1 ? lessons[index + 1].slug : null,
   }))
 );
+
+export const flatLessons = lessonSequence.map((lesson, index) => ({
+  ...lesson,
+  previousSlug: index > 0 ? lessonSequence[index - 1].slug : null,
+  nextSlug: index < lessonSequence.length - 1 ? lessonSequence[index + 1].slug : null,
+}));
 
 export function findLessonBySlug(slug) {
   return flatLessons.find((lesson) => lesson.slug === slug);

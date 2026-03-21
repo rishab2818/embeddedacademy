@@ -53,7 +53,7 @@ export default function FancySelect({
       >
         <span>{selected?.label ?? String(value)}</span>
         <span className="fancy-select-chevron" aria-hidden="true">
-          ▾
+          v
         </span>
       </button>
 

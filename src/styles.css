@@ -1629,6 +1629,18 @@ input[type="range"] {
   height: 100%;
 }
 
+.register-card-button {
+  text-align: left;
+  cursor: pointer;
+  transition: transform 160ms ease, border-color 160ms ease, background 160ms ease;
+}
+
+.register-card-button.active {
+  border-color: rgba(113, 239, 215, 0.3);
+  background: linear-gradient(180deg, rgba(113, 239, 215, 0.12), rgba(255, 255, 255, 0.05));
+  transform: translateY(-2px);
+}
+
 .gpio-board-panel h3,
 .code-pipeline-panel h3 {
   margin-bottom: 8px;
@@ -1707,6 +1719,151 @@ input[type="range"] {
 
 .pipeline-stage-card {
   margin-top: 18px;
+}
+
+.gpio-teaching-panel {
+  display: grid;
+  gap: 18px;
+}
+
+.word-preview {
+  display: grid;
+  gap: 12px;
+}
+
+.word-preview-head {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 8px 16px;
+}
+
+.word-preview-head span {
+  color: var(--muted);
+}
+
+.word-preview-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(34px, 1fr));
+  gap: 8px;
+}
+
+.word-preview-bit {
+  display: grid;
+  place-items: center;
+  min-height: 34px;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.04);
+  color: #a8b8c9;
+  font-size: 0.76rem;
+}
+
+.word-preview-bit.used {
+  color: #08111a;
+  font-weight: 700;
+  background: linear-gradient(135deg, rgba(241, 180, 76, 0.95), rgba(113, 239, 215, 0.92));
+}
+
+.address-story-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.address-story-card {
+  display: grid;
+  gap: 10px;
+  padding: 16px;
+  text-align: left;
+  border-radius: 22px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.03);
+  color: inherit;
+  cursor: pointer;
+  transition: transform 160ms ease, border-color 160ms ease, background 160ms ease;
+}
+
+.address-story-card span,
+.teaching-step-card span,
+.flow-story-card span {
+  color: var(--accent);
+  font-size: 0.76rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.address-story-card p,
+.translation-legend-card p,
+.teaching-step-card p,
+.flow-story-card p {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.65;
+}
+
+.address-story-card.active,
+.address-story-card:hover {
+  transform: translateY(-2px);
+  border-color: rgba(113, 239, 215, 0.3);
+  background: linear-gradient(180deg, rgba(113, 239, 215, 0.12), rgba(255, 255, 255, 0.05));
+}
+
+.teaching-step-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.teaching-step-grid.compact {
+  grid-template-columns: 1fr;
+}
+
+.teaching-step-card,
+.translation-legend-card {
+  display: grid;
+  gap: 10px;
+  padding: 16px;
+  border-radius: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.flow-story {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.flow-story-card {
+  position: relative;
+  display: grid;
+  gap: 10px;
+  padding: 18px;
+  min-height: 180px;
+  border-radius: 24px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background:
+    radial-gradient(circle at top right, rgba(113, 239, 215, 0.12), transparent 45%),
+    rgba(255, 255, 255, 0.03);
+  overflow: hidden;
+}
+
+.flow-story-arrow {
+  position: absolute;
+  right: -8px;
+  top: 50%;
+  width: 22px;
+  height: 22px;
+  border-top: 2px solid rgba(113, 239, 215, 0.35);
+  border-right: 2px solid rgba(113, 239, 215, 0.35);
+  transform: translateY(-50%) rotate(45deg);
+}
+
+.translation-legend {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 14px;
 }
 
 @keyframes floatIn {
@@ -1838,13 +1995,19 @@ input[type="range"] {
   }
 
   .register-grid,
-  .gpio-board {
+  .gpio-board,
+  .address-story-grid,
+  .flow-story {
     grid-template-columns: 1fr 1fr;
   }
 
   .fancy-select-menu {
     max-height: 260px;
     overflow: auto;
+  }
+
+  .flow-story-arrow {
+    display: none;
   }
 }
 
@@ -1864,7 +2027,10 @@ input[type="range"] {
   }
 
   .register-grid,
-  .gpio-board {
+  .gpio-board,
+  .address-story-grid,
+  .teaching-step-grid,
+  .flow-story {
     grid-template-columns: 1fr;
   }
 

@@ -1,11 +1,9 @@
-import { gpioPins, roControllers } from "../data/chapterSeven";
-
-function getController(controllerId) {
-  return roControllers.find((controller) => controller.id === controllerId) ?? roControllers[0];
-}
-
 function bitMask(pin) {
   return 1 << pin;
+}
+
+function fullMask(bits) {
+  return bits === 32 ? 0xffffffff : (1 << bits) - 1;
 }
 
 function formatWord(value, digits) {
@@ -24,197 +22,196 @@ function opcodeWord(base, operand) {
   return ((base & 0xff) << 8) | (operand & 0xff);
 }
 
-export function buildGpioLesson(controllerId, scenarioId, config) {
-  const controller = getController(controllerId);
-  const registerDigits = controller.registerDigits;
+export function buildGpioTeachingModel(controller, scenarioId, config) {
+  const targetPin = Number(config.targetPin);
+  const inputPin = Number(config.inputPin);
+  const ledPin = Number(config.ledPin);
+  const outputLevel = Number(config.outputLevel);
+  const inputLevel = Number(config.inputLevel);
   const byteCount = controller.wordBits / 8;
-  const activePin = Number(config.pin);
-  const outputPin = Number(config.outputPin ?? config.pin);
-  const inputPin = Number(config.inputPin ?? config.pin);
-  const outputValue = Number(config.outputValue ?? 0);
-  const inputValue = Number(config.inputValue ?? 0);
+  const digits = controller.registerDigits;
+  const allBitsMask = fullMask(controller.wordBits);
 
   let dir = 0;
-  let out = 0;
-  let inReg = 0;
-  let applicationValue = 0;
-  let description = "";
-  let driverCode = [];
+  let data = 0;
+  let input = 0;
+  let english = [];
   let cCode = [];
   let assembly = [];
-  let opcodeWords = [];
+  let opcodes = [];
+  let explanation = "";
 
   if (scenarioId === "output") {
-    dir |= bitMask(activePin);
-    out = outputValue ? bitMask(activePin) : 0;
-    applicationValue = outputValue;
-    description = `Configure GPIO${activePin} as output and drive it ${outputValue ? "HIGH" : "LOW"}.`;
+    dir |= bitMask(targetPin);
+    if (outputLevel) {
+      data |= bitMask(targetPin);
+    }
 
-    driverCode = [
-      `${controller.registerType} pin = ${activePin};`,
-      `ro_gpio_mode(pin, RO_GPIO_OUTPUT);`,
-      `ro_gpio_write(pin, ${outputValue ? "RO_GPIO_HIGH" : "RO_GPIO_LOW"});`,
+    explanation = `Pin ${controller.pinPrefix}${targetPin} becomes an output. Writing ${outputLevel ? "1" : "0"} to the DATA memory makes the LED ${outputLevel ? "turn on" : "turn off"}.`;
+
+    english = [
+      `Choose ${controller.pinPrefix}${targetPin}.`,
+      `Mark ${controller.pinPrefix}${targetPin} as OUTPUT inside the DIR memory.`,
+      `Write ${outputLevel ? "1" : "0"} into the DATA memory for ${controller.pinPrefix}${targetPin}.`,
+      `The LED connected to ${controller.pinPrefix}${targetPin} follows that output value.`,
     ];
     cCode = [
-      `RO_GPIO->DIR |= (1u << ${activePin});`,
-      outputValue
-        ? `RO_GPIO->OUT |= (1u << ${activePin});`
-        : `RO_GPIO->OUT &= ~(1u << ${activePin});`,
+      `DIR = DIR | (1 << ${targetPin});`,
+      outputLevel
+        ? `DATA = DATA | (1 << ${targetPin});`
+        : `DATA = DATA & ~(1 << ${targetPin});`,
     ];
     assembly = [
-      `LOAD R1, [DIR]`,
-      `OR   R1, #${formatWord(bitMask(activePin), registerDigits)}`,
-      `STORE [DIR], R1`,
-      `LOAD R2, [OUT]`,
-      outputValue
-        ? `OR   R2, #${formatWord(bitMask(activePin), registerDigits)}`
-        : `AND  R2, #${formatWord(~bitMask(activePin), registerDigits).slice(- (2 + registerDigits))}`,
-      `STORE [OUT], R2`,
+      `LOAD R1, DIR`,
+      `OR   R1, ${formatWord(bitMask(targetPin), digits)}`,
+      `STORE DIR, R1`,
+      `LOAD R2, DATA`,
+      outputLevel
+        ? `OR   R2, ${formatWord(bitMask(targetPin), digits)}`
+        : `AND  R2, ${formatWord(allBitsMask ^ bitMask(targetPin), digits)}`,
+      `STORE DATA, R2`,
     ];
-    opcodeWords = [
-      opcodeWord(0x10, activePin),
-      opcodeWord(0x21, bitMask(activePin)),
-      opcodeWord(0x31, activePin),
-      opcodeWord(0x11, activePin),
-      opcodeWord(outputValue ? 0x22 : 0x23, bitMask(activePin)),
-      opcodeWord(0x32, activePin),
+    opcodes = [
+      opcodeWord(0x10, targetPin),
+      opcodeWord(0x21, bitMask(targetPin)),
+      opcodeWord(0x31, targetPin),
+      opcodeWord(0x11, targetPin),
+      opcodeWord(outputLevel ? 0x22 : 0x23, bitMask(targetPin)),
+      opcodeWord(0x32, targetPin),
     ];
   } else {
-    dir |= bitMask(outputPin);
-    inReg |= inputValue ? bitMask(inputPin) : 0;
-    const ledValue = inputValue ? 1 : 0;
-    out = ledValue ? bitMask(outputPin) : 0;
-    applicationValue = ledValue;
-    description = `Configure GPIO${inputPin} as input, read it, and mirror the result to GPIO${outputPin}.`;
+    dir |= bitMask(ledPin);
+    if (inputLevel) {
+      input |= bitMask(inputPin);
+      data |= bitMask(ledPin);
+    }
 
-    driverCode = [
-      `ro_gpio_mode(${inputPin}, RO_GPIO_INPUT);`,
-      `ro_gpio_mode(${outputPin}, RO_GPIO_OUTPUT);`,
-      `if (ro_gpio_read(${inputPin})) {`,
-      `  ro_gpio_write(${outputPin}, RO_GPIO_HIGH);`,
-      `} else {`,
-      `  ro_gpio_write(${outputPin}, RO_GPIO_LOW);`,
-      `}`,
+    explanation = `Pin ${controller.pinPrefix}${inputPin} is an input. When INPUT memory shows 1 on that pin, the program writes 1 to LED pin ${controller.pinPrefix}${ledPin}.`;
+
+    english = [
+      `Mark ${controller.pinPrefix}${inputPin} as INPUT.`,
+      `Mark ${controller.pinPrefix}${ledPin} as OUTPUT.`,
+      `Read the INPUT memory at ${controller.pinPrefix}${inputPin}.`,
+      `If it is 1, write 1 to ${controller.pinPrefix}${ledPin}; otherwise write 0.`,
     ];
     cCode = [
-      `RO_GPIO->DIR &= ~(1u << ${inputPin});`,
-      `RO_GPIO->DIR |= (1u << ${outputPin});`,
-      `button = (RO_GPIO->IN >> ${inputPin}) & 1u;`,
-      `RO_GPIO->OUT = button ? (RO_GPIO->OUT | (1u << ${outputPin})) : (RO_GPIO->OUT & ~(1u << ${outputPin}));`,
+      `DIR = DIR & ~(1 << ${inputPin});`,
+      `DIR = DIR | (1 << ${ledPin});`,
+      `button = (INPUT >> ${inputPin}) & 1;`,
+      `if (button) DATA = DATA | (1 << ${ledPin});`,
+      `else DATA = DATA & ~(1 << ${ledPin});`,
     ];
     assembly = [
-      `LOAD R1, [IN]`,
-      `TEST R1, #${formatWord(bitMask(inputPin), registerDigits)}`,
+      `LOAD R1, INPUT`,
+      `TEST R1, ${formatWord(bitMask(inputPin), digits)}`,
       `JZ   pin_low`,
-      `LOAD R2, [OUT]`,
-      `OR   R2, #${formatWord(bitMask(outputPin), registerDigits)}`,
-      `STORE [OUT], R2`,
+      `LOAD R2, DATA`,
+      `OR   R2, ${formatWord(bitMask(ledPin), digits)}`,
+      `STORE DATA, R2`,
       `JMP  done`,
       `pin_low:`,
-      `LOAD R2, [OUT]`,
-      `AND  R2, #${formatWord(~bitMask(outputPin), registerDigits).slice(- (2 + registerDigits))}`,
-      `STORE [OUT], R2`,
+      `LOAD R2, DATA`,
+      `AND  R2, ${formatWord(allBitsMask ^ bitMask(ledPin), digits)}`,
+      `STORE DATA, R2`,
       `done:`,
     ];
-    opcodeWords = [
+    opcodes = [
       opcodeWord(0x14, inputPin),
       opcodeWord(0x41, bitMask(inputPin)),
       opcodeWord(0x52, 0x01),
-      opcodeWord(0x11, outputPin),
-      opcodeWord(0x22, bitMask(outputPin)),
-      opcodeWord(0x32, outputPin),
+      opcodeWord(0x11, ledPin),
+      opcodeWord(0x22, bitMask(ledPin)),
+      opcodeWord(0x32, ledPin),
       opcodeWord(0x53, 0x02),
-      opcodeWord(0x11, outputPin),
-      opcodeWord(0x23, bitMask(outputPin)),
-      opcodeWord(0x32, outputPin),
+      opcodeWord(0x11, ledPin),
+      opcodeWord(0x23, bitMask(ledPin)),
+      opcodeWord(0x32, ledPin),
     ];
   }
 
-  const machineBytes = formatBytes(opcodeWords.flatMap((word) => toBytes(word, 2)));
-  const opcodeText = opcodeWords.map((word) => formatWord(word, 4));
+  const machineBytes = formatBytes(opcodes.flatMap((word) => toBytes(word, 2)));
+  const opcodeText = opcodes.map((word) => formatWord(word, 4));
+
+  const pins = Array.from({ length: controller.pinCount }, (_, index) => {
+    const isLed = scenarioId === "output" ? index === targetPin : index === ledPin;
+    const isInput = scenarioId === "input" && index === inputPin;
+    const isOutput = scenarioId === "output" ? index === targetPin : index === ledPin;
+    const level = isInput ? inputLevel : isLed ? (data & bitMask(index) ? 1 : 0) : 0;
+
+    return {
+      id: index,
+      label: `${controller.pinPrefix}${index}`,
+      mode: isOutput ? "output" : isInput ? "input" : "idle",
+      level,
+      highlighted: isLed || isInput,
+      role: isLed ? "led" : isInput ? "sensor" : "idle",
+    };
+  });
 
   const registers = [
     {
       id: "dir",
       name: "DIR",
-      value: dir,
-      formatted: formatWord(dir, registerDigits),
-      note: "1 means output, 0 means input",
+      formatted: formatWord(dir, digits),
+      note: "1 means output and 0 means input",
     },
     {
-      id: "out",
-      name: "OUT",
-      value: out,
-      formatted: formatWord(out, registerDigits),
-      note: "Output data register",
+      id: "data",
+      name: "DATA",
+      formatted: formatWord(data, digits),
+      note: "Output bits are written here",
     },
     {
-      id: "in",
-      name: "IN",
-      value: inReg,
-      formatted: formatWord(inReg, registerDigits),
-      note: "Input sample register",
+      id: "input",
+      name: "INPUT",
+      formatted: formatWord(input, digits),
+      note: "External input levels are sampled here",
     },
   ];
 
-  const pins = gpioPins.map((pin) => {
-    const isOutput = Boolean(dir & bitMask(pin.id));
-    const inputLevel = Boolean(inReg & bitMask(pin.id));
-    const outputLevel = Boolean(out & bitMask(pin.id));
-    const liveLevel = isOutput ? outputLevel : inputLevel;
-
-    return {
-      ...pin,
-      mode: isOutput ? "output" : "input",
-      level: liveLevel ? 1 : 0,
-      highlighted:
-        scenarioId === "output"
-          ? pin.id === activePin
-          : pin.id === inputPin || pin.id === outputPin,
-      role:
-        scenarioId === "output"
-          ? pin.id === activePin
-            ? "led"
-            : "idle"
-          : pin.id === inputPin
-            ? "sensor"
-            : pin.id === outputPin
-              ? "led"
-              : "idle",
-    };
-  });
-
-  const driverHeader = [
-    `typedef ${controller.registerType} ro_reg_t;`,
-    `typedef struct {`,
-    `  volatile ro_reg_t DIR;`,
-    `  volatile ro_reg_t OUT;`,
-    `  volatile ro_reg_t IN;`,
-    `} RO_GPIO_Type;`,
-    `void ro_gpio_mode(uint8_t pin, uint8_t mode);`,
-    `void ro_gpio_write(uint8_t pin, uint8_t value);`,
-    `uint8_t ro_gpio_read(uint8_t pin);`,
+  const memoryCells = [
+    {
+      address: controller.addresses.dir,
+      addressLabel: formatWord(controller.addresses.dir, digits),
+      hex: registers[0].formatted.replace("0x", ""),
+      note: "DIR memory",
+      group: "dir",
+    },
+    {
+      address: controller.addresses.data,
+      addressLabel: formatWord(controller.addresses.data, digits),
+      hex: registers[1].formatted.replace("0x", ""),
+      note: "DATA memory",
+      group: "data",
+    },
+    {
+      address: controller.addresses.input,
+      addressLabel: formatWord(controller.addresses.input, digits),
+      hex: registers[2].formatted.replace("0x", ""),
+      note: "INPUT memory",
+      group: "input",
+    },
   ];
+
+  const resolvedOutputLevel =
+    scenarioId === "output"
+      ? outputLevel
+      : Number(Boolean(data & bitMask(ledPin)));
 
   return {
-    controller,
-    scenarioId,
-    description,
-    applicationValue,
-    pins,
-    registers,
-    driverHeader,
-    driverCode,
+    explanation,
+    english,
     cCode,
     assembly,
     opcodeText,
     machineBytes,
-    memoryCells: registers.map((register, index) => ({
-      address: 0x8000 + index * byteCount,
-      addressLabel: `0x${(0x8000 + index * byteCount).toString(16).toUpperCase()}`,
-      hex: register.formatted.replace("0x", ""),
-      note: `${register.name} register`,
-      group: register.id,
-    })),
+    pins,
+    registers,
+    memoryCells,
+    byteCount,
+    outputLevel: resolvedOutputLevel,
+    targetLabel: `${controller.pinPrefix}${targetPin}`,
+    inputLabel: `${controller.pinPrefix}${inputPin}`,
+    ledLabel: `${controller.pinPrefix}${ledPin}`,
   };
 }

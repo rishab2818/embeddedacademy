@@ -27,7 +27,7 @@ export default function LessonNavigator({ previousLesson, nextLesson }) {
       ) : (
         <div className="panel lesson-nav-card empty">
           <span>Next</span>
-          <strong>You reached the end of Chapter 0</strong>
+          <strong>You reached the end of the course so far</strong>
         </div>
       )}
     </div>
