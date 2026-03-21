@@ -1312,6 +1312,192 @@ input[type="range"] {
   animation: floatIn 1s ease both;
 }
 
+.home-page,
+.lesson-page {
+  position: relative;
+  z-index: 1;
+  max-width: 1440px;
+  margin: 0 auto;
+}
+
+.home-hero {
+  max-width: none;
+}
+
+.chapter-index-grid {
+  display: grid;
+  gap: 22px;
+  margin-top: 26px;
+}
+
+.chapter-group-card {
+  display: grid;
+  gap: 22px;
+}
+
+.chapter-group-head h2,
+.lesson-header h1 {
+  margin: 0;
+  line-height: 1;
+}
+
+.chapter-group-head h2 {
+  font-size: clamp(1.9rem, 3vw, 2.6rem);
+}
+
+.chapter-group-head span,
+.lesson-nav-card span {
+  color: var(--accent-2);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: 0.72rem;
+}
+
+.chapter-lesson-list {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.chapter-lesson-card {
+  display: grid;
+  gap: 8px;
+  padding: 18px;
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  transition: transform 160ms ease, border-color 160ms ease, background 160ms ease;
+}
+
+.chapter-lesson-card strong {
+  color: var(--accent);
+}
+
+.chapter-lesson-card p {
+  color: var(--muted);
+  line-height: 1.6;
+  margin: 0;
+}
+
+.chapter-lesson-card:hover {
+  transform: translateY(-2px);
+  border-color: rgba(113, 239, 215, 0.3);
+}
+
+.lesson-header {
+  display: flex;
+  justify-content: space-between;
+  gap: 18px;
+  align-items: start;
+  margin-bottom: 24px;
+}
+
+.lesson-header h1 {
+  font-size: clamp(2.1rem, 4vw, 3.6rem);
+}
+
+.lesson-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 360px;
+  gap: 22px;
+}
+
+.lesson-content,
+.lesson-sidebar {
+  display: grid;
+  gap: 22px;
+}
+
+.ai-config-panel.compact h3 {
+  font-size: 1.3rem;
+}
+
+.ai-config-panel select,
+.chat-form textarea,
+.control-row select {
+  min-height: 50px;
+  padding: 0 14px;
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.05);
+  color: #fff;
+}
+
+.chatbot-panel {
+  display: grid;
+  gap: 18px;
+}
+
+.chat-history {
+  display: grid;
+  gap: 12px;
+  max-height: 520px;
+  overflow: auto;
+}
+
+.chat-empty {
+  padding: 18px;
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  color: var(--muted);
+}
+
+.chat-bubble {
+  display: grid;
+  gap: 6px;
+  padding: 16px 18px;
+  border-radius: 18px;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.chat-bubble.user {
+  background: rgba(67, 126, 255, 0.12);
+}
+
+.chat-bubble.assistant {
+  background: rgba(113, 239, 215, 0.1);
+}
+
+.chat-bubble p {
+  margin: 0;
+  color: #e4eef9;
+  white-space: pre-wrap;
+  line-height: 1.6;
+}
+
+.chat-form {
+  display: grid;
+  gap: 12px;
+}
+
+.chat-form textarea {
+  min-height: 130px;
+  padding: 14px;
+  resize: vertical;
+}
+
+.chat-form button[disabled] {
+  opacity: 0.7;
+  cursor: progress;
+}
+
+.lesson-nav {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.lesson-nav-card {
+  display: grid;
+  gap: 8px;
+  text-decoration: none;
+}
+
+.lesson-nav-card.empty {
+  opacity: 0.8;
+}
+
 @keyframes floatIn {
   from {
     opacity: 0;
@@ -1400,7 +1586,10 @@ input[type="range"] {
   .pointer-card,
   .device-stage,
   .protocol-stage,
-  .sense-think-act {
+  .sense-think-act,
+  .lesson-header,
+  .lesson-layout,
+  .lesson-nav {
     grid-template-columns: 1fr;
   }
 
@@ -1427,6 +1616,14 @@ input[type="range"] {
 
   .chip-diagram {
     grid-template-columns: 1fr;
+  }
+
+  .chapter-lesson-list {
+    grid-template-columns: 1fr;
+  }
+
+  .lesson-header {
+    display: grid;
   }
 }
 

@@ -224,11 +224,12 @@ export default function ChapterTwo({
   onSystemBitsChange,
   selectedAddressIndex,
   onAddressSelect,
+  chapterLabel = "Chapter 2",
 }) {
   return (
     <section className="chapter" id="chapter-2">
       <div className="chapter-header">
-        <p className="chapter-kicker">Chapter 2</p>
+        <p className="chapter-kicker">{chapterLabel}</p>
         <h2>Memory, addresses and contiguous bytes</h2>
         <p>
           This chapter shows what an 8-bit system and a 32-bit system look like, what memory

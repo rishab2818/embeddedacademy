@@ -283,11 +283,12 @@ export default function ChapterOne({
   onMosfetToggle,
   selectedWidth,
   onWidthChange,
+  chapterLabel = "Chapter 1",
 }) {
   return (
     <section className="chapter" id="chapter-1">
       <div className="chapter-header">
-        <p className="chapter-kicker">Chapter 1</p>
+        <p className="chapter-kicker">{chapterLabel}</p>
         <h2>Bits, bytes and meaning</h2>
         <p>
           This chapter explains what bit width means, how MOSFET switches create binary

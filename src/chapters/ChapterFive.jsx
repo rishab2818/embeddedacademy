@@ -351,11 +351,11 @@ function ProtocolFlowLab() {
   );
 }
 
-export default function ChapterFive() {
+export default function ChapterFive({ chapterLabel = "Chapter 5" }) {
   return (
     <section className="chapter" id="chapter-5">
       <div className="chapter-header">
-        <p className="chapter-kicker">Chapter 5</p>
+        <p className="chapter-kicker">{chapterLabel}</p>
         <h2>Input, memory, decisions and output</h2>
         <p>
           This chapter shows the embedded loop in a very simple way: hardware produces data,

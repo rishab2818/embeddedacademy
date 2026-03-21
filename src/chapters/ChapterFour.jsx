@@ -421,11 +421,11 @@ function TypeCastingLab() {
   );
 }
 
-export default function ChapterFour() {
+export default function ChapterFour({ chapterLabel = "Chapter 4" }) {
   return (
     <section className="chapter" id="chapter-4">
       <div className="chapter-header">
-        <p className="chapter-kicker">Chapter 4</p>
+        <p className="chapter-kicker">{chapterLabel}</p>
         <h2>Variables, arrays, pointers and typecasting</h2>
         <p>
           This chapter connects programming words to real memory. It shows how a variable is a

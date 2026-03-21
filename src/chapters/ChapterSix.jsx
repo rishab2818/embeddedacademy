@@ -323,11 +323,11 @@ function CompilerLab() {
   );
 }
 
-export default function ChapterSix() {
+export default function ChapterSix({ chapterLabel = "Chapter 6" }) {
   return (
     <section className="chapter" id="chapter-6">
       <div className="chapter-header">
-        <p className="chapter-kicker">Chapter 6</p>
+        <p className="chapter-kicker">{chapterLabel}</p>
         <h2>What embedded programming really is</h2>
         <p>
           This chapter steps back and explains the big picture. It answers what embedded

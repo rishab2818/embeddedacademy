@@ -305,7 +305,7 @@ function FloatLab({ selectedTypeId, floatInput, onFloatInputChange, onTypeChange
   );
 }
 
-export default function ChapterThree() {
+export default function ChapterThree({ chapterLabel = "Chapter 3" }) {
   const [selectedCatalogId, setSelectedCatalogId] = useState(allBasicTypes[0].id);
   const [selectedIntegerId, setSelectedIntegerId] = useState(integerTypes[0].id);
   const [integerInput, setIntegerInput] = useState(String(integerTypes[0].example));
@@ -342,7 +342,7 @@ export default function ChapterThree() {
   return (
     <section className="chapter" id="chapter-3">
       <div className="chapter-header">
-        <p className="chapter-kicker">Chapter 3</p>
+        <p className="chapter-kicker">{chapterLabel}</p>
         <h2>Basic data types and how they live in memory</h2>
         <p>
           This chapter is for complete beginners. It introduces common integer and floating-point

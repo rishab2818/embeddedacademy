@@ -1,13 +1,8 @@
-import { useMemo, useState } from "react";
-import Sidebar from "./components/Sidebar";
-import ChapterOne from "./chapters/ChapterOne";
-import ChapterTwo from "./chapters/ChapterTwo";
-import ChapterThree from "./chapters/ChapterThree";
-import ChapterFour from "./chapters/ChapterFour";
-import ChapterFive from "./chapters/ChapterFive";
-import ChapterSix from "./chapters/ChapterSix";
-import { chapterCards } from "./data/chapters";
-import { clamp, clampToByte, toBinary, toSignedByte } from "./utils/bitMath";
+import { Routes, Route } from "react-router-dom";
+import HomePage from "./pages/HomePage";
+import LessonPage from "./pages/LessonPage";
+import { clamp, clampToByte } from "./utils/bitMath";
+import { useState } from "react";
 
 export default function App() {
   const [byteValue, setByteValue] = useState(221);
@@ -15,9 +10,6 @@ export default function App() {
   const [selectedWidth, setSelectedWidth] = useState(8);
   const [systemBits, setSystemBits] = useState(8);
   const [selectedAddressIndex, setSelectedAddressIndex] = useState(0);
-
-  const signedByte = useMemo(() => toSignedByte(byteValue), [byteValue]);
-  const binaryByte = useMemo(() => toBinary(byteValue, 8), [byteValue]);
 
   function handleByteChange(nextValue) {
     setByteValue(clampToByte(nextValue));
@@ -27,112 +19,39 @@ export default function App() {
     setSelectedAddressIndex(clamp(index, 0, 11));
   }
 
+  const sharedChapterProps = {
+    chapterOne: {
+      byteValue,
+      mosfetOn,
+      onByteChange: handleByteChange,
+      onMosfetToggle: () => setMosfetOn((current) => !current),
+      selectedWidth,
+      onWidthChange: setSelectedWidth,
+    },
+    chapterTwo: {
+      byteValue,
+      onByteChange: handleByteChange,
+      systemBits,
+      onSystemBitsChange: setSystemBits,
+      selectedAddressIndex,
+      onAddressSelect: handleAddressSelect,
+    },
+    chapterThree: {},
+    chapterFour: {},
+    chapterFive: {},
+    chapterSix: {},
+  };
+
   return (
     <div className="app-shell">
       <div className="ambient ambient-one" />
       <div className="ambient ambient-two" />
       <div className="ambient ambient-three" />
 
-      <div className="site-layout">
-        <Sidebar chapters={chapterCards} />
-
-        <main className="main-shell">
-          <header className="page-hero" id="top">
-            <div className="hero-copy">
-              <p className="eyebrow">Embedded Programming Fundamentals</p>
-              <h1>Learn how bits, bytes, memory and addresses really work</h1>
-              <p className="hero-text">
-                This site now has chapter cards in the sidebar and six interactive lessons.
-                Chapter 1 explains how computers think in bits. Chapter 2 shows memory and
-                addresses. Chapter 3 teaches basic data types, including signed and unsigned
-                integers plus IEEE 754 floating-point memory. Chapter 4 shows how variables,
-                arrays, pointers and typecasting work on top of that memory model. Chapter 5
-                shows the real embedded flow from incoming data to a useful action. Chapter 6
-                explains what embedded programming is, why deadlines matter, and how code reaches hardware.
-              </p>
-
-              <div className="hero-actions">
-                <a href="#chapter-1" className="primary-link">
-                  Open chapter 1
-                </a>
-                <a href="#chapter-2" className="secondary-link">
-                  Open chapter 2
-                </a>
-                <a href="#chapter-3" className="secondary-link">
-                  Open chapter 3
-                </a>
-                <a href="#chapter-4" className="secondary-link">
-                  Open chapter 4
-                </a>
-                <a href="#chapter-5" className="secondary-link">
-                  Open chapter 5
-                </a>
-                <a href="#chapter-6" className="secondary-link">
-                  Open chapter 6
-                </a>
-              </div>
-            </div>
-
-            <div className="hero-summary panel">
-              <div className="summary-row">
-                <span>Current byte</span>
-                <strong>{byteValue}</strong>
-              </div>
-              <div className="summary-row">
-                <span>Binary</span>
-                <strong>{binaryByte}</strong>
-              </div>
-              <div className="summary-row">
-                <span>Signed view</span>
-                <strong>{signedByte}</strong>
-              </div>
-              <div className="summary-row">
-                <span>Memory example</span>
-                <strong>221 at 0x2000</strong>
-              </div>
-              <div className="summary-row">
-                <span>New lesson</span>
-                <strong>IEEE 754 basics</strong>
-              </div>
-              <div className="summary-row">
-                <span>Newest chapter</span>
-                <strong>Pointers and casting</strong>
-              </div>
-              <div className="summary-row">
-                <span>Now added</span>
-                <strong>Embedded I/O flow</strong>
-              </div>
-              <div className="summary-row">
-                <span>Latest concept</span>
-                <strong>MCU, MPU and compiler</strong>
-              </div>
-            </div>
-          </header>
-
-          <ChapterOne
-            byteValue={byteValue}
-            mosfetOn={mosfetOn}
-            onByteChange={handleByteChange}
-            onMosfetToggle={() => setMosfetOn((current) => !current)}
-            selectedWidth={selectedWidth}
-            onWidthChange={setSelectedWidth}
-          />
-
-          <ChapterTwo
-            byteValue={byteValue}
-            onByteChange={handleByteChange}
-            systemBits={systemBits}
-            onSystemBitsChange={setSystemBits}
-            selectedAddressIndex={selectedAddressIndex}
-            onAddressSelect={handleAddressSelect}
-          />
-
-          <ChapterThree />
-          <ChapterFour />
-          <ChapterFive />
-          <ChapterSix />
-        </main>
-      </div>
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/lesson/:lessonSlug" element={<LessonPage sharedChapterProps={sharedChapterProps} />} />
+      </Routes>
     </div>
   );
 }
