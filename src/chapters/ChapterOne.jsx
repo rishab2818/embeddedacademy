@@ -1,5 +1,6 @@
 import { useMemo } from "react";
 import SectionHeading from "../components/SectionHeading";
+import { formatSectionLabel } from "../utils/courseLabels";
 import { charLabelForByte, rangeForBits, toBinary, toHex, toSignedByte } from "../utils/bitMath";
 
 const widthOptions = [
@@ -284,6 +285,7 @@ export default function ChapterOne({
   selectedWidth,
   onWidthChange,
   chapterLabel = "Chapter 1",
+  chapterNumber = "1",
 }) {
   return (
     <section className="chapter" id="chapter-1">
@@ -299,7 +301,7 @@ export default function ChapterOne({
 
       <section className="chapter-section" id="chapter-1-widths">
         <SectionHeading
-          eyebrow="Part A"
+          eyebrow={formatSectionLabel(chapterNumber, 1)}
           title="What do 8-bit, 16-bit, 32-bit and 64-bit mean?"
           description="Choose a width and see how many bit positions, ranges and combinations it gives to the CPU."
         />
@@ -308,7 +310,7 @@ export default function ChapterOne({
 
       <section className="chapter-section" id="chapter-1-switch">
         <SectionHeading
-          eyebrow="Hardware truth"
+          eyebrow={formatSectionLabel(chapterNumber, 2)}
           title="A MOSFET turns voltage into a 1 or 0"
           description="The CPU does not start with numbers or letters. It starts with electrical states created by switches."
         />
@@ -317,7 +319,7 @@ export default function ChapterOne({
 
       <section className="chapter-section" id="chapter-1-representation">
         <SectionHeading
-          eyebrow="Representation lab"
+          eyebrow={formatSectionLabel(chapterNumber, 3)}
           title="221, 1101 1101 and DD are the same value"
           description="Slide the value and notice that every notation changes together because the stored byte is the real thing."
         />
@@ -326,7 +328,7 @@ export default function ChapterOne({
 
       <section className="chapter-section" id="chapter-1-signedness">
         <SectionHeading
-          eyebrow="Part B"
+          eyebrow={formatSectionLabel(chapterNumber, 4)}
           title="Signed and unsigned numbers use the same bits differently"
           description="The bits stay the same. The interpretation changes depending on whether the type is signed or unsigned."
         />

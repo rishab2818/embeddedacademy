@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import SectionHeading from "../components/SectionHeading";
 import { compilerExample, embeddedExamples, processingSystems, systemUseCases, timingPresets } from "../data/chapterSix";
+import { formatSectionLabel } from "../utils/courseLabels";
 import { buildTimelineSegments, evaluateTimingPreset, summarizeEmbeddedExample, systemDecision } from "../utils/chapterSix";
 
 function EmbeddedMeaningLab() {
@@ -323,7 +324,7 @@ function CompilerLab() {
   );
 }
 
-export default function ChapterSix({ chapterLabel = "Chapter 6" }) {
+export default function ChapterSix({ chapterLabel = "Chapter 6", chapterNumber = "6" }) {
   return (
     <section className="chapter" id="chapter-6">
       <div className="chapter-header">
@@ -338,7 +339,7 @@ export default function ChapterSix({ chapterLabel = "Chapter 6" }) {
 
       <section className="chapter-section" id="chapter-6-meaning">
         <SectionHeading
-          eyebrow="Big picture"
+          eyebrow={formatSectionLabel(chapterNumber, 1)}
           title="Embedded programming is software inside a real machine"
           description="Use everyday product examples to see the common pattern: sense the world, make a decision, then control hardware."
         />
@@ -347,7 +348,7 @@ export default function ChapterSix({ chapterLabel = "Chapter 6" }) {
 
       <section className="chapter-section" id="chapter-6-timing">
         <SectionHeading
-          eyebrow="Timing"
+          eyebrow={formatSectionLabel(chapterNumber, 2)}
           title="Time-bound systems must finish their work before the deadline"
           description="A real-time system is not just about being fast. It is about being predictably on time whenever the real world expects a response."
         />
@@ -356,7 +357,7 @@ export default function ChapterSix({ chapterLabel = "Chapter 6" }) {
 
       <section className="chapter-section" id="chapter-6-systems">
         <SectionHeading
-          eyebrow="Hardware"
+          eyebrow={formatSectionLabel(chapterNumber, 3)}
           title="Microcontroller vs microprocessor"
           description="Compare the two and connect them to real products so the difference feels practical instead of abstract."
         />
@@ -365,7 +366,7 @@ export default function ChapterSix({ chapterLabel = "Chapter 6" }) {
 
       <section className="chapter-section" id="chapter-6-compiler">
         <SectionHeading
-          eyebrow="Toolchain"
+          eyebrow={formatSectionLabel(chapterNumber, 4)}
           title="Code is written by humans, machine instructions are executed by the CPU"
           description="Follow one tiny example from source code to compiler output to hardware action."
         />

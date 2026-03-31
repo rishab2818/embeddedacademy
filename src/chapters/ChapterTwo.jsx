@@ -1,5 +1,6 @@
 import { useMemo } from "react";
 import SectionHeading from "../components/SectionHeading";
+import { formatSectionLabel } from "../utils/courseLabels";
 import { clampToByte, formatAddress, toBinary, toHex } from "../utils/bitMath";
 
 const systemOptions = [
@@ -225,6 +226,7 @@ export default function ChapterTwo({
   selectedAddressIndex,
   onAddressSelect,
   chapterLabel = "Chapter 2",
+  chapterNumber = "2",
 }) {
   return (
     <section className="chapter" id="chapter-2">
@@ -240,7 +242,7 @@ export default function ChapterTwo({
 
       <section className="chapter-section" id="chapter-2-systems">
         <SectionHeading
-          eyebrow="System view"
+          eyebrow={formatSectionLabel(chapterNumber, 1)}
           title="Compare an 8-bit system with a 32-bit system"
           description="Switch between them and notice how the CPU width changes the natural amount of data it handles in one operation."
         />
@@ -249,7 +251,7 @@ export default function ChapterTwo({
 
       <section className="chapter-section" id="chapter-2-memory">
         <SectionHeading
-          eyebrow="Memory blocks"
+          eyebrow={formatSectionLabel(chapterNumber, 2)}
           title="Memory is a contiguous set of addressed byte locations"
           description="Each cell below is one byte. Click any address to move the value 221 there and see which neighboring bytes are touched."
         />
@@ -264,7 +266,7 @@ export default function ChapterTwo({
 
       <section className="chapter-section" id="chapter-2-addresses">
         <SectionHeading
-          eyebrow="Address meaning"
+          eyebrow={formatSectionLabel(chapterNumber, 3)}
           title="Address tells where, value tells what"
           description="This is the core idea behind variables, arrays, stacks and almost everything else in low-level programming."
         />

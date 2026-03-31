@@ -12,6 +12,7 @@ import {
   evaluateProtocolProgram,
 } from "../utils/chapterFive";
 import { formatAddress, toHex } from "../utils/bitMath";
+import { formatSectionLabel } from "../utils/courseLabels";
 
 function PseudoCode({ title, lines }) {
   return (
@@ -367,7 +368,7 @@ function ProtocolFlowLab() {
   );
 }
 
-export default function ChapterFive({ chapterLabel = "Chapter 5" }) {
+export default function ChapterFive({ chapterLabel = "Chapter 5", chapterNumber = "5" }) {
   return (
     <section className="chapter" id="chapter-5">
       <div className="chapter-header">
@@ -382,7 +383,7 @@ export default function ChapterFive({ chapterLabel = "Chapter 5" }) {
 
       <section className="chapter-section" id="chapter-5-pressure">
         <SectionHeading
-          eyebrow="Flow 1"
+          eyebrow={formatSectionLabel(chapterNumber, 1)}
           title="A pressure sensor keeps writing to memory and your logic turns on an LED"
           description="Pick the memory source and threshold, then watch the sensor continuously update the computer and the LED react to your program."
         />
@@ -391,7 +392,7 @@ export default function ChapterFive({ chapterLabel = "Chapter 5" }) {
 
       <section className="chapter-section" id="chapter-5-signals">
         <SectionHeading
-          eyebrow="Flow 2"
+          eyebrow={formatSectionLabel(chapterNumber, 2)}
           title="Signals are changes over time that embedded software can react to"
           description="Choose the trigger type and watch a pulse signal count events the way a wheel sensor, button, or hall sensor would in a real product."
         />
@@ -400,7 +401,7 @@ export default function ChapterFive({ chapterLabel = "Chapter 5" }) {
 
       <section className="chapter-section" id="chapter-5-protocol">
         <SectionHeading
-          eyebrow="Flow 3"
+          eyebrow={formatSectionLabel(chapterNumber, 3)}
           title="A communication protocol keeps streaming bytes into memory"
           description="Select a simple parse rule and see how raw bytes in a receive buffer become a display update or an alarm action."
         />

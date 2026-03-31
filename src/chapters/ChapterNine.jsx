@@ -1,10 +1,11 @@
 import RevisionGame from "../components/RevisionGame";
 import SectionHeading from "../components/SectionHeading";
 import { revisionLore, revisionMissions } from "../data/revisionGame";
+import { formatSectionLabel } from "../utils/courseLabels";
 
-export default function ChapterNine({ chapterLabel = "Chapter 1.2" }) {
+export default function ChapterNine({ chapterLabel = "Chapter 8", chapterNumber = "8" }) {
   return (
-    <section className="chapter" id="chapter-9">
+    <section className="chapter" id="chapter-8">
       <div className="chapter-header">
         <p className="chapter-kicker">{chapterLabel}</p>
         <h2>Revise the basics through an embedded rescue game</h2>
@@ -16,9 +17,9 @@ export default function ChapterNine({ chapterLabel = "Chapter 1.2" }) {
         </p>
       </div>
 
-      <section className="chapter-section" id="chapter-9-game">
+      <section className="chapter-section" id="chapter-8-game">
         <SectionHeading
-          eyebrow="Revision arena"
+          eyebrow={formatSectionLabel(chapterNumber, 1)}
           title="Game Revision 1: Signal Rescue"
           description="Work through a chain of embedded rescue missions that move from moderate reasoning to highly technical debugging, with detailed explanations after every move."
         />

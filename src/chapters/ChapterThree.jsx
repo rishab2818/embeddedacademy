@@ -3,6 +3,7 @@ import ByteMemoryStrip from "../components/ByteMemoryStrip";
 import SectionHeading from "../components/SectionHeading";
 import { allBasicTypes, floatTypes, integerTypes } from "../data/basicTypes";
 import { rangeForBits } from "../utils/bitMath";
+import { formatSectionLabel } from "../utils/courseLabels";
 import { clampIntegerToType, encodeFloatMemory, encodeIntegerMemory, formatValue } from "../utils/dataTypes";
 
 const floatSamples = [0.5, 1, 3.25, -12.75, 0.1];
@@ -305,7 +306,7 @@ function FloatLab({ selectedTypeId, floatInput, onFloatInputChange, onTypeChange
   );
 }
 
-export default function ChapterThree({ chapterLabel = "Chapter 3" }) {
+export default function ChapterThree({ chapterLabel = "Chapter 3", chapterNumber = "3" }) {
   const [selectedCatalogId, setSelectedCatalogId] = useState(allBasicTypes[0].id);
   const [selectedIntegerId, setSelectedIntegerId] = useState(integerTypes[0].id);
   const [integerInput, setIntegerInput] = useState(String(integerTypes[0].example));
@@ -353,7 +354,7 @@ export default function ChapterThree({ chapterLabel = "Chapter 3" }) {
 
       <section className="chapter-section" id="chapter-3-overview">
         <SectionHeading
-          eyebrow="Type map"
+          eyebrow={formatSectionLabel(chapterNumber, 1)}
           title="Choose a basic data type and learn what it stores"
           description="Click each type card to see what it means, how much memory it uses, and what kind of values it can represent."
         />
@@ -362,7 +363,7 @@ export default function ChapterThree({ chapterLabel = "Chapter 3" }) {
 
       <section className="chapter-section" id="chapter-3-integers">
         <SectionHeading
-          eyebrow="Integer memory"
+          eyebrow={formatSectionLabel(chapterNumber, 2)}
           title="Signed and unsigned integers are bytes interpreted as whole numbers"
           description="Experiment with char, 16-bit integers and 32-bit integers, then watch their exact byte layout in memory."
         />
@@ -376,7 +377,7 @@ export default function ChapterThree({ chapterLabel = "Chapter 3" }) {
 
       <section className="chapter-section" id="chapter-3-floating">
         <SectionHeading
-          eyebrow="Floating point"
+          eyebrow={formatSectionLabel(chapterNumber, 3)}
           title="IEEE 754 floats store sign, exponent and fraction"
           description="Switch between float16 and float32 to see why decimals are encoded differently from integers and why some values are only approximate."
         />

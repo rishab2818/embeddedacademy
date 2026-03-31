@@ -1,6 +1,5 @@
 import { Link, Navigate, useParams } from "react-router-dom";
-import ApiConfigPanel from "../components/ApiConfigPanel";
-import ChatbotPanel from "../components/ChatbotPanel";
+import ChapterResourcePanel from "../components/ChapterResourcePanel";
 import LessonNavigator from "../components/LessonNavigator";
 import { findLessonBySlug, flatLessons } from "../data/courseStructure";
 import ChapterFive from "../chapters/ChapterFive";
@@ -8,7 +7,6 @@ import ChapterFour from "../chapters/ChapterFour";
 import ChapterOne from "../chapters/ChapterOne";
 import ChapterEight from "../chapters/ChapterEight";
 import ChapterNine from "../chapters/ChapterNine";
-import ChapterSeven from "../chapters/ChapterSeven";
 import ChapterSix from "../chapters/ChapterSix";
 import ChapterThree from "../chapters/ChapterThree";
 import ChapterTwo from "../chapters/ChapterTwo";
@@ -20,7 +18,6 @@ const componentMap = {
   chapterFour: ChapterFour,
   chapterFive: ChapterFive,
   chapterSix: ChapterSix,
-  chapterSeven: ChapterSeven,
   chapterEight: ChapterEight,
   chapterNine: ChapterNine,
 };
@@ -54,18 +51,24 @@ export default function LessonPage({ sharedChapterProps }) {
           <Link className="secondary-link" to="/">
             Back to chapters
           </Link>
+          <a className="secondary-link" href={`#/lesson/${lesson.slug}`} target="_blank" rel="noreferrer">
+            Open This Chapter In New Tab
+          </a>
         </div>
       </header>
 
       <div className="lesson-layout">
         <div className="lesson-content">
-          <ChapterComponent {...sharedChapterProps[lesson.componentKey]} chapterLabel={lesson.chapterLabel} />
+          <ChapterComponent
+            {...sharedChapterProps[lesson.componentKey]}
+            chapterLabel={lesson.chapterLabel}
+            chapterNumber={lesson.number}
+          />
           <LessonNavigator previousLesson={previousLesson} nextLesson={nextLesson} />
         </div>
 
         <aside className="lesson-sidebar">
-          <ApiConfigPanel compact />
-          <ChatbotPanel lesson={lesson} />
+          <ChapterResourcePanel chapter={lesson} />
         </aside>
       </div>
     </div>

@@ -4,6 +4,7 @@ import SectionHeading from "../components/SectionHeading";
 import { castTypeIds, defaultArrayValues, packedFlagLabels, pointerTypeIds, variableTypeIds, arrayTypeIds } from "../data/chapterFour";
 import { getTypeById, buildArrayMemory, buildPointerMemory, buildVariableMemory, castBetweenTypes, packFlags, typeRangeText } from "../utils/programmingConcepts";
 import { toBinary, toHex } from "../utils/bitMath";
+import { formatSectionLabel } from "../utils/courseLabels";
 
 function TypeButtonRow({ ids, selectedId, onChange }) {
   return (
@@ -421,7 +422,7 @@ function TypeCastingLab() {
   );
 }
 
-export default function ChapterFour({ chapterLabel = "Chapter 4" }) {
+export default function ChapterFour({ chapterLabel = "Chapter 4", chapterNumber = "4" }) {
   return (
     <section className="chapter" id="chapter-4">
       <div className="chapter-header">
@@ -436,7 +437,7 @@ export default function ChapterFour({ chapterLabel = "Chapter 4" }) {
 
       <section className="chapter-section" id="chapter-4-variables">
         <SectionHeading
-          eyebrow="Variables"
+          eyebrow={formatSectionLabel(chapterNumber, 1)}
           title="A variable is a name attached to bytes in memory"
           description="Choose a type and a value, then watch how the variable occupies one or more addresses depending on its type."
         />
@@ -445,7 +446,7 @@ export default function ChapterFour({ chapterLabel = "Chapter 4" }) {
 
       <section className="chapter-section" id="chapter-4-arrays">
         <SectionHeading
-          eyebrow="Arrays"
+          eyebrow={formatSectionLabel(chapterNumber, 2)}
           title="Arrays store many same-type values back-to-back"
           description="Click an array element to see where it starts in memory, then compare that with a packed flag array that saves space by using bits."
         />
@@ -454,7 +455,7 @@ export default function ChapterFour({ chapterLabel = "Chapter 4" }) {
 
       <section className="chapter-section" id="chapter-4-pointers">
         <SectionHeading
-          eyebrow="Pointers"
+          eyebrow={formatSectionLabel(chapterNumber, 3)}
           title="A pointer does not hold the data, it holds the address of the data"
           description="Follow the pointer to the target variable and see how dereferencing reads the value from the pointed address."
         />
@@ -463,7 +464,7 @@ export default function ChapterFour({ chapterLabel = "Chapter 4" }) {
 
       <section className="chapter-section" id="chapter-4-casting">
         <SectionHeading
-          eyebrow="Typecasting"
+          eyebrow={formatSectionLabel(chapterNumber, 4)}
           title="Casting changes how a value is stored in the new type"
           description="Pick a source type and a target type to see that typecasting creates a new result and new bytes in memory."
         />

@@ -4,6 +4,7 @@ import SectionHeading from "../components/SectionHeading";
 import { bridgeSteps, busModes, busTradeoffs, sampleTypeOptions } from "../data/chapterEight";
 import { formatAddress, toBinary, toHex } from "../utils/bitMath";
 import { encodeTypedValue } from "../utils/busFlow";
+import { formatSectionLabel } from "../utils/courseLabels";
 
 const baseAddress = 0x3000;
 
@@ -414,7 +415,7 @@ function TradeoffPanel() {
   );
 }
 
-export default function ChapterEight({ chapterLabel = "Chapter 1.1" }) {
+export default function ChapterEight({ chapterLabel = "Chapter 7", chapterNumber = "7" }) {
   const [busMode, setBusMode] = useState("serial");
   const [typeId, setTypeId] = useState("char");
   const [rawInput, setRawInput] = useState("A");
@@ -444,7 +445,7 @@ export default function ChapterEight({ chapterLabel = "Chapter 1.1" }) {
   }
 
   return (
-    <section className="chapter" id="chapter-8">
+    <section className="chapter" id="chapter-7">
       <div className="chapter-header">
         <p className="chapter-kicker">{chapterLabel}</p>
         <h2>Serial and parallel buses, from software values to real voltage</h2>
@@ -457,9 +458,9 @@ export default function ChapterEight({ chapterLabel = "Chapter 1.1" }) {
         </p>
       </div>
 
-      <section className="chapter-section" id="chapter-8-buses">
+      <section className="chapter-section" id="chapter-7-buses">
         <SectionHeading
-          eyebrow="Part A"
+          eyebrow={formatSectionLabel(chapterNumber, 1)}
           title="Serial bus vs parallel bus"
           description="Both buses move the same bits. The big difference is whether they travel one after another on fewer wires or many together on more wires."
         />
@@ -471,9 +472,9 @@ export default function ChapterEight({ chapterLabel = "Chapter 1.1" }) {
         />
       </section>
 
-      <section className="chapter-section" id="chapter-8-types">
+      <section className="chapter-section" id="chapter-7-types">
         <SectionHeading
-          eyebrow="Part B"
+          eyebrow={formatSectionLabel(chapterNumber, 2)}
           title="What happens when you write char, int, or float?"
           description="Choose a type, enter a value, and watch the software meaning collapse into raw bytes that hardware can actually move."
         />
@@ -486,9 +487,9 @@ export default function ChapterEight({ chapterLabel = "Chapter 1.1" }) {
         />
       </section>
 
-      <section className="chapter-section" id="chapter-8-journey">
+      <section className="chapter-section" id="chapter-7-journey">
         <SectionHeading
-          eyebrow="Part C"
+          eyebrow={formatSectionLabel(chapterNumber, 3)}
           title="Follow the whole journey: value -> register -> bus -> memory -> MOSFET -> voltage"
           description="This is the bridge between software and electronics. Numbers do not magically fly into chips; they move as HIGH and LOW electrical states."
         />
@@ -508,9 +509,9 @@ export default function ChapterEight({ chapterLabel = "Chapter 1.1" }) {
         />
       </section>
 
-      <section className="chapter-section" id="chapter-8-tradeoffs">
+      <section className="chapter-section" id="chapter-7-tradeoffs">
         <SectionHeading
-          eyebrow="Part D"
+          eyebrow={formatSectionLabel(chapterNumber, 4)}
           title="Advantages and disadvantages"
           description="Neither bus is automatically better. Designers choose based on wires, timing, distance, speed, simplicity, and cost."
         />
