@@ -1866,6 +1866,670 @@ input[type="range"] {
   gap: 14px;
 }
 
+.bus-mode-grid,
+.bus-lab-grid,
+.type-byte-grid,
+.chapter-flow-grid,
+.tradeoff-grid {
+  display: grid;
+  gap: 14px;
+}
+
+.bus-mode-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  margin-top: 18px;
+}
+
+.bus-mode-card,
+.bus-lab-card,
+.type-byte-card,
+.chapter-flow-card,
+.tradeoff-card,
+.byte-select-button,
+.bit-select-button,
+.circuit-node {
+  border-radius: 22px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.bus-mode-card {
+  display: grid;
+  gap: 10px;
+  padding: 18px;
+  color: inherit;
+  text-align: left;
+  cursor: pointer;
+  transition: transform 160ms ease, border-color 160ms ease, background 160ms ease;
+}
+
+.bus-mode-card:hover,
+.byte-select-button:hover,
+.bit-select-button:hover {
+  transform: translateY(-2px);
+}
+
+.bus-mode-card.active {
+  border-color: rgba(113, 239, 215, 0.3);
+  background: linear-gradient(180deg, rgba(113, 239, 215, 0.14), rgba(255, 255, 255, 0.04));
+}
+
+.bus-mode-card span,
+.bus-lab-card span,
+.type-byte-card span,
+.chapter-flow-card span,
+.tradeoff-card span,
+.byte-select-button span,
+.bit-select-button span,
+.circuit-node span {
+  color: var(--accent-2);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: 0.72rem;
+}
+
+.bus-mode-card p,
+.bus-lab-card p,
+.chapter-flow-card p,
+.tradeoff-card p,
+.tradeoff-card small,
+.byte-select-button small,
+.circuit-node small {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.6;
+}
+
+.bus-mode-card small {
+  color: #d9e6f2;
+  line-height: 1.55;
+}
+
+.serial-bus-board,
+.parallel-bus-board,
+.practical-circuit {
+  margin: 20px 0 18px;
+  padding: 18px;
+  border-radius: 24px;
+  background:
+    radial-gradient(circle at top right, rgba(241, 180, 76, 0.1), transparent 38%),
+    rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.serial-bus-board {
+  display: grid;
+  grid-template-columns: 90px 1fr;
+  gap: 16px;
+  align-items: center;
+}
+
+.serial-label-stack {
+  display: grid;
+  gap: 18px;
+}
+
+.serial-label-stack span {
+  color: var(--accent);
+  font-size: 0.82rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.serial-wire-stack {
+  display: grid;
+  gap: 16px;
+}
+
+.serial-clock-lane,
+.serial-data-lane {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.clock-pulse {
+  min-height: 18px;
+  border-radius: 999px;
+  background: linear-gradient(180deg, rgba(241, 180, 76, 0.8), rgba(241, 180, 76, 0.14));
+  animation: busPulse 1.8s ease-in-out infinite;
+}
+
+.serial-bit-chip {
+  display: grid;
+  place-items: center;
+  min-height: 42px;
+  border-radius: 14px;
+  color: #afbecd;
+  background: rgba(255, 255, 255, 0.05);
+  animation: pulse 2.3s ease-in-out infinite;
+}
+
+.serial-bit-chip.on {
+  color: #08111a;
+  font-weight: 700;
+  background: linear-gradient(135deg, rgba(241, 180, 76, 0.95), rgba(113, 239, 215, 0.92));
+}
+
+.parallel-bus-board {
+  display: grid;
+  gap: 10px;
+}
+
+.parallel-lane-row {
+  display: grid;
+  grid-template-columns: 54px 1fr 30px;
+  gap: 12px;
+  align-items: center;
+}
+
+.parallel-lane-row span {
+  color: var(--accent);
+}
+
+.parallel-lane-track,
+.circuit-line {
+  position: relative;
+  height: 10px;
+  border-radius: 999px;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.parallel-lane-track.on {
+  background: linear-gradient(90deg, rgba(113, 239, 215, 0.18), rgba(241, 180, 76, 0.18));
+}
+
+.parallel-lane-signal {
+  position: absolute;
+  inset: 0;
+}
+
+.parallel-lane-signal.on {
+  background: linear-gradient(90deg, rgba(113, 239, 215, 0.65), rgba(241, 180, 76, 0.55));
+  animation: travel 1.7s ease-in-out infinite;
+}
+
+.bus-lab-grid,
+.type-byte-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  margin-top: 18px;
+}
+
+.bus-lab-card,
+.type-byte-card,
+.chapter-flow-card,
+.tradeoff-card {
+  display: grid;
+  gap: 10px;
+  padding: 18px;
+}
+
+.bus-text-input {
+  min-height: 50px;
+  padding: 0 14px;
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.05);
+  color: #fff;
+}
+
+.bus-source-card {
+  margin-top: 18px;
+}
+
+.type-byte-grid {
+  margin-top: 18px;
+}
+
+.type-byte-card small {
+  color: var(--muted);
+}
+
+.chapter-flow-grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.chapter-flow-card {
+  min-height: 200px;
+  background:
+    radial-gradient(circle at top right, rgba(113, 239, 215, 0.1), transparent 40%),
+    rgba(255, 255, 255, 0.03);
+}
+
+.chapter-flow-card strong {
+  font-size: 2rem;
+  line-height: 1;
+}
+
+.chapter-flow-card small {
+  color: #dce7f2;
+  line-height: 1.6;
+}
+
+.byte-selector-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 12px;
+  margin: 18px 0;
+}
+
+.byte-select-button,
+.bit-select-button {
+  display: grid;
+  gap: 8px;
+  padding: 16px;
+  color: inherit;
+  text-align: left;
+  cursor: pointer;
+  transition: transform 160ms ease, border-color 160ms ease, background 160ms ease;
+}
+
+.byte-select-button.active {
+  border-color: rgba(241, 180, 76, 0.38);
+  background: linear-gradient(180deg, rgba(241, 180, 76, 0.16), rgba(255, 255, 255, 0.04));
+}
+
+.bit-selector-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.bit-select-button {
+  place-items: start;
+}
+
+.bit-select-button.on {
+  border-color: rgba(113, 239, 215, 0.22);
+}
+
+.bit-select-button.active {
+  border-color: rgba(113, 239, 215, 0.38);
+  background: linear-gradient(180deg, rgba(113, 239, 215, 0.18), rgba(255, 255, 255, 0.04));
+}
+
+.bit-select-button.active.on strong {
+  color: var(--accent-2);
+}
+
+.practical-circuit {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 72px minmax(0, 1fr) 72px minmax(0, 1fr) 72px minmax(0, 1fr);
+  gap: 14px;
+  align-items: center;
+}
+
+.circuit-node {
+  display: grid;
+  gap: 8px;
+  padding: 18px;
+}
+
+.circuit-node.memory {
+  background: linear-gradient(180deg, rgba(67, 126, 255, 0.13), rgba(255, 255, 255, 0.04));
+}
+
+.circuit-node.gpio {
+  background: linear-gradient(180deg, rgba(113, 239, 215, 0.1), rgba(255, 255, 255, 0.04));
+}
+
+.circuit-node.mosfet {
+  background: linear-gradient(180deg, rgba(241, 180, 76, 0.12), rgba(255, 255, 255, 0.04));
+}
+
+.circuit-node.load {
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.circuit-node.on {
+  border-color: rgba(113, 239, 215, 0.3);
+  box-shadow: 0 0 24px rgba(113, 239, 215, 0.14);
+}
+
+.circuit-node.load.on {
+  border-color: rgba(241, 180, 76, 0.35);
+  box-shadow: 0 0 28px rgba(241, 180, 76, 0.18);
+}
+
+.circuit-arrow {
+  display: grid;
+  gap: 10px;
+  justify-items: center;
+}
+
+.circuit-arrow span {
+  color: var(--muted);
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.circuit-dot {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: #f7f6f3;
+  transform: translateY(-50%);
+  animation: travel 1.8s ease-in-out infinite;
+}
+
+.tradeoff-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.tradeoff-columns {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.tradeoff-columns strong {
+  display: block;
+  margin-bottom: 6px;
+  color: var(--accent);
+}
+
+.revision-game-shell,
+.revision-lore-stack,
+.revision-stat-grid,
+.revision-map-grid,
+.revision-action-grid,
+.revision-log-stack,
+.revision-chip-row {
+  display: grid;
+  gap: 14px;
+}
+
+.revision-intro-panel,
+.revision-main-grid,
+.revision-intel-grid,
+.revision-deploy-row,
+.revision-hud-grid {
+  display: grid;
+  gap: 18px;
+}
+
+.revision-intro-panel {
+  grid-template-columns: 1.2fr 0.8fr;
+  padding: 28px;
+  background:
+    radial-gradient(circle at top right, rgba(113, 239, 215, 0.12), transparent 30%),
+    radial-gradient(circle at left bottom, rgba(241, 180, 76, 0.1), transparent 28%),
+    rgba(255, 255, 255, 0.03);
+}
+
+.revision-intro-copy h3,
+.revision-map-panel h3,
+.revision-arena-panel h3,
+.revision-log-panel h3 {
+  margin: 0;
+}
+
+.revision-lore-stack {
+  align-content: start;
+}
+
+.revision-lore-card,
+.revision-stat-card,
+.mission-node,
+.revision-intel-card,
+.revision-action-card,
+.revision-feedback-panel,
+.revision-log-card {
+  border-radius: 22px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.revision-lore-card,
+.revision-stat-card,
+.mission-node,
+.revision-intel-card,
+.revision-action-card,
+.revision-feedback-panel,
+.revision-log-card {
+  padding: 18px;
+}
+
+.revision-lore-card,
+.revision-log-card p,
+.revision-intel-card p,
+.revision-action-card p,
+.revision-feedback-panel p,
+.revision-stat-card small,
+.mission-node small {
+  color: var(--muted);
+  line-height: 1.6;
+  margin: 0;
+}
+
+.revision-lore-card {
+  background: linear-gradient(180deg, rgba(67, 126, 255, 0.12), rgba(255, 255, 255, 0.03));
+}
+
+.revision-hud-grid {
+  grid-template-columns: 1.2fr 0.8fr;
+}
+
+.revision-stat-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  margin-top: 18px;
+}
+
+.revision-stat-card {
+  display: grid;
+  gap: 8px;
+}
+
+.revision-stat-card span,
+.mission-node span,
+.revision-intel-card span,
+.revision-action-card span,
+.revision-feedback-panel span,
+.revision-log-card span {
+  color: var(--accent-2);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: 0.72rem;
+}
+
+.revision-stat-card strong {
+  font-size: 1.8rem;
+  line-height: 1;
+}
+
+.revision-ambient-panel {
+  align-content: start;
+  background:
+    radial-gradient(circle at top right, rgba(241, 180, 76, 0.14), transparent 34%),
+    rgba(255, 255, 255, 0.03);
+}
+
+.revision-reset-button,
+.revision-next-button,
+.revision-deploy-button {
+  border: 0;
+}
+
+.revision-main-grid {
+  grid-template-columns: 360px minmax(0, 1fr);
+}
+
+.revision-map-grid {
+  margin-top: 18px;
+}
+
+.mission-node {
+  display: grid;
+  gap: 8px;
+  text-align: left;
+  color: inherit;
+  cursor: pointer;
+  transition: transform 160ms ease, border-color 160ms ease, background 160ms ease, opacity 160ms ease;
+}
+
+.mission-node strong {
+  font-size: 1.1rem;
+}
+
+.mission-node.unlocked,
+.mission-node.solved {
+  background:
+    radial-gradient(circle at top right, rgba(113, 239, 215, 0.1), transparent 42%),
+    rgba(255, 255, 255, 0.04);
+}
+
+.mission-node.active {
+  transform: translateY(-2px);
+  border-color: rgba(241, 180, 76, 0.35);
+  box-shadow: 0 0 22px rgba(241, 180, 76, 0.12);
+}
+
+.mission-node.solved {
+  border-color: rgba(113, 239, 215, 0.32);
+}
+
+.mission-node.locked {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.revision-intel-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  margin: 18px 0;
+}
+
+.revision-intel-card {
+  display: grid;
+  gap: 10px;
+}
+
+.revision-intel-card.story {
+  background: linear-gradient(180deg, rgba(67, 126, 255, 0.11), rgba(255, 255, 255, 0.04));
+}
+
+.revision-intel-card.refs {
+  background: linear-gradient(180deg, rgba(113, 239, 215, 0.11), rgba(255, 255, 255, 0.04));
+}
+
+.revision-chip-row {
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+}
+
+.revision-chip {
+  padding: 10px 12px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.05);
+  color: #e2eef9;
+  text-align: center;
+  font-size: 0.9rem;
+}
+
+.revision-action-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.revision-action-card {
+  display: grid;
+  gap: 10px;
+  color: inherit;
+  text-align: left;
+  cursor: pointer;
+  transition: transform 160ms ease, border-color 160ms ease, background 160ms ease;
+}
+
+.revision-action-card:hover {
+  transform: translateY(-2px);
+}
+
+.revision-action-card.active {
+  border-color: rgba(113, 239, 215, 0.34);
+  background: linear-gradient(180deg, rgba(113, 239, 215, 0.14), rgba(255, 255, 255, 0.04));
+}
+
+.revision-deploy-row {
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  margin-top: 18px;
+}
+
+.revision-deploy-meta {
+  display: grid;
+  gap: 4px;
+}
+
+.revision-deploy-meta strong {
+  color: var(--accent);
+}
+
+.revision-deploy-meta span {
+  color: var(--muted);
+}
+
+.revision-deploy-button[disabled] {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.revision-feedback-panel {
+  display: grid;
+  gap: 10px;
+  margin-top: 18px;
+}
+
+.revision-feedback-panel.idle {
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.revision-feedback-panel.success {
+  background:
+    radial-gradient(circle at top right, rgba(113, 239, 215, 0.14), transparent 40%),
+    rgba(255, 255, 255, 0.04);
+  border-color: rgba(113, 239, 215, 0.26);
+}
+
+.revision-feedback-panel.danger {
+  background:
+    radial-gradient(circle at top right, rgba(241, 180, 76, 0.14), transparent 40%),
+    rgba(255, 255, 255, 0.04);
+  border-color: rgba(241, 180, 76, 0.26);
+}
+
+.revision-feedback-panel strong {
+  color: #f5fbff;
+}
+
+.revision-feedback-panel small {
+  color: var(--muted);
+  line-height: 1.6;
+}
+
+.revision-log-stack {
+  margin-top: 18px;
+}
+
+.revision-log-card {
+  display: grid;
+  gap: 8px;
+}
+
+.revision-log-card.success {
+  border-color: rgba(113, 239, 215, 0.24);
+}
+
+.revision-log-card.danger {
+  border-color: rgba(241, 180, 76, 0.24);
+}
+
+.revision-log-card.idle {
+  background: rgba(255, 255, 255, 0.03);
+}
+
 @keyframes floatIn {
   from {
     opacity: 0;
@@ -1957,7 +2621,9 @@ input[type="range"] {
   .sense-think-act,
   .lesson-header,
   .lesson-layout,
-  .lesson-nav {
+  .lesson-nav,
+  .serial-bus-board,
+  .practical-circuit {
     grid-template-columns: 1fr;
   }
 
@@ -1970,7 +2636,15 @@ input[type="range"] {
   }
 
   .type-grid,
-  .typed-memory-grid {
+  .typed-memory-grid,
+  .bus-mode-grid,
+  .bus-lab-grid,
+  .type-byte-grid,
+  .tradeoff-grid,
+  .tradeoff-columns,
+  .revision-stat-grid,
+  .revision-intel-grid,
+  .revision-action-grid {
     grid-template-columns: 1fr;
   }
 
@@ -1997,7 +2671,11 @@ input[type="range"] {
   .register-grid,
   .gpio-board,
   .address-story-grid,
-  .flow-story {
+  .flow-story,
+  .bit-selector-grid,
+  .chapter-flow-grid,
+  .revision-main-grid,
+  .revision-hud-grid {
     grid-template-columns: 1fr 1fr;
   }
 
@@ -2030,8 +2708,39 @@ input[type="range"] {
   .gpio-board,
   .address-story-grid,
   .teaching-step-grid,
-  .flow-story {
+  .flow-story,
+  .chapter-flow-grid,
+  .bit-selector-grid,
+  .bus-mode-grid,
+  .bus-lab-grid,
+  .type-byte-grid,
+  .tradeoff-grid,
+  .tradeoff-columns,
+  .revision-main-grid,
+  .revision-hud-grid,
+  .revision-intro-panel,
+  .revision-intel-grid,
+  .revision-action-grid,
+  .revision-deploy-row {
     grid-template-columns: 1fr;
+  }
+
+  .serial-bus-board,
+  .practical-circuit {
+    grid-template-columns: 1fr;
+  }
+
+  .serial-label-stack {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .serial-clock-lane,
+  .serial-data-lane {
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+  }
+
+  .parallel-lane-row {
+    grid-template-columns: 42px 1fr 24px;
   }
 
   .fancy-select.inline {

@@ -71,7 +71,7 @@ function AdvancedCPanel() {
   );
 }
 
-export default function ChapterSeven({ chapterLabel = "Chapter 1.1" }) {
+export default function ChapterSeven({ chapterLabel = "Chapter X.1" }) {
   return (
     <section className="chapter" id="chapter-7">
       <div className="chapter-header">

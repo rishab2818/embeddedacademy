@@ -77,15 +77,46 @@ export const courseChapters = [
   {
     id: "chapter-1",
     number: "1",
-    title: "Programming GPIO on RO uController",
+    title: "Serial and Parallel Bus Fundamentals",
     summary:
-      "A hands-on beginner chapter that teaches GPIO on fake 16-bit and 32-bit controllers using memory-mapped registers, simple examples, and code translation down to machine code.",
+      "A visual beginner chapter that explains how values become bytes, how serial and parallel buses move them, and how those bits relate to MOSFET switching and real voltage.",
     lessons: [
       {
         id: "1.1",
+        slug: "serial-and-parallel-bus-fundamentals",
+        title: "Serial and parallel bus data flow",
+        chapterLabel: "Chapter 1.1",
+        componentKey: "chapterEight",
+        summary:
+          "Learn how char, int, and float values become bytes, flow through registers and buses, land in memory, and connect to MOSFET-driven voltage in practical hardware.",
+        chatbotContext:
+          "This lesson explains serial and parallel buses in beginner-friendly language, including analogies, data type encoding, register-to-bus-to-memory flow, MOSFET switching, and the advantages and disadvantages of each bus style.",
+      },
+      {
+        id: "1.2",
+        slug: "game-revision-1-signal-rescue",
+        title: "Game Revision 1: Signal Rescue",
+        chapterLabel: "Chapter 1.2",
+        componentKey: "chapterNine",
+        summary:
+          "Play through interactive embedded rescue missions that force you to reason through bits, memory, floats, pointers, bus flow, and real-time design instead of memorizing definitions.",
+        chatbotContext:
+          "This lesson is an interactive embedded revision game with mission-based questions and explanations covering bits, signedness, memory addressing, data types, IEEE 754 floats, pointers, typecasting, embedded input flow, real-time design, serial and parallel buses, and MOSFET-driven voltage control.",
+      },
+    ],
+  },
+  {
+    id: "chapter-x",
+    number: "X",
+    title: "Programming GPIO on RO uController",
+    summary:
+      "A hands-on beginner chapter kept aside for future numbering. It still teaches GPIO on fake 16-bit and 32-bit controllers using memory-mapped registers, simple examples, and code translation down to machine code.",
+    lessons: [
+      {
+        id: "x.1",
         slug: "programming-gpio-on-ro-ucontroller",
         title: "Programming GPIO on RO uController",
-        chapterLabel: "Chapter 1.1",
+        chapterLabel: "Chapter X.1",
         componentKey: "chapterSeven",
         summary:
           "Learn GPIO with a simple flow: plain English, memory addresses, C, assembly, opcode, and machine code on 16-bit and 32-bit RO uControllers.",
