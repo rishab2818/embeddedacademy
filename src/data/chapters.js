@@ -25,7 +25,7 @@ export const chapterCards = [
   {
     id: "chapter-3",
     number: "03",
-    title: "Basic Data Types",
+    title: "Data Types",
     summary: "Integers, chars, float16, float32, IEEE 754, and memory layout.",
     sections: [
       { id: "chapter-3-overview", label: "Type map" },
@@ -48,7 +48,7 @@ export const chapterCards = [
   {
     id: "chapter-5",
     number: "05",
-    title: "Embedded Input Flow",
+    title: "Embedded Flow",
     summary: "Sensors, signals, communication data, memory, decisions and output.",
     sections: [
       { id: "chapter-5-pressure", label: "Sensor to LED" },
@@ -59,13 +59,39 @@ export const chapterCards = [
   {
     id: "chapter-6",
     number: "06",
-    title: "What Embedded Is",
+    title: "Embedded Basics",
     summary: "Embedded programming, deadlines, MCU vs MPU, code and compiler flow.",
     sections: [
       { id: "chapter-6-meaning", label: "What it is" },
       { id: "chapter-6-timing", label: "Time-bound systems" },
       { id: "chapter-6-systems", label: "MCU vs MPU" },
       { id: "chapter-6-compiler", label: "Code and compiler" },
+    ],
+  },
+  {
+    id: "chapter-10",
+    number: "10",
+    title: "Code to Machine",
+    summary: "Bitwise operations, a first real C program, assembly translation, machine code, and the full idea-to-execution cycle.",
+    sections: [
+      { id: "chapter-10-bitwise", label: "Bitwise operations" },
+      { id: "chapter-10-code", label: "Real code" },
+      { id: "chapter-10-assembly", label: "Assembly" },
+      { id: "chapter-10-machine-code", label: "Machine code" },
+      { id: "chapter-10-cycle", label: "Full cycle" },
+    ],
+  },
+  {
+    id: "chapter-11",
+    number: "11",
+    title: "Buses and Compilation",
+    summary: "Address bus, data bus, PIC and STM bus views, controller widths, compilation stages, and why hardware relies on binary.",
+    sections: [
+      { id: "chapter-11-widths", label: "Bit width" },
+      { id: "chapter-11-buses", label: "Address and data buses" },
+      { id: "chapter-11-pic-stm", label: "PIC and STM" },
+      { id: "chapter-11-compilation", label: "Compilation" },
+      { id: "chapter-11-binary", label: "Why binary" },
     ],
   },
 ];

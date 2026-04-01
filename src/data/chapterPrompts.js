@@ -1,4 +1,4 @@
-const chapterPrompts = {
+﻿const chapterPrompts = {
   "bits-and-signedness": {
     fileName: "chapter-1-bits-bytes-signedness.txt",
     content: [
@@ -225,8 +225,62 @@ const chapterPrompts = {
       "- End with advanced reasoning questions and fully explained solutions.",
     ].join("\n"),
   },
+  "english-to-code-assembly-machine-code": {
+    fileName: "chapter-10-english-to-code-assembly-machine-code.txt",
+    content: [
+      "Embedded Academy Prompt Pack",
+      "Chapter 10: From English Requirement to Code, Assembly and Machine Code",
+      "",
+      "Role:",
+      "Act as a beginner-friendly but technically rigorous systems teacher. Explain each stage of the programming stack so that even a non-technical learner can follow the full path from idea to execution.",
+      "",
+      "Topics to cover:",
+      "1. Start with bitwise operations for boolean, char, int16, and int32 values.",
+      "2. Explain AND, OR, XOR, NOT, left shift, and right shift using interactive-style examples and binary illustrations.",
+      "3. Write one small C program that includes global variables, local variables, addition, subtraction, multiplication, division, and bitwise logic.",
+      "4. Explain exactly what global variables are and what local variables are using that same program.",
+      "5. Convert the same program into assembly code and explain registers, load, store, ALU operations, compare, branch, return, and memory flow.",
+      "6. Convert the same assembly into machine-level instruction words and explain opcode fields, register fields, immediate values, and raw binary representation.",
+      "7. Tie the whole lesson together as a pipeline from English requirement to C code to assembly to machine code.",
+      "",
+      "Teaching requirements:",
+      "- Keep the explanation friendly enough for a non-technical learner, but do not lose technical correctness.",
+      "- Reuse the same example all the way through the chapter so the learner can connect every stage.",
+      "- Explain where abstraction helps humans and where exact binary form matters to the CPU.",
+      "- Use at least one section that explicitly contrasts human-readable meaning with machine-readable encoding.",
+      "- End with practice prompts that ask the learner to trace one requirement through the full pipeline.",
+    ].join("\n"),
+  },
+  "address-bus-data-bus-and-compilation": {
+    fileName: "chapter-11-buses-and-compilation.txt",
+    content: [
+      "Embedded Academy Prompt Pack",
+      "Chapter 11: Buses and Compilation",
+      "",
+      "Role:",
+      "Act as a deeply clear embedded systems teacher who can explain buses, core width, and compilation to complete beginners without losing technical honesty.",
+      "",
+      "Topics to cover:",
+      "1. Explain what an address bus is and what a data bus is.",
+      "2. Explain the difference between choosing a location and moving a value.",
+      "3. Explain what 8-bit, 16-bit, and 32-bit microcontrollers really mean.",
+      "4. Explain how the bus story looks in classic PIC16 style devices, wider PIC24 or dsPIC style devices, and STM32 Cortex-M style devices.",
+      "5. Explain compilation stages: requirement, source, preprocessing, compilation, assembly, object code, linking, and final binary image.",
+      "6. Explain how source code becomes stored 1s and 0s.",
+      "7. Explain why binary is used instead of many signal symbols or many voltage levels.",
+      "",
+      "Teaching requirements:",
+      "- Keep the explanation interactive in style, using one bus transaction example repeatedly.",
+      "- Distinguish clearly between address information and data information.",
+      "- Explain why controller bit width is related to the CPU's natural working size, not the whole story of the chip.",
+      "- Explain why binary is robust in the presence of electrical noise and transistor switching behavior.",
+      "- End with trace-the-path exercises that ask the learner to follow one value from address selection through compilation to binary storage.",
+    ].join("\n"),
+  },
 };
 
 export function getChapterPrompt(slug) {
   return chapterPrompts[slug] ?? null;
 }
+
+

@@ -6,9 +6,11 @@ import ChapterFive from "../chapters/ChapterFive";
 import ChapterFour from "../chapters/ChapterFour";
 import ChapterOne from "../chapters/ChapterOne";
 import ChapterEight from "../chapters/ChapterEight";
+import ChapterEleven from "../chapters/ChapterEleven";
 import ChapterNine from "../chapters/ChapterNine";
 import ChapterSix from "../chapters/ChapterSix";
 import ChapterTen from "../chapters/ChapterTen";
+import ChapterTwelve from "../chapters/ChapterTwelve";
 import ChapterThree from "../chapters/ChapterThree";
 import ChapterTwo from "../chapters/ChapterTwo";
 
@@ -22,6 +24,8 @@ const componentMap = {
   chapterEight: ChapterEight,
   chapterNine: ChapterNine,
   chapterTen: ChapterTen,
+  chapterEleven: ChapterEleven,
+  chapterTwelve: ChapterTwelve,
 };
 
 export default function LessonPage({ sharedChapterProps }) {

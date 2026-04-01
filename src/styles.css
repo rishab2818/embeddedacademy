@@ -3090,3 +3090,663 @@ input[type="range"] {
     padding: 0 12px;
   }
 }
+
+.coding-panel-stack {
+  display: grid;
+  gap: 18px;
+}
+
+.coding-control-grid,
+.bitwise-summary-grid,
+.code-live-grid,
+.concept-chip-grid,
+.assembly-stage-grid,
+.machine-field-grid,
+.cycle-stage-grid,
+.shared-example-grid {
+  display: grid;
+  gap: 14px;
+}
+
+.coding-control-grid,
+.shared-example-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.bitwise-number {
+  display: grid;
+  place-items: center;
+}
+
+.bitwise-display-stack,
+.machine-list,
+.assembly-list {
+  display: grid;
+  gap: 12px;
+}
+
+.bitwise-row-card,
+.shared-example-card,
+.machine-word-card,
+.machine-line,
+.assembly-line,
+.cycle-stage-card,
+.concept-chip {
+  border-radius: 22px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.bitwise-row-card,
+.shared-example-card,
+.machine-word-card,
+.cycle-stage-card {
+  padding: 18px;
+}
+
+.bitwise-row-card.result {
+  background: linear-gradient(180deg, rgba(113, 239, 215, 0.14), rgba(255, 255, 255, 0.04));
+  border-color: rgba(113, 239, 215, 0.24);
+}
+
+.bitwise-row-head {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 8px 16px;
+  margin-bottom: 14px;
+}
+
+.bitwise-row-head span,
+.machine-word-card span,
+.code-story-number,
+.assembly-index,
+.machine-line small,
+.assembly-line small,
+.cycle-stage-card span {
+  color: var(--accent-2);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-size: 0.72rem;
+}
+
+.bit-cluster-grid {
+  display: grid;
+  grid-template-columns: repeat(8, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.bit-cluster-cell {
+  display: grid;
+  gap: 4px;
+  place-items: center;
+  min-height: 72px;
+  padding: 8px;
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  transition: transform 180ms ease, border-color 180ms ease, box-shadow 180ms ease, background 180ms ease;
+}
+
+.bit-cluster-cell small {
+  color: var(--muted);
+}
+
+.bit-cluster-cell.on {
+  background: linear-gradient(180deg, rgba(67, 126, 255, 0.18), rgba(255, 255, 255, 0.04));
+}
+
+.bit-cluster-cell.changed {
+  border-color: rgba(241, 180, 76, 0.3);
+}
+
+.bit-cluster-cell.focus {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.18);
+}
+
+.bitwise-summary-grid,
+.code-live-grid,
+.machine-field-grid,
+.cycle-stage-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.code-story-card {
+  padding: 18px;
+}
+
+.code-story-line {
+  display: grid;
+  grid-template-columns: 44px 1fr;
+  gap: 12px;
+  align-items: start;
+  padding: 6px 0;
+  border-radius: 12px;
+  transition: background 180ms ease, transform 180ms ease;
+}
+
+.code-story-line.active {
+  background: rgba(241, 180, 76, 0.08);
+  transform: translateX(4px);
+}
+
+.code-story-text {
+  color: #dfeaf5;
+  white-space: pre-wrap;
+}
+
+.concept-chip-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.concept-chip {
+  min-height: 52px;
+  padding: 0 14px;
+  color: inherit;
+  cursor: pointer;
+  transition: transform 160ms ease, border-color 160ms ease, background 160ms ease;
+}
+
+.concept-chip:hover,
+.assembly-line:hover,
+.machine-line:hover,
+.cycle-stage-card:hover {
+  transform: translateY(-2px);
+}
+
+.concept-chip.active,
+.cycle-stage-card.active {
+  background: linear-gradient(180deg, rgba(113, 239, 215, 0.16), rgba(255, 255, 255, 0.04));
+  border-color: rgba(113, 239, 215, 0.3);
+}
+
+.code-focus-callout {
+  margin-top: 0;
+}
+
+.assembly-list,
+.machine-list {
+  margin-top: 4px;
+}
+
+.assembly-line,
+.machine-line {
+  display: grid;
+  gap: 6px;
+  padding: 16px;
+  color: inherit;
+  text-align: left;
+  cursor: pointer;
+  transition: transform 160ms ease, border-color 160ms ease, background 160ms ease, opacity 160ms ease;
+}
+
+.assembly-line.active,
+.machine-line.active {
+  border-color: rgba(241, 180, 76, 0.32);
+  background: linear-gradient(180deg, rgba(241, 180, 76, 0.14), rgba(255, 255, 255, 0.04));
+}
+
+.assembly-line.skipped,
+.machine-line.skipped {
+  opacity: 0.56;
+}
+
+.assembly-text,
+.machine-line span,
+.machine-field-card p,
+.assembly-stage p,
+.cycle-stage-card strong {
+  color: var(--muted);
+}
+
+.assembly-stage-grid {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.assembly-stage {
+  display: grid;
+  gap: 8px;
+  padding: 18px;
+  border-radius: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  background: rgba(255, 255, 255, 0.03);
+  transition: transform 180ms ease, border-color 180ms ease, background 180ms ease;
+}
+
+.assembly-stage.active {
+  transform: translateY(-2px);
+  border-color: rgba(113, 239, 215, 0.28);
+  background: linear-gradient(180deg, rgba(113, 239, 215, 0.14), rgba(255, 255, 255, 0.04));
+}
+
+.assembly-stage span,
+.machine-field-card span {
+  color: var(--accent);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: 0.72rem;
+}
+
+.machine-word-card {
+  display: grid;
+  gap: 10px;
+  background: linear-gradient(180deg, rgba(67, 126, 255, 0.12), rgba(255, 255, 255, 0.04));
+}
+
+.machine-word-card strong {
+  font-family: "IBM Plex Mono", "Consolas", monospace;
+  font-size: clamp(1rem, 2vw, 1.35rem);
+  word-break: break-word;
+}
+
+.machine-field-card {
+  display: grid;
+  gap: 8px;
+  padding: 16px;
+  border-radius: 18px;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.machine-field-card strong,
+.machine-line strong {
+  font-family: "IBM Plex Mono", "Consolas", monospace;
+}
+
+.cycle-stage-output {
+  min-height: 280px;
+}
+
+.cycle-stage-card {
+  color: inherit;
+  text-align: left;
+  cursor: pointer;
+  transition: transform 160ms ease, border-color 160ms ease, background 160ms ease;
+}
+
+.cycle-stage-card strong {
+  display: block;
+  margin-top: 10px;
+}
+
+.shared-example-card {
+  display: grid;
+  gap: 18px;
+  background:
+    radial-gradient(circle at top right, rgba(113, 239, 215, 0.1), transparent 34%),
+    rgba(255, 255, 255, 0.03);
+}
+
+@media (max-width: 1180px) {
+  .bitwise-summary-grid,
+  .code-live-grid,
+  .machine-field-grid,
+  .cycle-stage-grid,
+  .concept-chip-grid,
+  .coding-control-grid,
+  .shared-example-grid,
+  .assembly-stage-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 960px) {
+  .bit-cluster-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+
+  .code-story-line {
+    grid-template-columns: 36px 1fr;
+  }
+}
+
+@media (max-width: 640px) {
+  .bit-cluster-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .bitwise-row-head {
+    display: grid;
+  }
+}
+
+:root[data-theme="light"] .bitwise-row-card,
+:root[data-theme="light"] .shared-example-card,
+:root[data-theme="light"] .machine-word-card,
+:root[data-theme="light"] .machine-line,
+:root[data-theme="light"] .assembly-line,
+:root[data-theme="light"] .cycle-stage-card,
+:root[data-theme="light"] .concept-chip,
+:root[data-theme="light"] .bit-cluster-cell,
+:root[data-theme="light"] .machine-field-card,
+:root[data-theme="light"] .assembly-stage {
+  background: rgba(255, 255, 255, 0.72);
+  border-color: rgba(15, 38, 61, 0.12);
+  color: var(--text);
+}
+
+.bus-panel-stack {
+  display: grid;
+  gap: 18px;
+}
+
+.controller-chip-row {
+  align-items: stretch;
+}
+
+.width-register-card,
+.bus-wire-card,
+.bus-step-card,
+.architecture-flow-card,
+.architecture-fact-card,
+.compile-stage-card,
+.binary-compare-card {
+  border-radius: 22px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.width-register-card,
+.bus-wire-card,
+.architecture-flow-card,
+.architecture-fact-card,
+.binary-compare-card {
+  padding: 18px;
+}
+
+.width-register-head,
+.bus-wire-label,
+.voltage-meter-scale {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 8px 16px;
+}
+
+.width-register-head span,
+.bus-wire-label span,
+.bus-step-card span,
+.architecture-flow-card span,
+.binary-compare-card span,
+.compile-stage-card span {
+  color: var(--accent-2);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: 0.72rem;
+}
+
+.width-lane-grid {
+  display: grid;
+  grid-template-columns: repeat(8, minmax(0, 1fr));
+  gap: 10px;
+  margin-top: 14px;
+}
+
+.width-lane-cell,
+.bus-bit-cell {
+  display: grid;
+  gap: 4px;
+  place-items: center;
+  min-height: 66px;
+  padding: 8px;
+  border-radius: 18px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  background: rgba(255, 255, 255, 0.03);
+  transition: transform 180ms ease, border-color 180ms ease, background 180ms ease, box-shadow 180ms ease;
+}
+
+.width-lane-cell small,
+.bus-bit-cell small {
+  color: var(--muted);
+}
+
+.width-lane-cell.group-0,
+.bus-wire-row.address .bus-bit-cell {
+  background: linear-gradient(180deg, rgba(67, 126, 255, 0.12), rgba(255, 255, 255, 0.03));
+}
+
+.width-lane-cell.group-1,
+.bus-wire-row.data .bus-bit-cell {
+  background: linear-gradient(180deg, rgba(113, 239, 215, 0.12), rgba(255, 255, 255, 0.03));
+}
+
+.width-lane-cell.group-2 {
+  background: linear-gradient(180deg, rgba(241, 180, 76, 0.12), rgba(255, 255, 255, 0.03));
+}
+
+.width-lane-cell.group-3 {
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.03));
+}
+
+.width-lane-cell.focus,
+.bus-bit-cell.live {
+  transform: translateY(-3px);
+  border-color: rgba(241, 180, 76, 0.3);
+  box-shadow: 0 12px 26px rgba(0, 0, 0, 0.18);
+}
+
+.bus-control-grid,
+.width-summary-grid,
+.architecture-flow-grid,
+.architecture-fact-grid,
+.compile-stage-grid,
+.binary-compare-grid {
+  display: grid;
+  gap: 14px;
+}
+
+.bus-control-grid,
+.width-summary-grid,
+.binary-compare-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.bus-wire-card {
+  display: grid;
+  gap: 16px;
+  background:
+    radial-gradient(circle at top right, rgba(67, 126, 255, 0.12), transparent 34%),
+    rgba(255, 255, 255, 0.03);
+}
+
+.bus-wire-row {
+  display: grid;
+  gap: 12px;
+}
+
+.bus-wire-bits {
+  display: grid;
+  grid-template-columns: repeat(8, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.bus-bit-cell.on {
+  border-color: rgba(113, 239, 215, 0.28);
+}
+
+.bus-wire-arrow {
+  padding: 14px 16px;
+  border-radius: 18px;
+  border: 1px dashed rgba(255, 255, 255, 0.12);
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.bus-wire-arrow span {
+  color: var(--accent);
+  font-weight: 700;
+}
+
+.bus-wire-arrow p,
+.bus-step-card p,
+.architecture-flow-card p,
+.binary-compare-card p,
+.compile-stage-card strong {
+  color: var(--muted);
+}
+
+.bus-step-grid {
+  display: grid;
+  gap: 12px;
+}
+
+.bus-step-card,
+.compile-stage-card {
+  padding: 16px;
+  color: inherit;
+  text-align: left;
+  cursor: pointer;
+  transition: transform 160ms ease, border-color 160ms ease, background 160ms ease;
+}
+
+.bus-step-card:hover,
+.compile-stage-card:hover {
+  transform: translateY(-2px);
+}
+
+.bus-step-card.active,
+.compile-stage-card.active {
+  border-color: rgba(241, 180, 76, 0.34);
+  background: linear-gradient(180deg, rgba(241, 180, 76, 0.16), rgba(255, 255, 255, 0.04));
+}
+
+.architecture-flow-grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.architecture-flow-card.program {
+  background: linear-gradient(180deg, rgba(67, 126, 255, 0.14), rgba(255, 255, 255, 0.04));
+}
+
+.architecture-flow-card.cpu {
+  background: linear-gradient(180deg, rgba(241, 180, 76, 0.14), rgba(255, 255, 255, 0.04));
+}
+
+.architecture-flow-card.data {
+  background: linear-gradient(180deg, rgba(113, 239, 215, 0.14), rgba(255, 255, 255, 0.04));
+}
+
+.architecture-fact-grid {
+  grid-template-columns: 1fr;
+}
+
+.architecture-fact-card {
+  color: var(--text);
+}
+
+.compile-stage-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.compile-output-card {
+  min-height: 320px;
+}
+
+.voltage-meter-shell {
+  display: grid;
+  gap: 10px;
+}
+
+.voltage-meter {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1.2fr 1fr 1.5fr;
+  min-height: 88px;
+  border-radius: 22px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.voltage-zone {
+  display: grid;
+  place-items: center;
+  padding: 14px;
+  font-size: 0.88rem;
+  text-align: center;
+}
+
+.voltage-zone.low {
+  background: rgba(67, 126, 255, 0.18);
+}
+
+.voltage-zone.uncertain {
+  background: rgba(241, 180, 76, 0.16);
+}
+
+.voltage-zone.high {
+  background: rgba(113, 239, 215, 0.18);
+}
+
+.voltage-range-indicator {
+  position: absolute;
+  top: 14px;
+  bottom: 14px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.18);
+  border: 1px solid rgba(255, 255, 255, 0.28);
+}
+
+.voltage-pointer {
+  position: absolute;
+  top: 6px;
+  bottom: 6px;
+  width: 4px;
+  margin-left: -2px;
+  border-radius: 999px;
+  background: #f7f6f3;
+  box-shadow: 0 0 18px rgba(247, 246, 243, 0.45);
+}
+
+.binary-compare-card.good {
+  border-color: rgba(113, 239, 215, 0.28);
+  background: linear-gradient(180deg, rgba(113, 239, 215, 0.14), rgba(255, 255, 255, 0.04));
+}
+
+.binary-compare-card.warn {
+  border-color: rgba(241, 180, 76, 0.28);
+  background: linear-gradient(180deg, rgba(241, 180, 76, 0.14), rgba(255, 255, 255, 0.04));
+}
+
+@media (max-width: 1180px) {
+  .width-summary-grid,
+  .bus-control-grid,
+  .binary-compare-grid,
+  .architecture-flow-grid,
+  .compile-stage-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 960px) {
+  .width-lane-grid,
+  .bus-wire-bits {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+
+  .voltage-meter {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 640px) {
+  .width-lane-grid,
+  .bus-wire-bits {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+:root[data-theme="light"] .width-register-card,
+:root[data-theme="light"] .bus-wire-card,
+:root[data-theme="light"] .bus-step-card,
+:root[data-theme="light"] .architecture-flow-card,
+:root[data-theme="light"] .architecture-fact-card,
+:root[data-theme="light"] .compile-stage-card,
+:root[data-theme="light"] .binary-compare-card,
+:root[data-theme="light"] .width-lane-cell,
+:root[data-theme="light"] .bus-bit-cell,
+:root[data-theme="light"] .voltage-meter,
+:root[data-theme="light"] .bus-wire-arrow {
+  background: rgba(255, 255, 255, 0.72);
+  border-color: rgba(15, 38, 61, 0.12);
+  color: var(--text);
+}

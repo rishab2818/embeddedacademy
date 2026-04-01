@@ -3,7 +3,7 @@ export const courseChapters = [
     id: "chapter-1",
     number: "1",
     slug: "bits-and-signedness",
-    title: "Bits, bytes and signedness",
+    title: "Bits and Signedness",
     chapterLabel: "Chapter 1",
     componentKey: "chapterOne",
     summary:
@@ -19,7 +19,7 @@ export const courseChapters = [
     id: "chapter-2",
     number: "2",
     slug: "memory-and-addressing",
-    title: "Memory and addressing",
+    title: "Memory and Addressing",
     chapterLabel: "Chapter 2",
     componentKey: "chapterTwo",
     summary:
@@ -34,7 +34,7 @@ export const courseChapters = [
     id: "chapter-3",
     number: "3",
     slug: "basic-data-types",
-    title: "Basic data types",
+    title: "Data Types",
     chapterLabel: "Chapter 3",
     componentKey: "chapterThree",
     summary:
@@ -49,7 +49,7 @@ export const courseChapters = [
     id: "chapter-4",
     number: "4",
     slug: "variables-arrays-pointers",
-    title: "Variables, arrays, pointers and casting",
+    title: "Variables and Pointers",
     chapterLabel: "Chapter 4",
     componentKey: "chapterFour",
     summary:
@@ -65,7 +65,7 @@ export const courseChapters = [
     id: "chapter-5",
     number: "5",
     slug: "embedded-input-flow",
-    title: "Embedded input, memory and output flow",
+    title: "Embedded Flow",
     chapterLabel: "Chapter 5",
     componentKey: "chapterFive",
     summary:
@@ -80,7 +80,7 @@ export const courseChapters = [
     id: "chapter-6",
     number: "6",
     slug: "what-is-embedded-programming",
-    title: "What embedded programming is",
+    title: "Embedded Basics",
     chapterLabel: "Chapter 6",
     componentKey: "chapterSix",
     summary:
@@ -96,7 +96,7 @@ export const courseChapters = [
     id: "chapter-7",
     number: "7",
     slug: "serial-and-parallel-bus-fundamentals",
-    title: "Serial and parallel bus data flow",
+    title: "Bus Flow",
     chapterLabel: "Chapter 7",
     componentKey: "chapterEight",
     summary:
@@ -112,7 +112,7 @@ export const courseChapters = [
     id: "chapter-8",
     number: "8",
     slug: "game-revision-1-signal-rescue",
-    title: "Game Revision 1: Signal Rescue",
+    title: "Signal Rescue",
     chapterLabel: "Chapter 8",
     componentKey: "chapterNine",
     summary:
@@ -123,7 +123,7 @@ export const courseChapters = [
     id: "chapter-9",
     number: "9",
     slug: "microcontroller-clocks-and-timing",
-    title: "Clock, timing and how software becomes action",
+    title: "Clocks and Timing",
     chapterLabel: "Chapter 9",
     componentKey: "chapterTen",
     summary:
@@ -134,6 +134,40 @@ export const courseChapters = [
       { id: "chapter-9-pic16", label: "9.3 PIC16 clock setup" },
       { id: "chapter-9-stm32f1", label: "9.4 STM32F1 clock setup" },
       { id: "chapter-9-data-flow", label: "9.5 Timed data flow" },
+    ],
+  },
+  {
+    id: "chapter-10",
+    number: "10",
+    slug: "english-to-code-assembly-machine-code",
+    title: "Code to Machine",
+    chapterLabel: "Chapter 10",
+    componentKey: "chapterEleven",
+    summary:
+      "Start with bitwise operations, build one small C program with globals and locals, then translate the same logic into assembly and machine code with interactive animations.",
+    sections: [
+      { id: "chapter-10-bitwise", label: "10.1 Bitwise operations" },
+      { id: "chapter-10-code", label: "10.2 Real code walkthrough" },
+      { id: "chapter-10-assembly", label: "10.3 Assembly translation" },
+      { id: "chapter-10-machine-code", label: "10.4 Machine code decoding" },
+      { id: "chapter-10-cycle", label: "10.5 Full cycle" },
+    ],
+  },
+  {
+    id: "chapter-11",
+    number: "11",
+    slug: "address-bus-data-bus-and-compilation",
+    title: "Buses and Compilation",
+    chapterLabel: "Chapter 11",
+    componentKey: "chapterTwelve",
+    summary:
+      "Understand address buses, data buses, 8-bit vs 16-bit vs 32-bit controllers, PIC vs STM bus styles, compilation stages, and why machines finally use binary.",
+    sections: [
+      { id: "chapter-11-widths", label: "11.1 Bit width" },
+      { id: "chapter-11-buses", label: "11.2 Address and data buses" },
+      { id: "chapter-11-pic-stm", label: "11.3 PIC and STM" },
+      { id: "chapter-11-compilation", label: "11.4 Compilation" },
+      { id: "chapter-11-binary", label: "11.5 Why binary" },
     ],
   },
 ];
