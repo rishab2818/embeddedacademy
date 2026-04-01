@@ -1,4 +1,5 @@
-import { useEffect, useMemo, useState } from "react";
+﻿import { useEffect, useMemo, useState } from "react";
+import ChapterPrimer from "../components/ChapterPrimer";
 import FancySelect from "../components/FancySelect";
 import SectionHeading from "../components/SectionHeading";
 import {
@@ -454,6 +455,32 @@ export default function ChapterThirteen({ chapterLabel = "Chapter 12", chapterNu
         </p>
       </div>
 
+      <ChapterPrimer
+        title="The runtime movie in plain English"
+        items={[
+          {
+            title: "Flash",
+            body: "Flash usually keeps the stored program image and constants when power is removed.",
+          },
+          {
+            title: "RAM",
+            body: "RAM holds changing state like variables, buffers, and stack data while the program runs.",
+          },
+          {
+            title: "CPU execution",
+            body: "The CPU fetches an instruction, decodes it, reads what it needs, executes the action, and writes the result back.",
+          },
+          {
+            title: "I/O",
+            body: "Outputs happen when software writes hardware registers. Inputs happen when the outside world changes a pin and software later reads that captured state.",
+          },
+        ]}
+        callout={{
+          title: "Important correction",
+          body: "Many microcontrollers execute directly from flash. RAM is always important for working state, and some systems also copy selected data or code there, but not every MCU copies all code into RAM first.",
+        }}
+      />
+
       <section className="chapter-section" id="chapter-12-placement">
         <SectionHeading
           eyebrow={formatSectionLabel(chapterNumber, 1)}
@@ -501,3 +528,5 @@ export default function ChapterThirteen({ chapterLabel = "Chapter 12", chapterNu
     </section>
   );
 }
+
+

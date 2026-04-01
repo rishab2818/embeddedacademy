@@ -187,6 +187,17 @@ export const courseChapters = [
       { id: "chapter-12-recap", label: "12.5 Full memory context" },
     ],
   },
+  {
+    id: "chapter-13",
+    number: "13",
+    slug: "runtime-rescue",
+    title: "Runtime Rescue",
+    chapterLabel: "Chapter 13",
+    componentKey: "chapterFourteen",
+    summary:
+      "Play through deeper system-debugging missions that connect clocks, buses, compilation, flash, RAM, fetch-decode-execute, and GPIO behavior into one picture.",
+    sections: [{ id: "chapter-13-game", label: "13.1 Revision arena" }],
+  },
 ];
 
 export const flatLessons = courseChapters.map((chapter, index) => ({

@@ -1,4 +1,5 @@
 ﻿import { useEffect, useMemo, useState } from "react";
+import ChapterPrimer from "../components/ChapterPrimer";
 import FancySelect from "../components/FancySelect";
 import SectionHeading from "../components/SectionHeading";
 import {
@@ -636,6 +637,32 @@ export default function ChapterTwelve({ chapterLabel = "Chapter 11", chapterNumb
         </p>
       </div>
 
+      <ChapterPrimer
+        title="Three anchor ideas before the details"
+        items={[
+          {
+            title: "Address bus",
+            body: "The address bus answers: where should the transfer happen?",
+          },
+          {
+            title: "Data bus",
+            body: "The data bus answers: what value is moving during that transfer?",
+          },
+          {
+            title: "Bit width",
+            body: "8-bit, 16-bit, or 32-bit mainly describe the CPU's natural working size, not the whole story of the entire chip.",
+          },
+          {
+            title: "Compilation",
+            body: "Compilation is the process of turning human-friendly source into executable binary for a specific target device.",
+          },
+        ]}
+        callout={{
+          title: "Simple memory hook",
+          body: "Address is the destination. Data is the payload. Compilation is how the payload-producing instructions are created in the first place.",
+        }}
+      />
+
       <section className="chapter-section" id="chapter-11-widths">
         <SectionHeading
           eyebrow={formatSectionLabel(chapterNumber, 1)}
@@ -683,4 +710,6 @@ export default function ChapterTwelve({ chapterLabel = "Chapter 11", chapterNumb
     </section>
   );
 }
+
+
 

@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { Routes, Route } from "react-router-dom";
+import AbbreviationsPage from "./pages/AbbreviationsPage";
 import HomePage from "./pages/HomePage";
 import LessonPage from "./pages/LessonPage";
 import SiteTopBar from "./components/SiteTopBar";
@@ -53,6 +54,7 @@ export default function App() {
     chapterEleven: {},
     chapterTwelve: {},
     chapterThirteen: {},
+    chapterFourteen: {},
   };
 
   return (
@@ -64,6 +66,7 @@ export default function App() {
 
       <Routes>
         <Route path="/" element={<HomePage />} />
+        <Route path="/abbreviations" element={<AbbreviationsPage />} />
         <Route
           path="/lesson/:lessonSlug"
           element={<LessonPage sharedChapterProps={sharedChapterProps} />}

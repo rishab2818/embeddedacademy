@@ -3901,3 +3901,448 @@ input[type="range"] {
   border-color: rgba(15, 38, 61, 0.12);
   color: var(--text);
 }
+
+.site-topbar {
+  gap: 24px;
+}
+
+.site-topbar-brand,
+.site-topbar-actions,
+.site-topbar-nav,
+.home-hero-banner,
+.glossary-hero,
+.glossary-group-grid,
+.glossary-card-grid {
+  display: grid;
+  gap: 14px;
+}
+
+.site-topbar-brand {
+  gap: 4px;
+}
+
+.site-topbar-tag {
+  color: var(--muted);
+  font-size: 0.82rem;
+}
+
+.site-topbar-actions {
+  grid-auto-flow: column;
+  align-items: center;
+  gap: 14px;
+}
+
+.site-topbar-nav {
+  grid-auto-flow: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.site-topbar-link {
+  min-height: 40px;
+  padding: 0 14px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.04);
+  color: var(--text);
+  transition: transform 160ms ease, border-color 160ms ease, background 160ms ease;
+}
+
+.site-topbar-link:hover {
+  transform: translateY(-1px);
+}
+
+.site-topbar-link.active {
+  border-color: rgba(113, 239, 215, 0.34);
+  background: linear-gradient(180deg, rgba(113, 239, 215, 0.16), rgba(255, 255, 255, 0.04));
+}
+
+.home-hero-banner,
+.glossary-hero {
+  grid-template-columns: 1.15fr 0.85fr;
+  gap: 22px;
+  padding: 30px;
+  margin-bottom: 28px;
+}
+
+.home-hero-banner {
+  background:
+    radial-gradient(circle at top right, rgba(113, 239, 215, 0.14), transparent 30%),
+    radial-gradient(circle at left bottom, rgba(241, 180, 76, 0.12), transparent 28%),
+    rgba(255, 255, 255, 0.03);
+}
+
+.home-hero-summary,
+.glossary-hero-card {
+  display: grid;
+  gap: 10px;
+  padding: 22px;
+  border-radius: 24px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.chapter-index-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  align-items: start;
+}
+
+.chapter-group-card {
+  height: 100%;
+  align-content: start;
+  background:
+    radial-gradient(circle at top right, rgba(67, 126, 255, 0.08), transparent 30%),
+    rgba(255, 255, 255, 0.03);
+}
+
+.chapter-card-actions {
+  grid-template-columns: 1fr auto;
+  align-items: start;
+}
+
+.chapter-card-download {
+  white-space: nowrap;
+}
+
+.lesson-header {
+  padding: 28px;
+  border-radius: 30px;
+}
+
+.lesson-layout {
+  grid-template-columns: minmax(0, 1fr) 320px;
+  gap: 26px;
+  align-items: start;
+}
+
+.lesson-content {
+  min-width: 0;
+}
+
+.lesson-sidebar {
+  position: sticky;
+  top: 94px;
+}
+
+.chapter-primer-panel,
+.glossary-entry-card,
+.glossary-group-card {
+  border-radius: 22px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.chapter-primer-panel {
+  padding: 24px;
+}
+
+.glossary-page {
+  position: relative;
+  z-index: 1;
+  max-width: 1440px;
+  margin: 0 auto;
+}
+
+.glossary-panel-stack {
+  display: grid;
+  gap: 18px;
+}
+
+.glossary-group-grid,
+.glossary-card-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.glossary-group-card,
+.glossary-entry-card {
+  padding: 18px;
+  color: inherit;
+  text-align: left;
+  transition: transform 160ms ease, border-color 160ms ease, background 160ms ease;
+}
+
+.glossary-group-card:hover,
+.glossary-entry-card:hover {
+  transform: translateY(-2px);
+}
+
+.glossary-group-card.active {
+  border-color: rgba(241, 180, 76, 0.34);
+  background: linear-gradient(180deg, rgba(241, 180, 76, 0.16), rgba(255, 255, 255, 0.04));
+}
+
+.glossary-group-card span,
+.glossary-entry-card span,
+.glossary-hero-card span {
+  color: var(--accent-2);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: 0.72rem;
+}
+
+.glossary-entry-card p,
+.glossary-hero-card p {
+  color: var(--muted);
+  line-height: 1.65;
+}
+
+@media (max-width: 1180px) {
+  .chapter-index-grid,
+  .home-hero-banner,
+  .glossary-hero,
+  .glossary-group-grid,
+  .glossary-card-grid,
+  .chapter-card-actions {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 960px) {
+  .site-topbar {
+    width: calc(100% - 24px);
+    padding: 14px;
+    border-radius: 28px;
+  }
+
+  .site-topbar-actions,
+  .site-topbar-nav {
+    grid-auto-flow: row;
+    justify-items: stretch;
+  }
+
+  .lesson-sidebar {
+    position: static;
+  }
+}
+
+@media (max-width: 640px) {
+  .site-topbar {
+    gap: 12px;
+  }
+
+  .site-topbar-brand {
+    gap: 2px;
+  }
+
+  .site-topbar-home {
+    font-size: 0.94rem;
+  }
+
+  .site-topbar-tag {
+    font-size: 0.72rem;
+  }
+}
+
+:root[data-theme="light"] .site-topbar-link,
+:root[data-theme="light"] .home-hero-summary,
+:root[data-theme="light"] .glossary-hero-card,
+:root[data-theme="light"] .chapter-primer-panel,
+:root[data-theme="light"] .glossary-entry-card,
+:root[data-theme="light"] .glossary-group-card,
+:root[data-theme="light"] .chapter-group-card {
+  background: rgba(255, 255, 255, 0.74);
+  border-color: rgba(15, 38, 61, 0.12);
+  color: var(--text);
+}
+
+.home-page,
+.lesson-page {
+  position: relative;
+  z-index: 1;
+  max-width: 1380px;
+  margin: 0 auto;
+}
+
+.lesson-page {
+  display: grid;
+  gap: 24px;
+}
+
+.lesson-header {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 18px;
+  align-items: end;
+  background:
+    radial-gradient(circle at top right, rgba(113, 239, 215, 0.12), transparent 28%),
+    radial-gradient(circle at left bottom, rgba(241, 180, 76, 0.12), transparent 30%),
+    rgba(255, 255, 255, 0.03);
+}
+
+.lesson-support-panel {
+  display: grid;
+  gap: 18px;
+}
+
+.lesson-support-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.lesson-support-card {
+  padding: 18px;
+  border-radius: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.lesson-support-card span,
+.chapter-abbrev-link,
+.glossary-empty-state span {
+  color: var(--accent-2);
+}
+
+.lesson-support-card p {
+  margin: 8px 0 0;
+  color: var(--muted);
+  line-height: 1.65;
+}
+
+.chapter-resource-panel {
+  display: grid;
+  gap: 16px;
+}
+
+.chapter-abbrev-link,
+.chapter-download-button {
+  width: 100%;
+}
+
+.chapter-outline-list {
+  display: grid;
+  gap: 10px;
+}
+
+.chapter-outline-link {
+  width: 100%;
+  padding: 14px 16px;
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.04);
+  color: var(--text);
+  text-align: left;
+  cursor: pointer;
+  transition: transform 160ms ease, border-color 160ms ease, background 160ms ease;
+}
+
+.chapter-outline-link:hover {
+  transform: translateY(-2px);
+  border-color: rgba(113, 239, 215, 0.3);
+}
+
+.lesson-nav {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.lesson-nav-card {
+  min-height: 130px;
+  display: grid;
+  align-content: start;
+  gap: 10px;
+  transition: transform 160ms ease, border-color 160ms ease, background 160ms ease;
+}
+
+.lesson-nav-card:hover {
+  transform: translateY(-2px);
+}
+
+.lesson-nav-card span {
+  color: var(--accent-2);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: 0.72rem;
+}
+
+.lesson-nav-card strong {
+  line-height: 1.45;
+}
+
+.glossary-search-input {
+  width: 100%;
+  min-height: 48px;
+  padding: 0 16px;
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--text);
+}
+
+.glossary-empty-state {
+  grid-column: 1 / -1;
+}
+
+.revision-main-grid {
+  align-items: start;
+}
+
+.revision-map-panel,
+.revision-arena-panel,
+.revision-log-panel,
+.revision-intro-panel {
+  background:
+    radial-gradient(circle at top right, rgba(67, 126, 255, 0.08), transparent 28%),
+    rgba(255, 255, 255, 0.03);
+}
+
+@media (min-width: 1181px) {
+  .home-page,
+  .lesson-page,
+  .glossary-page {
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+
+  .chapter-index-grid {
+    gap: 22px;
+  }
+}
+
+@media (max-width: 1180px) {
+  .lesson-header,
+  .lesson-support-grid,
+  .lesson-nav {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 960px) {
+  .lesson-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .home-page,
+  .lesson-page,
+  .glossary-page {
+    max-width: 100%;
+  }
+}
+
+@media (max-width: 640px) {
+  .app-shell {
+    padding: 116px 14px 18px;
+  }
+
+  .panel,
+  .home-hero-banner,
+  .glossary-hero,
+  .lesson-header {
+    padding: 18px;
+    border-radius: 22px;
+  }
+}
+
+:root[data-theme="light"] .lesson-support-card,
+:root[data-theme="light"] .chapter-outline-link,
+:root[data-theme="light"] .lesson-nav-card,
+:root[data-theme="light"] .glossary-search-input,
+:root[data-theme="light"] .revision-map-panel,
+:root[data-theme="light"] .revision-arena-panel,
+:root[data-theme="light"] .revision-log-panel,
+:root[data-theme="light"] .revision-intro-panel {
+  background: rgba(255, 255, 255, 0.74);
+  border-color: rgba(15, 38, 61, 0.12);
+  color: var(--text);
+}

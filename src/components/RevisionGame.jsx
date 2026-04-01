@@ -1,4 +1,26 @@
-import { useMemo, useState } from "react";
+﻿import { useMemo, useState } from "react";
+
+const defaultConfig = {
+  campaignLabel: "Game Revision",
+  gameTitle: "Signal Rescue: repair the embedded stack",
+  introCopy:
+    "This game turns revision into a set of technical rescue missions. You do not answer for marks. You deploy repair moves that either stabilize or further disturb the simulated system, and every response explains the engineering reason.",
+  statusTitle: "Signal Rescue progression",
+  statusCopy: "Every solved mission unlocks deeper topics",
+  controlRoomTitle: "Not a quiz, a repair deck",
+  controlRoomCopy:
+    "Each mission is a system failure. You stabilize it by choosing the repair move that truly matches how embedded hardware and software behave.",
+  mapTitle: "Progress from basics to deep technical reasoning",
+  activeMissionLabel: "Active mission",
+  awaitingLabel: "Awaiting deployment",
+  awaitingTitle: "Select a repair move and deploy it",
+  awaitingCopy: "The game responds with a technical explanation, not just a green tick or red cross.",
+  logTitle: "Recent system responses",
+  resetLabel: "Reset campaign",
+  noLogLabel: "No deployments yet",
+  noLogTitle: "The log will fill as missions react to your moves",
+  noLogCopy: "Start with Mission 1 and work upward.",
+};
 
 function createInitialMissionState(missions) {
   return Object.fromEntries(
@@ -14,7 +36,7 @@ function createInitialMissionState(missions) {
   );
 }
 
-function MissionHud({ missions, missionState, onReset }) {
+function MissionHud({ missions, missionState, onReset, config }) {
   const solvedCount = missions.filter((mission) => missionState[mission.id]?.solved).length;
   const attemptCount = missions.reduce(
     (total, mission) => total + (missionState[mission.id]?.attempts ?? 0),
@@ -30,7 +52,7 @@ function MissionHud({ missions, missionState, onReset }) {
     <div className="chapter-grid revision-hud-grid">
       <div className="panel">
         <p className="eyebrow">Campaign status</p>
-        <h3>Signal Rescue progression</h3>
+        <h3>{config.statusTitle}</h3>
         <div className="revision-stat-grid">
           <div className="revision-stat-card">
             <span>System stability</span>
@@ -42,7 +64,7 @@ function MissionHud({ missions, missionState, onReset }) {
             <strong>
               {solvedCount}/{missions.length}
             </strong>
-            <small>Every solved mission unlocks deeper topics</small>
+            <small>{config.statusCopy}</small>
           </div>
           <div className="revision-stat-card">
             <span>Precision</span>
@@ -59,26 +81,23 @@ function MissionHud({ missions, missionState, onReset }) {
 
       <div className="panel revision-ambient-panel">
         <p className="eyebrow">Control room</p>
-        <h3>Not a quiz, a repair deck</h3>
-        <p className="panel-copy">
-          Each mission is a system failure. You stabilize it by choosing the repair move that
-          truly matches how embedded hardware and software behave.
-        </p>
+        <h3>{config.controlRoomTitle}</h3>
+        <p className="panel-copy">{config.controlRoomCopy}</p>
         <button type="button" className="secondary-link revision-reset-button" onClick={onReset}>
-          Reset campaign
+          {config.resetLabel}
         </button>
       </div>
     </div>
   );
 }
 
-function MissionMap({ missions, missionState, activeMissionId, unlockedIndex, onSelectMission }) {
+function MissionMap({ missions, missionState, activeMissionId, unlockedIndex, onSelectMission, config }) {
   return (
     <div className="panel revision-map-panel">
       <div className="panel-header stacked">
         <div>
           <p className="eyebrow">Mission map</p>
-          <h3>Progress from basics to deep technical reasoning</h3>
+          <h3>{config.mapTitle}</h3>
         </div>
       </div>
 
@@ -150,15 +169,13 @@ function ActionDeck({ mission, selectedOptionId, onSelectOption }) {
   );
 }
 
-function FeedbackPanel({ feedback, onNextMission, hasNextMission }) {
+function FeedbackPanel({ feedback, onNextMission, hasNextMission, config }) {
   if (!feedback) {
     return (
       <div className="revision-feedback-panel idle">
-        <span>Awaiting deployment</span>
-        <strong>Select a repair move and deploy it</strong>
-        <p>
-          The game responds with a technical explanation, not just a green tick or red cross.
-        </p>
+        <span>{config.awaitingLabel}</span>
+        <strong>{config.awaitingTitle}</strong>
+        <p>{config.awaitingCopy}</p>
       </div>
     );
   }
@@ -185,6 +202,7 @@ function MissionArena({
   onDeploy,
   onNextMission,
   hasNextMission,
+  config,
 }) {
   const state = missionState[mission.id];
 
@@ -192,7 +210,7 @@ function MissionArena({
     <div className="panel revision-arena-panel">
       <div className="panel-header stacked">
         <div>
-          <p className="eyebrow">Active mission</p>
+          <p className="eyebrow">{config.activeMissionLabel}</p>
           <h3>
             {mission.code}: {mission.title}
           </h3>
@@ -226,22 +244,23 @@ function MissionArena({
         feedback={state?.lastFeedback}
         onNextMission={onNextMission}
         hasNextMission={hasNextMission}
+        config={config}
       />
     </div>
   );
 }
 
-function MissionLog({ logs }) {
+function MissionLog({ logs, config }) {
   return (
     <div className="panel revision-log-panel">
       <p className="eyebrow">Repair log</p>
-      <h3>Recent system responses</h3>
+      <h3>{config.logTitle}</h3>
       <div className="revision-log-stack">
         {logs.length ? (
           logs.map((entry) => (
             <article key={entry.id} className={`revision-log-card ${entry.correct ? "success" : "danger"}`}>
               <span>
-                {entry.missionCode} • {entry.correct ? "stable" : "retry needed"}
+                {entry.missionCode} - {entry.correct ? "stable" : "retry needed"}
               </span>
               <strong>{entry.title}</strong>
               <p>{entry.message}</p>
@@ -249,9 +268,9 @@ function MissionLog({ logs }) {
           ))
         ) : (
           <div className="revision-log-card idle">
-            <span>No deployments yet</span>
-            <strong>The log will fill as missions react to your moves</strong>
-            <p>Start with Mission 1 and work upward.</p>
+            <span>{config.noLogLabel}</span>
+            <strong>{config.noLogTitle}</strong>
+            <p>{config.noLogCopy}</p>
           </div>
         )}
       </div>
@@ -259,7 +278,8 @@ function MissionLog({ logs }) {
   );
 }
 
-export default function RevisionGame({ missions, lore }) {
+export default function RevisionGame({ missions, lore, config: configProp = {} }) {
+  const config = { ...defaultConfig, ...configProp };
   const [activeMissionIndex, setActiveMissionIndex] = useState(0);
   const [missionState, setMissionState] = useState(() => createInitialMissionState(missions));
   const [logs, setLogs] = useState([]);
@@ -346,13 +366,9 @@ export default function RevisionGame({ missions, lore }) {
     <div className="revision-game-shell">
       <div className="panel revision-intro-panel">
         <div className="revision-intro-copy">
-          <p className="eyebrow">Game Revision 1</p>
-          <h3>Signal Rescue: repair the embedded stack</h3>
-          <p className="panel-copy">
-            This game turns revision into a set of technical rescue missions. You do not answer for
-            marks. You deploy repair moves that either stabilize or further disturb the simulated
-            system, and every response explains the engineering reason.
-          </p>
+          <p className="eyebrow">{config.campaignLabel}</p>
+          <h3>{config.gameTitle}</h3>
+          <p className="panel-copy">{config.introCopy}</p>
         </div>
 
         <div className="revision-lore-stack">
@@ -364,7 +380,7 @@ export default function RevisionGame({ missions, lore }) {
         </div>
       </div>
 
-      <MissionHud missions={missions} missionState={missionState} onReset={handleReset} />
+      <MissionHud missions={missions} missionState={missionState} onReset={handleReset} config={config} />
 
       <div className="revision-main-grid">
         <MissionMap
@@ -373,6 +389,7 @@ export default function RevisionGame({ missions, lore }) {
           activeMissionId={activeMission.id}
           unlockedIndex={unlockedIndex}
           onSelectMission={handleSelectMission}
+          config={config}
         />
 
         <MissionArena
@@ -382,10 +399,11 @@ export default function RevisionGame({ missions, lore }) {
           onDeploy={handleDeploy}
           onNextMission={handleNextMission}
           hasNextMission={hasNextMission}
+          config={config}
         />
       </div>
 
-      <MissionLog logs={logs} />
+      <MissionLog logs={logs} config={config} />
     </div>
   );
 }

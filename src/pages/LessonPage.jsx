@@ -1,12 +1,15 @@
-import { Link, Navigate, useParams } from "react-router-dom";
+﻿import { Link, Navigate, useParams } from "react-router-dom";
 import ChapterResourcePanel from "../components/ChapterResourcePanel";
+import LessonSupportPanel from "../components/LessonSupportPanel";
 import LessonNavigator from "../components/LessonNavigator";
 import { findLessonBySlug, flatLessons } from "../data/courseStructure";
+import { getLessonSupport } from "../data/lessonSupport";
 import ChapterFive from "../chapters/ChapterFive";
 import ChapterFour from "../chapters/ChapterFour";
 import ChapterOne from "../chapters/ChapterOne";
 import ChapterEight from "../chapters/ChapterEight";
 import ChapterEleven from "../chapters/ChapterEleven";
+import ChapterFourteen from "../chapters/ChapterFourteen";
 import ChapterNine from "../chapters/ChapterNine";
 import ChapterSix from "../chapters/ChapterSix";
 import ChapterTen from "../chapters/ChapterTen";
@@ -28,6 +31,7 @@ const componentMap = {
   chapterEleven: ChapterEleven,
   chapterTwelve: ChapterTwelve,
   chapterThirteen: ChapterThirteen,
+  chapterFourteen: ChapterFourteen,
 };
 
 export default function LessonPage({ sharedChapterProps }) {
@@ -39,6 +43,7 @@ export default function LessonPage({ sharedChapterProps }) {
   }
 
   const ChapterComponent = componentMap[lesson.componentKey];
+  const support = getLessonSupport(lesson.slug);
   const previousLesson = lesson.previousSlug
     ? flatLessons.find((item) => item.slug === lesson.previousSlug)
     : null;
@@ -59,6 +64,9 @@ export default function LessonPage({ sharedChapterProps }) {
           <Link className="secondary-link" to="/">
             Back to chapters
           </Link>
+          <Link className="secondary-link" to="/abbreviations">
+            Abbreviations help
+          </Link>
           <a className="secondary-link" href={`#/lesson/${lesson.slug}`} target="_blank" rel="noreferrer">
             Open This Chapter In New Tab
           </a>
@@ -67,6 +75,7 @@ export default function LessonPage({ sharedChapterProps }) {
 
       <div className="lesson-layout">
         <div className="lesson-content">
+          <LessonSupportPanel support={support} />
           <ChapterComponent
             {...sharedChapterProps[lesson.componentKey]}
             chapterLabel={lesson.chapterLabel}

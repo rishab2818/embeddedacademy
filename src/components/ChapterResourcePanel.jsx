@@ -1,3 +1,4 @@
+﻿import { Link } from "react-router-dom";
 import PromptDownloadButton from "./PromptDownloadButton";
 
 export default function ChapterResourcePanel({ chapter }) {
@@ -11,6 +12,10 @@ export default function ChapterResourcePanel({ chapter }) {
       </p>
 
       <PromptDownloadButton slug={chapter.slug} label="Download .txt Prompt Pack" className="primary-link chapter-download-button" />
+
+      <Link className="secondary-link chapter-abbrev-link" to="/abbreviations">
+        Open abbreviations guide
+      </Link>
 
       <div className="chapter-outline-list">
         {chapter.sections.map((section) => (

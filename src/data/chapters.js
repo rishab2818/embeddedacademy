@@ -1,4 +1,4 @@
-export const chapterCards = [
+﻿export const chapterCards = [
   {
     id: "chapter-1",
     number: "01",
@@ -69,6 +69,38 @@ export const chapterCards = [
     ],
   },
   {
+    id: "chapter-7",
+    number: "07",
+    title: "Bus Flow",
+    summary: "Serial and parallel buses, typed values as bytes, and the path from stored data to voltage on real hardware.",
+    sections: [
+      { id: "chapter-7-buses", label: "Bus models" },
+      { id: "chapter-7-types", label: "Typed value encoding" },
+      { id: "chapter-7-journey", label: "Register to voltage flow" },
+      { id: "chapter-7-tradeoffs", label: "Tradeoffs" },
+    ],
+  },
+  {
+    id: "chapter-8",
+    number: "08",
+    title: "Signal Rescue",
+    summary: "A revision game that connects bits, memory, floats, pointers, timing, and bus reasoning through realistic rescue missions.",
+    sections: [{ id: "chapter-8-game", label: "Revision arena" }],
+  },
+  {
+    id: "chapter-9",
+    number: "09",
+    title: "Clocks and Timing",
+    summary: "Clock sources, PLLs, PIC and STM32 clock setup, and the timing rhythm that makes code become hardware action.",
+    sections: [
+      { id: "chapter-9-heartbeat", label: "Heartbeat analogy" },
+      { id: "chapter-9-anatomy", label: "Clock anatomy" },
+      { id: "chapter-9-pic16", label: "PIC16 clock setup" },
+      { id: "chapter-9-stm32f1", label: "STM32F1 clock setup" },
+      { id: "chapter-9-data-flow", label: "Timed data flow" },
+    ],
+  },
+  {
     id: "chapter-10",
     number: "10",
     title: "Code to Machine",
@@ -107,4 +139,12 @@ export const chapterCards = [
       { id: "chapter-12-recap", label: "Full memory context" },
     ],
   },
+  {
+    id: "chapter-13",
+    number: "13",
+    title: "Runtime Rescue",
+    summary: "A deeper interactive rescue game covering clocks, buses, compilation, flash, RAM, execution, and GPIO reasoning.",
+    sections: [{ id: "chapter-13-game", label: "Revision arena" }],
+  },
 ];
+

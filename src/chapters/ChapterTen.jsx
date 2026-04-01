@@ -1,5 +1,6 @@
 ﻿import { useEffect, useMemo, useState } from "react";
 import BeatTimeline from "../components/BeatTimeline";
+import ChapterPrimer from "../components/ChapterPrimer";
 import ClockTreeCard from "../components/ClockTreeCard";
 import DriverSnippetViewer from "../components/DriverSnippetViewer";
 import FancySelect from "../components/FancySelect";
@@ -567,6 +568,32 @@ export default function ChapterTen({ chapterLabel = "Chapter 9", chapterNumber =
         </p>
       </div>
 
+      <ChapterPrimer
+        title="If clocks feel abstract, start here"
+        items={[
+          {
+            title: "Clock",
+            body: "The clock is the timing rhythm of the chip. It tells digital blocks when the next safe step can happen.",
+          },
+          {
+            title: "Faster clock",
+            body: "A faster clock means the CPU and buses get more chances per second to move data and execute work.",
+          },
+          {
+            title: "Why configuration matters",
+            body: "Peripherals like UART, timers, and GPIO timing depend on known clock relationships. Wrong clock setup breaks those assumptions.",
+          },
+          {
+            title: "What this chapter is really about",
+            body: "Not just 'what a clock is', but how timing turns instructions, memory access, and I/O into ordered real behavior.",
+          },
+        ]}
+        callout={{
+          title: "One sentence to remember",
+          body: "The clock does not carry your program data. It coordinates when digital work is allowed to happen.",
+        }}
+      />
+
       <section className="chapter-section" id="chapter-9-heartbeat">
         <SectionHeading
           eyebrow={formatSectionLabel(chapterNumber, 1)}
@@ -614,3 +641,5 @@ export default function ChapterTen({ chapterLabel = "Chapter 9", chapterNumber =
     </section>
   );
 }
+
+

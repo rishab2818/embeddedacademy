@@ -1,4 +1,5 @@
-import { useEffect, useMemo, useState } from "react";
+ï»¿import { useEffect, useMemo, useState } from "react";
+import ChapterPrimer from "../components/ChapterPrimer";
 import FancySelect from "../components/FancySelect";
 import SectionHeading from "../components/SectionHeading";
 import {
@@ -128,14 +129,14 @@ function BitwiseLab() {
         ) : null}
 
         <div className="bitwise-display-stack">
-          <BitRow label="Left operand" bits={scene.leftBits} meta={`${scene.leftHex} • ${scene.leftLabel}`} pulseIndex={pulseIndex} />
+          <BitRow label="Left operand" bits={scene.leftBits} meta={`${scene.leftHex} â€¢ ${scene.leftLabel}`} pulseIndex={pulseIndex} />
           {selectedOperator.needsRightOperand ? (
-            <BitRow label="Right operand" bits={scene.rightBits} meta={`${scene.rightHex} • ${scene.rightLabel}`} pulseIndex={pulseIndex} />
+            <BitRow label="Right operand" bits={scene.rightBits} meta={`${scene.rightHex} â€¢ ${scene.rightLabel}`} pulseIndex={pulseIndex} />
           ) : null}
           <BitRow
             label="Result"
             bits={scene.resultBits}
-            meta={`${scene.resultHex} • ${scene.resultLabel}`}
+            meta={`${scene.resultHex} â€¢ ${scene.resultLabel}`}
             pulseIndex={pulseIndex}
             result
           />
@@ -722,6 +723,32 @@ export default function ChapterEleven({ chapterLabel = "Chapter 10", chapterNumb
         </p>
       </div>
 
+      <ChapterPrimer
+        title="What this chapter is really trying to demystify"
+        items={[
+          {
+            title: "English requirement",
+            body: "Humans begin with meaning: what should the machine do?",
+          },
+          {
+            title: "C code",
+            body: "C gives names, structure, and readable logic so humans can express that meaning clearly.",
+          },
+          {
+            title: "Assembly",
+            body: "Assembly removes most of the friendly syntax and shows the CPU-style steps more directly.",
+          },
+          {
+            title: "Machine code",
+            body: "The processor finally executes raw encoded bits, not the original C text.",
+          },
+        ]}
+        callout={{
+          title: "Why this feels hard at first",
+          body: "You are learning the same idea in several languages at once. The goal is not memorizing each form separately, but recognizing that each form describes the same behavior at a different level.",
+        }}
+      />
+
       <section className="chapter-section" id="chapter-10-bitwise">
         <SectionHeading
           eyebrow={formatSectionLabel(chapterNumber, 1)}
@@ -792,3 +819,5 @@ export default function ChapterEleven({ chapterLabel = "Chapter 10", chapterNumb
     </section>
   );
 }
+
+

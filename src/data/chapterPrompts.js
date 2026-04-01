@@ -304,6 +304,31 @@
       "- End with practical tracing exercises: instruction fetch, RAM variable update, input read, and output drive.",
     ].join("\n"),
   },
+  "runtime-rescue": {
+    fileName: "chapter-13-runtime-rescue.txt",
+    content: [
+      "Embedded Academy Prompt Pack",
+      "Chapter 13: Runtime Rescue",
+      "",
+      "Role:",
+      "Act as an embedded mentor who teaches through scenario-driven debugging missions rather than shallow quizzes.",
+      "",
+      "Topics to revisit through gameplay:",
+      "1. Clock-tree changes and their effect on timed peripherals.",
+      "2. Address bus vs data bus reasoning.",
+      "3. What compilation really does before machine code is stored in flash.",
+      "4. The difference between flash and RAM in runtime execution.",
+      "5. Fetch-decode-execute cycle reasoning.",
+      "6. The difference between GPIO input flow and GPIO output flow.",
+      "7. The whole system picture from source code to executed machine instructions to real hardware action.",
+      "",
+      "Teaching requirements:",
+      "- Present moderate to deep technical missions, not simple quiz trivia.",
+      "- Reveal the reasoning after each move so the learner leaves with a stronger system model.",
+      "- Keep the game connected to the actual chapters on clocks, buses, compilation, flash, RAM, and execution.",
+      "- End with an end-to-end mission that ties the whole machine together.",
+    ].join("\n"),
+  },
 };
 
 export function getChapterPrompt(slug) {
