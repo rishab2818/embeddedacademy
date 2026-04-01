@@ -119,6 +119,23 @@ export const courseChapters = [
       "Play through interactive embedded rescue missions that force you to reason through bits, memory, floats, pointers, bus flow, and real-time design instead of memorizing definitions.",
     sections: [{ id: "chapter-8-game", label: "8.1 Revision arena" }],
   },
+  {
+    id: "chapter-9",
+    number: "9",
+    slug: "microcontroller-clocks-and-timing",
+    title: "Clock, timing and how software becomes action",
+    chapterLabel: "Chapter 9",
+    componentKey: "chapterTen",
+    summary:
+      "Learn what the clock really is, how PIC16 and STM32F1 configure it, and how timed beats let instructions, buses, memory, inputs, and outputs turn software into real hardware action.",
+    sections: [
+      { id: "chapter-9-heartbeat", label: "9.1 Heartbeat analogy" },
+      { id: "chapter-9-anatomy", label: "9.2 Clock anatomy" },
+      { id: "chapter-9-pic16", label: "9.3 PIC16 clock setup" },
+      { id: "chapter-9-stm32f1", label: "9.4 STM32F1 clock setup" },
+      { id: "chapter-9-data-flow", label: "9.5 Timed data flow" },
+    ],
+  },
 ];
 
 export const flatLessons = courseChapters.map((chapter, index) => ({

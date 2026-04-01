@@ -2703,6 +2703,228 @@ input[type="range"] {
   }
 }
 
+.clock-panel-stack,
+.clock-driver-panel {
+  display: grid;
+  gap: 18px;
+}
+
+.clock-analogy-grid,
+.clock-role-grid,
+.clock-tree-grid {
+  display: grid;
+  gap: 14px;
+}
+
+.clock-analogy-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.clock-role-grid {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.clock-tree-grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.clock-tree-grid.compact {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.clock-control-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px 18px;
+}
+
+.clock-control-grid.stm {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.clock-pulse-lane {
+  display: grid;
+  gap: 12px;
+  padding: 18px;
+  border-radius: 22px;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.clock-pulse-lane-head,
+.beat-track-row {
+  display: grid;
+  grid-template-columns: 180px 1fr;
+  gap: 14px;
+  align-items: center;
+}
+
+.clock-pulse-lane-head span,
+.beat-track-label strong,
+.clock-tree-card span,
+.clock-role-card span {
+  color: var(--accent-2);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: 0.72rem;
+}
+
+.clock-pulse-grid,
+.beat-track-cells {
+  display: grid;
+  grid-template-columns: repeat(8, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.clock-pulse-node {
+  position: relative;
+  display: grid;
+  place-items: center;
+  min-height: 72px;
+  border-radius: 18px;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  background: rgba(255, 255, 255, 0.03);
+  overflow: hidden;
+}
+
+.clock-pulse-node span {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.35);
+  transition: transform 180ms ease, background 180ms ease, box-shadow 180ms ease;
+}
+
+.clock-pulse-node.heart.active span,
+.clock-pulse-node.clock.active span {
+  transform: scale(1.5);
+  background: #f7f6f3;
+  box-shadow: 0 0 24px rgba(247, 246, 243, 0.3);
+}
+
+.clock-pulse-node.heart.active {
+  background: linear-gradient(180deg, rgba(241, 180, 76, 0.22), rgba(255, 255, 255, 0.04));
+}
+
+.clock-pulse-node.clock.active {
+  background: linear-gradient(180deg, rgba(113, 239, 215, 0.22), rgba(255, 255, 255, 0.04));
+}
+
+.clock-pulse-node.trailing {
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+.clock-role-card,
+.clock-tree-card {
+  display: grid;
+  gap: 10px;
+  padding: 18px;
+  border-radius: 22px;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.clock-role-card p,
+.clock-tree-card p,
+.beat-track-label,
+.clock-pulse-lane-head span {
+  color: var(--muted);
+}
+
+.clock-tree-card.source {
+  background: linear-gradient(180deg, rgba(67, 126, 255, 0.16), rgba(255, 255, 255, 0.04));
+}
+
+.clock-tree-card.pll {
+  background: linear-gradient(180deg, rgba(241, 180, 76, 0.16), rgba(255, 255, 255, 0.04));
+}
+
+.clock-tree-card.core {
+  background: linear-gradient(180deg, rgba(113, 239, 215, 0.16), rgba(255, 255, 255, 0.04));
+}
+
+.clock-tree-card.bus,
+.clock-tree-card.timer,
+.clock-tree-card.uart {
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0.03));
+}
+
+.beat-timeline {
+  display: grid;
+  gap: 12px;
+}
+
+.beat-track-label {
+  min-height: 44px;
+  padding: 10px 14px;
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.beat-cell {
+  display: grid;
+  place-items: center;
+  min-height: 52px;
+  padding: 8px;
+  border-radius: 14px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  background: rgba(255, 255, 255, 0.03);
+  color: #dfeaf5;
+  font-size: 0.82rem;
+  text-align: center;
+  transition: transform 160ms ease, border-color 160ms ease, background 160ms ease;
+}
+
+.beat-cell.high {
+  background: linear-gradient(180deg, rgba(113, 239, 215, 0.18), rgba(113, 239, 215, 0.05));
+}
+
+.beat-cell.low {
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.beat-cell.cpu {
+  background: linear-gradient(180deg, rgba(67, 126, 255, 0.16), rgba(67, 126, 255, 0.05));
+}
+
+.beat-cell.memory {
+  background: linear-gradient(180deg, rgba(241, 180, 76, 0.16), rgba(241, 180, 76, 0.05));
+}
+
+.beat-cell.gpio {
+  background: linear-gradient(180deg, rgba(113, 239, 215, 0.16), rgba(255, 255, 255, 0.04));
+}
+
+.beat-cell.muted {
+  color: #9fb2c6;
+}
+
+.beat-cell.active {
+  transform: translateY(-2px);
+  border-color: rgba(241, 180, 76, 0.4);
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.18);
+}
+
+@media (max-width: 960px) {
+  .clock-analogy-grid,
+  .clock-role-grid,
+  .clock-tree-grid,
+  .clock-tree-grid.compact,
+  .clock-control-grid,
+  .clock-control-grid.stm,
+  .beat-track-row {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 640px) {
+  .clock-pulse-grid,
+  .beat-track-cells {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
 @media (max-width: 1180px) {
   .site-layout {
     grid-template-columns: 1fr;

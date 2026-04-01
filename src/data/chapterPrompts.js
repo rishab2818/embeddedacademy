@@ -198,6 +198,33 @@ const chapterPrompts = {
       "- End by generating 10 new advanced rescue scenarios and solutions.",
     ].join("\n"),
   },
+  "microcontroller-clocks-and-timing": {
+    fileName: "chapter-9-microcontroller-clocks-and-timing.txt",
+    content: [
+      "Embedded Academy Prompt Pack",
+      "Chapter 9: Clock, Timing and How Software Becomes Action",
+      "",
+      "Role:",
+      "Act as an expert embedded systems teacher who can explain timing intuitively first and rigorously second.",
+      "",
+      "Topics to cover:",
+      "1. Explain what a clock is in a microcontroller using the analogy that the clock is like the heartbeat of the CPU and wider chip.",
+      "2. Clarify that the clock does not carry application data by itself; it synchronizes when digital work happens.",
+      "3. Explain oscillator sources, frequency, PLL, prescalers, system clock, peripheral clocks, and clock domains.",
+      "4. Explain how a classic PIC16 configures its clock using OSCCON, IRCF, SCS, and the idea that instruction timing follows the oscillator rate.",
+      "5. Explain how STM32F1 configures its clock using RCC, source readiness checks, PLL setup, AHB/APB prescalers, and clock-tree reasoning.",
+      "6. Compare PIC16 and STM32F1 device-driver reading styles so a learner can understand why PIC looks compact and direct while STM32 looks more layered.",
+      "7. Explain how instruction fetch, memory read/write, serial transfers, parallel transfers, input sampling, and output updates all happen on timed boundaries.",
+      "8. Explain beginner phrases like 'clock powers buses or memory' carefully, then restate the technically correct idea that the clock synchronizes operations rather than electrically powering them.",
+      "",
+      "Teaching requirements:",
+      "- Start with human-body intuition, then move to technically precise embedded explanations.",
+      "- Use at least one PIC16 educational register snippet and one STM32F1 RCC educational snippet.",
+      "- Walk through one timed sequence from software instruction to bus movement to GPIO-visible hardware effect.",
+      "- Include debugging scenarios where wrong clock setup breaks UART timing, timer expectations, or GPIO behavior.",
+      "- End with advanced reasoning questions and fully explained solutions.",
+    ].join("\n"),
+  },
 };
 
 export function getChapterPrompt(slug) {
