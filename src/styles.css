@@ -1392,6 +1392,7 @@ input[type="range"] {
 }
 
 .home-hero {
+  grid-template-columns: 1fr;
   max-width: none;
 }
 
@@ -1404,10 +1405,6 @@ input[type="range"] {
 .chapter-group-card {
   display: grid;
   gap: 22px;
-}
-
-.home-feature-panel {
-  align-content: start;
 }
 
 .chapter-group-head h2,
@@ -2603,8 +2600,7 @@ input[type="range"] {
 :root[data-theme="light"] .byte-select-button,
 :root[data-theme="light"] .bit-select-button,
 :root[data-theme="light"] .circuit-node,
-:root[data-theme="light"] .chapter-resource-panel,
-:root[data-theme="light"] .home-feature-panel {
+:root[data-theme="light"] .chapter-resource-panel {
   background: rgba(255, 255, 255, 0.72);
   border-color: rgba(15, 38, 61, 0.12);
   color: var(--text);

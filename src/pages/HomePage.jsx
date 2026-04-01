@@ -14,17 +14,6 @@ export default function HomePage() {
             chapter also has a downloadable `.txt` prompt pack for deeper self-study with any LLM.
           </p>
         </div>
-
-        <div className="panel home-feature-panel">
-          <p className="eyebrow">What Changed</p>
-          <h3>Cleaner flow, better self-study tools, and a simpler interface</h3>
-          <div className="bullet-stack">
-            <div className="bullet-card">Sequential chapter numbering across the active course.</div>
-            <div className="bullet-card">New-tab chapter opening from the home page.</div>
-            <div className="bullet-card">Downloadable chapter prompt packs for self-study with any external LLM.</div>
-            <div className="bullet-card">Light and dark mode toggle available from the top bar.</div>
-          </div>
-        </div>
       </header>
 
       <section className="chapter-index-grid">
