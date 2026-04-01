@@ -3750,3 +3750,154 @@ input[type="range"] {
   border-color: rgba(15, 38, 61, 0.12);
   color: var(--text);
 }
+
+.runtime-panel-stack {
+  display: grid;
+  gap: 18px;
+}
+
+.runtime-control-grid,
+.memory-placement-grid,
+.cpu-engine-grid,
+.cpu-unit-grid {
+  display: grid;
+  gap: 14px;
+}
+
+.runtime-control-grid,
+.memory-placement-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.runtime-source-card {
+  min-height: 280px;
+}
+
+.memory-bank-card,
+.memory-bank-cell,
+.cpu-engine-unit,
+.cpu-unit-card {
+  border-radius: 22px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.memory-bank-card,
+.cpu-unit-card {
+  padding: 18px;
+}
+
+.memory-bank-card.flash {
+  background: linear-gradient(180deg, rgba(67, 126, 255, 0.14), rgba(255, 255, 255, 0.04));
+}
+
+.memory-bank-card.ram {
+  background: linear-gradient(180deg, rgba(113, 239, 215, 0.14), rgba(255, 255, 255, 0.04));
+}
+
+.memory-bank-card > span,
+.cpu-engine-unit span,
+.cpu-unit-card span {
+  color: var(--accent-2);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: 0.72rem;
+}
+
+.memory-bank-card {
+  display: grid;
+  gap: 12px;
+}
+
+.memory-bank-cell {
+  display: grid;
+  gap: 6px;
+  padding: 14px 16px;
+  transition: transform 160ms ease, border-color 160ms ease, background 160ms ease;
+}
+
+.memory-bank-cell.active {
+  transform: translateY(-2px);
+  border-color: rgba(241, 180, 76, 0.34);
+  background: linear-gradient(180deg, rgba(241, 180, 76, 0.14), rgba(255, 255, 255, 0.04));
+}
+
+.memory-bank-cell small,
+.cpu-unit-card p {
+  color: var(--muted);
+}
+
+.cpu-engine-grid {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.cpu-engine-unit {
+  display: grid;
+  gap: 8px;
+  place-items: center;
+  min-height: 120px;
+  padding: 16px;
+  text-align: center;
+  transition: transform 180ms ease, border-color 180ms ease, background 180ms ease, box-shadow 180ms ease;
+}
+
+.cpu-engine-unit.active {
+  transform: translateY(-3px);
+  border-color: rgba(113, 239, 215, 0.34);
+  background: linear-gradient(180deg, rgba(113, 239, 215, 0.18), rgba(255, 255, 255, 0.04));
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.18);
+}
+
+.cpu-unit-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.cpu-unit-card {
+  color: inherit;
+  text-align: left;
+  cursor: pointer;
+  transition: transform 160ms ease, border-color 160ms ease, background 160ms ease;
+}
+
+.cpu-unit-card:hover {
+  transform: translateY(-2px);
+}
+
+.cpu-unit-card.active {
+  border-color: rgba(241, 180, 76, 0.34);
+  background: linear-gradient(180deg, rgba(241, 180, 76, 0.16), rgba(255, 255, 255, 0.04));
+}
+
+.runtime-cycle-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+@media (max-width: 1180px) {
+  .runtime-control-grid,
+  .memory-placement-grid,
+  .cpu-unit-grid,
+  .runtime-cycle-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 960px) {
+  .cpu-engine-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 640px) {
+  .cpu-engine-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+:root[data-theme="light"] .memory-bank-card,
+:root[data-theme="light"] .memory-bank-cell,
+:root[data-theme="light"] .cpu-engine-unit,
+:root[data-theme="light"] .cpu-unit-card {
+  background: rgba(255, 255, 255, 0.72);
+  border-color: rgba(15, 38, 61, 0.12);
+  color: var(--text);
+}

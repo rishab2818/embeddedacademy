@@ -94,4 +94,17 @@ export const chapterCards = [
       { id: "chapter-11-binary", label: "Why binary" },
     ],
   },
+  {
+    id: "chapter-12",
+    number: "12",
+    title: "Flash and Execution",
+    summary: "Flash memory, RAM memory, code placement, CPU units, fetch-decode-execute, and real input/output flow across different controller widths.",
+    sections: [
+      { id: "chapter-12-placement", label: "Flash and RAM placement" },
+      { id: "chapter-12-engine", label: "CPU data flow" },
+      { id: "chapter-12-units", label: "CPU units" },
+      { id: "chapter-12-cycle", label: "Fetch-decode-execute" },
+      { id: "chapter-12-recap", label: "Full memory context" },
+    ],
+  },
 ];

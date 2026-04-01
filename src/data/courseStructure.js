@@ -170,6 +170,23 @@ export const courseChapters = [
       { id: "chapter-11-binary", label: "11.5 Why binary" },
     ],
   },
+  {
+    id: "chapter-12",
+    number: "12",
+    slug: "flash-ram-and-execution",
+    title: "Flash and Execution",
+    chapterLabel: "Chapter 12",
+    componentKey: "chapterThirteen",
+    summary:
+      "Learn how machine code sits in flash, how RAM stores changing state, how the clocked CPU fetches and executes instructions, and how inputs and outputs really move through the microcontroller.",
+    sections: [
+      { id: "chapter-12-placement", label: "12.1 Flash and RAM placement" },
+      { id: "chapter-12-engine", label: "12.2 CPU data flow" },
+      { id: "chapter-12-units", label: "12.3 CPU units" },
+      { id: "chapter-12-cycle", label: "12.4 Fetch-decode-execute" },
+      { id: "chapter-12-recap", label: "12.5 Full memory context" },
+    ],
+  },
 ];
 
 export const flatLessons = courseChapters.map((chapter, index) => ({

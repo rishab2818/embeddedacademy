@@ -52,6 +52,7 @@ export default function App() {
     chapterTen: {},
     chapterEleven: {},
     chapterTwelve: {},
+    chapterThirteen: {},
   };
 
   return (

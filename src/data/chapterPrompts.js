@@ -277,6 +277,33 @@
       "- End with trace-the-path exercises that ask the learner to follow one value from address selection through compilation to binary storage.",
     ].join("\n"),
   },
+  "flash-ram-and-execution": {
+    fileName: "chapter-12-flash-ram-and-execution.txt",
+    content: [
+      "Embedded Academy Prompt Pack",
+      "Chapter 12: Flash, RAM and Execution",
+      "",
+      "Role:",
+      "Act as an embedded systems teacher who can make runtime execution feel visual and concrete for complete beginners while staying technically accurate.",
+      "",
+      "Topics to cover:",
+      "1. Explain flash memory and RAM memory in embedded systems.",
+      "2. Show how the same program looks as C code, assembly, and machine code.",
+      "3. Explain how machine code sits in flash memory.",
+      "4. Explain that many microcontrollers execute directly from flash, while initialized data and working state live in RAM, and that some systems may also copy selected code into RAM.",
+      "5. Explain how the CPU clock, bus interfaces, registers, decoder, ALU, and GPIO-related peripherals cooperate during execution.",
+      "6. Explain both output flow and input flow: writing to a GPIO output register and reading from a GPIO input register.",
+      "7. Explain the fetch-decode-execute cycle in depth.",
+      "8. Compare the same runtime idea across 8-bit, 16-bit, and 32-bit controllers.",
+      "",
+      "Teaching requirements:",
+      "- Use one repeated example program so learners can connect flash, RAM, CPU units, and I/O clearly.",
+      "- Be explicit that flash and RAM serve different purposes.",
+      "- Distinguish carefully between stored instructions, stored variables, and transient register values.",
+      "- Explain what changes physically in hardware and what stays a software abstraction.",
+      "- End with practical tracing exercises: instruction fetch, RAM variable update, input read, and output drive.",
+    ].join("\n"),
+  },
 };
 
 export function getChapterPrompt(slug) {
