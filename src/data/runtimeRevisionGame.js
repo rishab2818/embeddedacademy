@@ -35,6 +35,17 @@ export const runtimeRescueMissions = [
     successTitle: "Timing chain repaired",
     successBody:
       "UART timing depends on a clock-derived baud calculation. If the clock tree changes, the peripheral timing assumptions must be recalculated or the serial bits no longer line up in time.",
+    engineeringCheck:
+      "Ask which exact clock domain the peripheral depends on and whether the configuration still matches that derived time base.",
+    expertLesson:
+      "Timing bugs often look like data corruption, but the deeper failure is a broken clock assumption. When the root clock or divider changes, every downstream timing budget that depended on it becomes suspect.",
+    diagnosticChecklist: [
+      "Which root clock, PLL, and divider path feeds this peripheral?",
+      "What timing parameter was calculated from the old clock tree?",
+      "Did the communication block keep its old configuration after the clock changed?",
+    ],
+    practicalTransfer:
+      "This is the exact class of bug engineers hit after changing system clock setup and then watching UART, PWM, timers, ADC triggers, or communication sampling quietly drift out of spec.",
     options: [
       {
         id: "a",
@@ -87,6 +98,17 @@ export const runtimeRescueMissions = [
     successTitle: "Bus roles clarified",
     successBody:
       "During a read, the CPU places the target location on the address bus. Memory or the peripheral then returns the stored value on the data bus. 'Where' and 'what' must stay separate in the mental model.",
+    engineeringCheck:
+      "Before debugging a bus transaction, say out loud which wires choose the location and which wires carry the returned payload.",
+    expertLesson:
+      "Once address and data roles are mentally separated, memory maps, register reads, DMA traces, and peripheral debugging become dramatically easier to reason about.",
+    diagnosticChecklist: [
+      "What location is being targeted?",
+      "Which path identifies that location?",
+      "Which path returns or accepts the actual payload value?",
+    ],
+    practicalTransfer:
+      "This distinction is essential when reading logic-analyzer traces, debugging memory-mapped peripherals, or explaining why a transaction hit the right register but carried the wrong value.",
     options: [
       {
         id: "a",
@@ -139,6 +161,17 @@ export const runtimeRescueMissions = [
     successTitle: "Toolchain understanding improved",
     successBody:
       "The compiler reasons about syntax, types, control flow, storage, target instruction choices, and optimization tradeoffs. The assembler and linker then finish turning that meaning into the final binary image.",
+    engineeringCheck:
+      "Ask which stage is responsible for meaning, which stage emits numeric opcodes, and which stage finally assigns real addresses and memory layout.",
+    expertLesson:
+      "Toolchain literacy is part of embedded expertise because timing, startup, memory placement, and even debugger behavior all depend on how source meaning was lowered into a target-specific binary image.",
+    diagnosticChecklist: [
+      "What semantic checks must happen before code can become instructions?",
+      "Which part of the toolchain turns symbols into numeric encodings?",
+      "Which stage decides where code and data finally live in memory?",
+    ],
+    practicalTransfer:
+      "This understanding helps when builds fail, map files look strange, startup code misbehaves, or optimized output no longer resembles the source at a one-line-per-line level.",
     options: [
       {
         id: "a",
@@ -191,6 +224,17 @@ export const runtimeRescueMissions = [
     successTitle: "Memory model corrected",
     successBody:
       "Flash commonly stores the program image long-term, and many microcontrollers fetch instructions directly from it. RAM usually holds variables, stack, buffers, and changing runtime state. Some systems also copy selected data or hot routines into RAM, but not all code on all devices.",
+    engineeringCheck:
+      "Ask which memory is persistent, which memory is mutable at runtime, and whether this platform executes code directly from flash or selectively copies only some content into RAM.",
+    expertLesson:
+      "The flash-versus-RAM distinction becomes crucial when you debug startup code, bootloaders, initialized data, stack growth, RAM exhaustion, or execution-speed tradeoffs on larger systems.",
+    diagnosticChecklist: [
+      "Where does the long-term program image live after power is removed?",
+      "Which memory holds changing variables and stack state during execution?",
+      "Does this specific controller execute from flash directly or copy only selected content into RAM?",
+    ],
+    practicalTransfer:
+      "This is the mental model behind linker sections such as code in flash, initialized data copied to RAM at startup, and hot routines occasionally placed in faster RAM regions.",
     options: [
       {
         id: "a",
@@ -243,6 +287,17 @@ export const runtimeRescueMissions = [
     successTitle: "Execution loop restored",
     successBody:
       "A healthy mental model is: fetch instruction bits, decode what they mean, read operands, execute the required action, then write the result back where it belongs.",
+    engineeringCheck:
+      "Check whether the explanation respects causality: the CPU must know which instruction it has before it can select operands and perform the correct action.",
+    expertLesson:
+      "Execution becomes far easier to debug when you stop saying 'the code runs' and instead describe fetch, decode, operand read, execution, and write-back as separate responsibilities inside the CPU.",
+    diagnosticChecklist: [
+      "Where does the next instruction come from?",
+      "When does the decoder learn what action is required?",
+      "When are operands read and when is the result committed?",
+    ],
+    practicalTransfer:
+      "This thinking helps when reading pipeline diagrams, single-stepping assembly, or explaining why a breakpoint, register value, or branch decision appears at one exact moment in the cycle.",
     options: [
       {
         id: "a",
@@ -295,6 +350,17 @@ export const runtimeRescueMissions = [
     successTitle: "GPIO mental model stabilized",
     successBody:
       "For output, the CPU writes an output register and the hardware drives the pin. For input, the outside world changes the pin first, the input register reflects that state, and the CPU reads it later during execution.",
+    engineeringCheck:
+      "Ask which side creates the first causal event: the CPU for outputs, or the external world for inputs.",
+    expertLesson:
+      "Many GPIO misunderstandings vanish once the causal arrows are fixed. Output flow begins inside the processor. Input flow begins in physics outside the chip and only later becomes readable software state.",
+    diagnosticChecklist: [
+      "What event happens first in this path: a CPU register write or an external voltage change?",
+      "Which register reflects the pin state for software?",
+      "At what later instruction does the CPU actually observe or update that state?",
+    ],
+    practicalTransfer:
+      "This distinction is central when debugging buttons, sensors, GPIO interrupts, transistor drivers, and any firmware path that must separate observed external reality from commanded output state.",
     options: [
       {
         id: "a",
@@ -347,6 +413,17 @@ export const runtimeRescueMissions = [
     successTitle: "End-to-end model locked in",
     successBody:
       "Source code is compiled into machine code, the final image is stored in flash, the clocked CPU fetches and decodes instructions, operands come from registers, RAM, or peripherals, the ALU or control logic produces results, and those results can update memory or drive GPIO outputs. Inputs work by changing external pin states first, which later become readable values through GPIO registers.",
+    engineeringCheck:
+      "Demand one continuous chain from source meaning to stored binary to clocked execution to final hardware effect without allowing any magic jumps.",
+    expertLesson:
+      "This is the systems-engineering habit the whole course has been building: the ability to narrate a product as one connected machine, not as a pile of disconnected chapter terms.",
+    diagnosticChecklist: [
+      "Where was the behavior first described by a human?",
+      "How did it become stored executable bits on the target machine?",
+      "How do clocked CPU activity and peripherals finally create a visible hardware effect?",
+    ],
+    practicalTransfer:
+      "This whole-chain reasoning is what separates casual familiarity from the kind of expertise needed to build control computers, phones, medical devices, robotics platforms, and other serious embedded products.",
     options: [
       {
         id: "a",

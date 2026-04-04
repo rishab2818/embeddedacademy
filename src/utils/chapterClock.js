@@ -1,7 +1,27 @@
-﻿function formatNumber(value) {
+function formatNumber(value) {
   return new Intl.NumberFormat("en-US", { maximumFractionDigits: value >= 100 ? 0 : 2 }).format(
     value
   );
+}
+
+function formatDurationSeconds(seconds) {
+  if (!Number.isFinite(seconds) || seconds <= 0) {
+    return "stopped";
+  }
+
+  if (seconds >= 1) {
+    return `${formatNumber(seconds)} s`;
+  }
+
+  if (seconds >= 0.001) {
+    return `${formatNumber(seconds * 1000)} ms`;
+  }
+
+  if (seconds >= 0.000001) {
+    return `${formatNumber(seconds * 1000000)} us`;
+  }
+
+  return `${formatNumber(seconds * 1000000000)} ns`;
 }
 
 export function formatHz(value) {
@@ -21,13 +41,23 @@ export function formatPeriodUs(frequency) {
     return "stopped";
   }
 
-  const microseconds = 1000000 / frequency;
+  return `${formatDurationSeconds(1 / frequency)} per cycle`;
+}
 
-  if (microseconds >= 1000) {
-    return `${formatNumber(microseconds / 1000)} ms per cycle`;
+export function formatCycles(value) {
+  if (value < 1) {
+    return `${new Intl.NumberFormat("en-US", { maximumFractionDigits: 4 }).format(value)} cycles`;
   }
 
-  return `${formatNumber(microseconds)} us per cycle`;
+  if (value >= 1000000) {
+    return `${formatNumber(value / 1000000)} million cycles`;
+  }
+
+  if (value >= 1000) {
+    return `${formatNumber(value / 1000)} thousand cycles`;
+  }
+
+  return `${formatNumber(value)} cycles`;
 }
 
 export function buildPulseSequence(length, activeBeat) {
@@ -38,87 +68,141 @@ export function buildPulseSequence(length, activeBeat) {
   }));
 }
 
+export function computeCycleMetrics({ frequency, workloadCycles }) {
+  const periodSeconds = frequency ? 1 / frequency : 0;
+  const cyclesPerMillisecond = frequency / 1000;
+  const cyclesPerMicrosecond = frequency / 1000000;
+  const workloadSeconds = workloadCycles / frequency;
+
+  return {
+    periodLabel: formatDurationSeconds(periodSeconds),
+    cyclesPerMillisecondLabel: formatCycles(cyclesPerMillisecond),
+    cyclesPerMicrosecondLabel:
+      cyclesPerMicrosecond >= 1
+        ? `${formatNumber(cyclesPerMicrosecond)} cycles per us`
+        : `${formatNumber(1 / cyclesPerMicrosecond)} us per cycle group`,
+    workloadLabel: formatDurationSeconds(workloadSeconds),
+  };
+}
+
 export function computeGenericClockTree({ sourceFrequency, pllEnabled, pllMultiplier, cpuDivider, busDivider }) {
-  const pllFrequency = pllEnabled ? sourceFrequency * pllMultiplier : sourceFrequency;
+  const pllInputFrequency = sourceFrequency;
+  const pllFrequency = pllEnabled ? pllInputFrequency * pllMultiplier : pllInputFrequency;
   const cpuFrequency = pllFrequency / cpuDivider;
   const busFrequency = cpuFrequency / busDivider;
   const timerFrequency = busFrequency;
-  const uartFrequency = busFrequency / 2;
+  const timerPeriodLabel = formatDurationSeconds(1 / timerFrequency);
 
   return {
     sourceFrequency,
+    pllInputFrequency,
     pllFrequency,
     cpuFrequency,
     busFrequency,
     timerFrequency,
-    uartFrequency,
+    timerPeriodLabel,
   };
 }
 
 export function describeClockFeel(cpuFrequency) {
   if (cpuFrequency <= 1000000) {
     return {
-      title: "Slow, visible, power-friendly",
-      body: "The controller gets fewer work opportunities per second. Response is slower, but the rhythm is easier to explain and often easier on power.",
+      title: "Slow enough to reason about beat by beat",
+      body: "At low frequencies, every state update is far apart in time. This is great for teaching and for very low-power control, but response and throughput are limited.",
     };
   }
 
-  if (cpuFrequency <= 8000000) {
+  if (cpuFrequency <= 16000000) {
     return {
-      title: "Balanced teaching zone",
-      body: "Fast enough to run useful logic while still being simple to reason about. Many beginner-friendly MCUs live around here.",
+      title: "Fast enough for useful work, still easy to teach",
+      body: "This range is where many beginner-friendly systems become practical. You still need timing discipline, but the tree is easier to reason about than very high-speed designs.",
     };
   }
 
   return {
-    title: "Fast and layered",
-    body: "The chip can do much more each second, but timing trees, wait states, and bus limits matter more. Faster clocks demand more careful configuration.",
+    title: "Fast clocks demand design discipline",
+    body: "At higher frequencies, bus limits, flash wait states, peripheral domains, and clock accuracy matter much more. The clock tree stops being a detail and becomes part of system design.",
   };
 }
 
 export function computePicClock({ source, internalFrequency }) {
   const oscillatorFrequency = source === "internal" ? internalFrequency : 8000000;
   const instructionFrequency = oscillatorFrequency / 4;
-  const instructionPeriodUs = 1000000 / instructionFrequency;
+  const instructionPeriodLabel = formatDurationSeconds(1 / instructionFrequency);
+  const instructionCyclesPerMillisecond = instructionFrequency / 1000;
+  const hundredCycleTimeLabel = formatDurationSeconds(100 / instructionFrequency);
 
   return {
     oscillatorFrequency,
     instructionFrequency,
-    instructionPeriodUs,
+    instructionPeriodLabel,
+    instructionCyclesPerMillisecond,
+    hundredCycleTimeLabel,
   };
 }
 
-export function buildPicCodeLines({ sourceLine, ircfBits, frequencyLabel, sourceLabel }) {
+export function buildPicCodeLines({ sourceLine, ircfBits, frequencyLabel, sourceLabel, sourceId }) {
+  const internalLine =
+    sourceId === "internal"
+      ? `OSCCONbits.IRCF = 0b${ircfBits}; // select ${frequencyLabel} internal oscillator`
+      : "// internal frequency field matters only when the internal oscillator is selected";
+
   return {
     register: [
-      "// PIC16-style educational setup",
+      "// Educational PIC16-style clock sequence",
       sourceLine,
-      `OSCCONbits.IRCF = 0b${ircfBits}; // ${frequencyLabel} internal oscillator`,
-      "while (!OSCCONbits.HTS) { } // wait until the high-frequency source is stable",
-      "// CPU instruction clock now runs at Fosc / 4",
+      internalLine,
+      "// wait until the selected oscillator reports ready (status bit names vary by PIC16 family)",
+      "// on classic and enhanced mid-range PIC16 parts, one instruction cycle = 4 oscillator cycles",
     ],
     flow: [
-      `1. Select ${sourceLabel}.`,
-      `2. Choose ${frequencyLabel} if the internal oscillator is being used.`,
-      "3. Wait for the source to become stable.",
-      "4. Remember that classic PIC mid-range CPUs execute one instruction cycle every 4 oscillator ticks.",
+      `1. Choose ${sourceLabel}.`,
+      sourceId === "internal"
+        ? `2. Select the ${frequencyLabel} internal oscillator step.`
+        : "2. Follow the external or primary oscillator path configured for the device.",
+      "3. Wait until the oscillator is stable enough to trust.",
+      "4. Convert Fosc to CPU instruction timing using the PIC rule: instruction cycle = Fosc / 4.",
     ],
   };
 }
 
-export function computeStmClock({ sourceFrequency, pllEnabled, pllMultiplier, ahbDivider, apb1Divider, apb2Divider }) {
-  const sysclk = pllEnabled ? sourceFrequency * pllMultiplier : sourceFrequency;
+export function computeStmClock({
+  sourceId,
+  sourceFrequency,
+  pllEnabled,
+  pllMultiplier,
+  ahbDivider,
+  apb1Divider,
+  apb2Divider,
+}) {
+  const pllInput = pllEnabled ? (sourceId === "hsi" ? sourceFrequency / 2 : sourceFrequency) : 0;
+  const sysclk = pllEnabled ? pllInput * pllMultiplier : sourceFrequency;
   const hclk = sysclk / ahbDivider;
   const pclk1 = hclk / apb1Divider;
   const pclk2 = hclk / apb2Divider;
   const timerClock = apb1Divider === 1 ? pclk1 : pclk1 * 2;
+  const warnings = [];
+
+  if (sysclk > 72000000) {
+    warnings.push("SYSCLK is above the common 72 MHz maximum used by STM32F1 devices.");
+  }
+
+  if (pclk1 > 36000000) {
+    warnings.push("APB1 is above the common 36 MHz STM32F1 peripheral limit.");
+  }
+
+  if (pllEnabled && sourceId === "hsi") {
+    warnings.push("On STM32F1, HSI does not feed the PLL directly. The PLL input is HSI divided by 2.");
+  }
 
   return {
+    pllInput,
     sysclk,
     hclk,
     pclk1,
     pclk2,
     timerClock,
+    warnings,
   };
 }
 
@@ -132,84 +216,99 @@ export function buildStmCodeLines({
   apb2Divider,
 }) {
   const waitFlag = sourceId === "hse" ? "RCC_CR_HSERDY" : "RCC_CR_HSIRDY";
-  const sourceSelect = sourceId === "hse" ? "RCC_CFGR_SW_HSE" : "RCC_CFGR_SW_HSI";
-  const pllSourceLine = sourceId === "hse" ? "RCC->CFGR |= RCC_CFGR_PLLSRC;" : "RCC->CFGR &= ~RCC_CFGR_PLLSRC;";
+  const sourceSwitch = sourceId === "hse" ? "RCC_CFGR_SW_HSE" : "RCC_CFGR_SW_HSI";
+  const pllSourceLine =
+    sourceId === "hse"
+      ? "RCC->CFGR = (RCC->CFGR & ~RCC_CFGR_PLLSRC) | RCC_CFGR_PLLSRC; // HSE feeds PLL"
+      : "RCC->CFGR &= ~RCC_CFGR_PLLSRC; // on STM32F1 this means HSI/2 feeds PLL";
 
   return {
     register: [
-      "// STM32F1 educational RCC bring-up",
+      "// Educational STM32F1 RCC sequence",
       `RCC->CR |= ${sourceCode};`,
       `while ((RCC->CR & ${waitFlag}) == 0U) { }`,
-      `RCC->CFGR |= HPRE_DIV${ahbDivider} | PPRE1_DIV${apb1Divider} | PPRE2_DIV${apb2Divider};`,
+      `RCC->CFGR = (RCC->CFGR & ~(RCC_CFGR_HPRE | RCC_CFGR_PPRE1 | RCC_CFGR_PPRE2)) | RCC_CFGR_HPRE_DIV${ahbDivider} | RCC_CFGR_PPRE1_DIV${apb1Divider} | RCC_CFGR_PPRE2_DIV${apb2Divider};`,
+      pllEnabled ? pllSourceLine : "// PLL not used; keep the chosen source as SYSCLK",
       pllEnabled
-        ? pllSourceLine
-        : "// PLL disabled, system clock comes straight from the selected source",
-      pllEnabled
-        ? `RCC->CFGR |= PLLMUL_X${pllMultiplier};`
-        : "// PLL multiplier line skipped",
-      pllEnabled ? "RCC->CR |= RCC_CR_PLLON;" : "// RCC_CR_PLLON not used here",
+        ? `RCC->CFGR = (RCC->CFGR & ~RCC_CFGR_PLLMULL) | RCC_CFGR_PLLMULL${pllMultiplier};`
+        : "// PLL multiplier setup skipped",
+      pllEnabled ? "RCC->CR |= RCC_CR_PLLON;" : "// no PLL enable needed",
       pllEnabled ? "while ((RCC->CR & RCC_CR_PLLRDY) == 0U) { }" : "// no PLL ready wait needed",
-      pllEnabled ? "RCC->CFGR |= RCC_CFGR_SW_PLL;" : `RCC->CFGR |= ${sourceSelect};`,
+      pllEnabled
+        ? "RCC->CFGR = (RCC->CFGR & ~RCC_CFGR_SW) | RCC_CFGR_SW_PLL;"
+        : `RCC->CFGR = (RCC->CFGR & ~RCC_CFGR_SW) | ${sourceSwitch};`,
     ],
     driver: [
-      `1. Enable ${sourceId.toUpperCase()} and wait until it is ready.`,
-      pllEnabled ? `2. Feed that source into the PLL and multiply it by ${pllMultiplier}.` : "2. Skip PLL and keep the raw source as SYSCLK.",
+      `1. Enable ${sourceId.toUpperCase()} and wait until it is stable.`,
+      pllEnabled
+        ? sourceId === "hsi"
+          ? `2. Feed HSI/2 into the PLL, then multiply it by ${pllMultiplier}.`
+          : `2. Feed HSE into the PLL, then multiply it by ${pllMultiplier}.`
+        : "2. Skip the PLL and use the raw source directly.",
       `3. Divide AHB by ${ahbDivider}, APB1 by ${apb1Divider}, and APB2 by ${apb2Divider}.`,
-      "4. Switch SYSCLK only after the selected path is stable.",
-      "5. Enable each peripheral clock only when that block is actually needed.",
+      "4. Switch SYSCLK only after the final path is ready.",
+      "5. Turn on peripheral clocks separately; SYSCLK existing does not automatically enable every block.",
     ],
   };
 }
 
-export function buildTimelineRows(activeBeat, busMode) {
-  const serialBits = [1, 0, 1, 1, 0, 0, 1, 0];
-  const parallelBits = [1, 0, 1, 0, 1, 1, 0, 1];
+export function buildTimelineRows(activeBeat, scenarioId) {
+  const scenarios = {
+    flashFetch: {
+      control: ["PC out", "Read start", "Wait", "Latch IR", "Decode", "ALU", "Write back", "Next PC"],
+      address: ["Flash addr", "Hold", "Hold", "Clear", "SRAM addr", "Hold", "Result addr", "Idle"],
+      data: ["-", "-", "opcode", "IR load", "operand", "result", "store", "stable"],
+      serial: ["idle", "idle", "idle", "idle", "idle", "idle", "idle", "idle"],
+      io: ["no pin change", "no pin change", "no pin change", "no pin change", "no pin change", "no pin change", "possible update", "visible"],
+    },
+    gpioReaction: {
+      control: ["Sample input", "Sync", "Compare", "Branch", "Prepare", "Write reg", "Latch out", "Hold"],
+      address: ["GPIO IDR", "Bus stable", "CPU reads", "Decision", "GPIO ODR", "Bus write", "Latch", "Idle"],
+      data: ["pin state", "sync bit", "compare", "decision", "output bit", "write", "new level", "stable"],
+      serial: ["idle", "idle", "idle", "idle", "idle", "idle", "idle", "idle"],
+      io: ["sensor high", "sensor high", "CPU knows", "branch", "LED target", "write pending", "LED changes", "LED stable"],
+    },
+    uartTransmit: {
+      control: ["Load TDR", "Shift prep", "Start bit", "Bit 0", "Bit 1", "Bit 2", "Bit 3", "Continue..."],
+      address: ["APB write", "baud tick", "baud tick", "baud tick", "baud tick", "baud tick", "baud tick", "baud tick"],
+      data: ["0xA5", "shift reg", "0", "1", "0", "1", "0", "next bits"],
+      serial: ["idle", "idle", "start", "1", "0", "1", "0", "..."],
+      io: ["pin idle", "pin idle", "line low", "line sample", "line sample", "line sample", "line sample", "line continues"],
+    },
+  };
+
+  const scenario = scenarios[scenarioId] ?? scenarios.flashFetch;
 
   return {
     clock: Array.from({ length: 8 }, (_, index) => ({
-      label: index % 2 === 0 ? "HIGH" : "LOW",
+      label: index % 2 === 0 ? "edge" : "settle",
       active: index === activeBeat,
       kind: index % 2 === 0 ? "high" : "low",
     })),
-    cpu: [
-      "Fetch",
-      "Decode",
-      "ALU",
-      "Store",
-      "Fetch",
-      "Decode",
-      "Branch",
-      "Latch",
-    ].map((label, index) => ({ label, active: index === activeBeat, kind: "cpu" })),
-    memory: [
-      "Addr",
-      "Read",
-      "Data",
-      "Write",
-      "Addr",
-      "Read",
-      "Data",
-      "Idle",
-    ].map((label, index) => ({ label, active: index === activeBeat, kind: "memory" })),
-    serial: serialBits.map((bit, index) => ({
-      label: busMode === "serial" ? String(bit) : index === activeBeat ? "sync" : "hold",
+    control: scenario.control.map((label, index) => ({
+      label,
       active: index === activeBeat,
-      kind: busMode === "serial" ? (bit ? "high" : "low") : "muted",
+      kind: "cpu",
     })),
-    parallel: parallelBits.map((bit, index) => ({
-      label: busMode === "parallel" ? String(bit) : index === activeBeat ? "wait" : "hold",
+    address: scenario.address.map((label, index) => ({
+      label,
       active: index === activeBeat,
-      kind: busMode === "parallel" ? (bit ? "high" : "low") : "muted",
+      kind: "memory",
     })),
-    gpio: [
-      "Sample in",
-      "Compare",
-      "Decision",
-      "Drive out",
-      "Sample in",
-      "Compare",
-      "Decision",
-      "Drive out",
-    ].map((label, index) => ({ label, active: index === activeBeat, kind: "gpio" })),
+    data: scenario.data.map((label, index) => ({
+      label,
+      active: index === activeBeat,
+      kind: "bus",
+    })),
+    serial: scenario.serial.map((label, index) => ({
+      label,
+      active: index === activeBeat,
+      kind: label === "idle" ? "muted" : "serial",
+    })),
+    io: scenario.io.map((label, index) => ({
+      label,
+      active: index === activeBeat,
+      kind: label.includes("idle") || label.includes("no") ? "muted" : "gpio",
+    })),
   };
 }

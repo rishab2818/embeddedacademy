@@ -4,18 +4,30 @@ import PromptDownloadButton from "./PromptDownloadButton";
 export default function ChapterResourcePanel({ chapter }) {
   return (
     <div className="panel chapter-resource-panel">
-      <p className="eyebrow">Chapter Tools</p>
-      <h3>Take this chapter outside the site</h3>
+      <div className="chapter-resource-head">
+        <div>
+          <p className="eyebrow">Chapter Toolkit</p>
+          <h3>Stay oriented while you read</h3>
+        </div>
+        <span className="chapter-resource-badge">{chapter.sections.length} stops</span>
+      </div>
+
       <p className="panel-copy">
-        Download a plain-text prompt pack for this chapter and use it with any LLM you prefer for
-        deeper self-study, follow-up questions, or extra examples.
+        Jump to any section, open the glossary when a term feels unfamiliar, or download the prompt
+        pack for self-study and follow-up questions.
       </p>
 
-      <PromptDownloadButton slug={chapter.slug} label="Download .txt Prompt Pack" className="primary-link chapter-download-button" />
+      <div className="chapter-resource-actions">
+        <PromptDownloadButton
+          slug={chapter.slug}
+          label="Download prompt pack"
+          className="primary-link chapter-download-button"
+        />
 
-      <Link className="secondary-link chapter-abbrev-link" to="/abbreviations">
-        Open abbreviations guide
-      </Link>
+        <Link className="secondary-link chapter-abbrev-link" to="/abbreviations">
+          Open glossary
+        </Link>
+      </div>
 
       <div className="chapter-outline-list">
         {chapter.sections.map((section) => (

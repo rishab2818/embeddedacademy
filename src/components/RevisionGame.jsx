@@ -184,8 +184,92 @@ function FeedbackPanel({ feedback, onNextMission, hasNextMission, config }) {
     <div className={`revision-feedback-panel ${feedback.correct ? "success" : "danger"}`}>
       <span>{feedback.correct ? feedback.successTitle : "System still unstable"}</span>
       <strong>{feedback.result}</strong>
-      <p>{feedback.correct ? feedback.successBody : feedback.result}</p>
-      {!feedback.correct ? <small>Try another move. The wrong answer stays useful because it shows what broke the model.</small> : null}
+      <p>{feedback.correct ? feedback.successBody : feedback.selectedOutcome}</p>
+
+      <div className="revision-feedback-grid">
+        <article className="revision-feedback-card primary">
+          <span>{feedback.correct ? "Correct model" : "Model correction"}</span>
+          <strong>
+            {feedback.correct
+              ? feedback.correctOption.title
+              : `Better move: ${feedback.correctOption.label} - ${feedback.correctOption.title}`}
+          </strong>
+          <p>{feedback.successBody}</p>
+        </article>
+
+        {feedback.engineeringCheck ? (
+          <article className="revision-feedback-card">
+            <span>Engineering check</span>
+            <strong>Question the broken assumption</strong>
+            <p>{feedback.engineeringCheck}</p>
+          </article>
+        ) : null}
+      </div>
+
+      {feedback.diagnosticChecklist?.length ? (
+        <article className="revision-feedback-card checklist">
+          <span>Diagnostic checklist</span>
+          <strong>Ask these questions before changing code</strong>
+          <ul className="revision-checklist">
+            {feedback.diagnosticChecklist.map((item) => (
+              <li key={item}>{item}</li>
+            ))}
+          </ul>
+        </article>
+      ) : null}
+
+      <div className="revision-breakdown-block">
+        <div className="panel-header stacked">
+          <div>
+            <p className="eyebrow">
+              {feedback.correct ? "Why the other moves fail" : "Why the tempting moves fail"}
+            </p>
+            <h4>Each wrong answer breaks the machine model in a different way</h4>
+          </div>
+        </div>
+
+        <div className="revision-diagnostic-grid">
+          {feedback.wrongOptions.map((option) => (
+            <article
+              key={option.id}
+              className={`revision-diagnostic-card ${
+                !feedback.correct && option.id === feedback.selectedOption.id ? "focus" : ""
+              }`}
+            >
+              <span>{option.label}</span>
+              <strong>{option.title}</strong>
+              <p>{option.result}</p>
+            </article>
+          ))}
+        </div>
+      </div>
+
+      {feedback.expertLesson || feedback.practicalTransfer ? (
+        <div className="revision-feedback-grid">
+          {feedback.expertLesson ? (
+            <article className="revision-feedback-card">
+              <span>Expert transfer</span>
+              <strong>Why this matters beyond this mission</strong>
+              <p>{feedback.expertLesson}</p>
+            </article>
+          ) : null}
+
+          {feedback.practicalTransfer ? (
+            <article className="revision-feedback-card">
+              <span>Real systems</span>
+              <strong>Where you will meet this again</strong>
+              <p>{feedback.practicalTransfer}</p>
+            </article>
+          ) : null}
+        </div>
+      ) : null}
+
+      {!feedback.correct ? (
+        <small>
+          Try another move after reading the correction. The goal is to repair the model in your head,
+          not to guess until the card turns green.
+        </small>
+      ) : null}
       {feedback.correct && hasNextMission ? (
         <button type="button" className="primary-link revision-next-button" onClick={onNextMission}>
           Open next mission
@@ -329,11 +413,37 @@ export default function RevisionGame({ missions, lore, config: configProp = {} }
       return;
     }
 
+    const correctOption = activeMission.options.find((item) => item.correct) ?? activeMission.options[0];
+    const wrongOptions = activeMission.options
+      .filter((item) => !item.correct)
+      .map((item) => ({
+        id: item.id,
+        label: item.label,
+        title: item.title,
+        result: item.result,
+      }));
+
     const feedback = {
       correct: Boolean(option.correct),
       result: option.result,
+      selectedOutcome: option.result,
+      selectedOption: {
+        id: option.id,
+        label: option.label,
+        title: option.title,
+      },
+      correctOption: {
+        id: correctOption.id,
+        label: correctOption.label,
+        title: correctOption.title,
+      },
       successTitle: activeMission.successTitle,
       successBody: activeMission.successBody,
+      engineeringCheck: activeMission.engineeringCheck,
+      expertLesson: activeMission.expertLesson,
+      practicalTransfer: activeMission.practicalTransfer,
+      diagnosticChecklist: activeMission.diagnosticChecklist ?? [],
+      wrongOptions,
     };
 
     setMissionState((current) => ({

@@ -1,6 +1,9 @@
 ﻿import { useEffect, useMemo, useState } from "react";
 import ChapterPrimer from "../components/ChapterPrimer";
+import DeepDiveBlock from "../components/DeepDiveBlock";
 import FancySelect from "../components/FancySelect";
+import InteractionGuide from "../components/InteractionGuide";
+import RecapCheckpoint from "../components/RecapCheckpoint";
 import SectionHeading from "../components/SectionHeading";
 import {
   codeViews,
@@ -440,6 +443,93 @@ function FlashRamRecapLab() {
   );
 }
 
+function RuntimeMindsetPanel() {
+  return (
+    <div className="chapter-grid chapter-grid-wide">
+      <div className="panel runtime-panel-stack">
+        <p className="eyebrow">How to picture runtime</p>
+        <h3>Think in repeated cycles, not in static diagrams</h3>
+
+        <div className="teaching-step-grid compact">
+          <div className="teaching-step-card">
+            <span>Stored program</span>
+            <p>
+              Flash holds the long-term instruction image. It is the prepared script the CPU will keep
+              reading from, instruction after instruction.
+            </p>
+          </div>
+          <div className="teaching-step-card">
+            <span>Working state</span>
+            <p>
+              RAM holds the values that change while the script runs: variables, buffers, stack frames,
+              and intermediate results.
+            </p>
+          </div>
+          <div className="teaching-step-card">
+            <span>Clocked action</span>
+            <p>
+              The CPU does not do everything at once. The clock gives ordered opportunities to fetch,
+              decode, move, calculate, compare, and write results.
+            </p>
+          </div>
+          <div className="teaching-step-card">
+            <span>Hardware consequence</span>
+            <p>
+              A software statement becomes meaningful only when the machine eventually changes a real
+              register, memory cell, peripheral state, or external pin.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div className="panel runtime-panel-stack">
+        <p className="eyebrow">Why advanced learners care</p>
+        <h3>This is the core runtime movie behind real embedded systems</h3>
+
+        <div className="callout">
+          <strong>System-design payoff</strong>
+          <span>
+            Once you can mentally animate this flow, debugging becomes much more scientific. You can
+            ask where the expected value should exist, when it should be captured, which unit should
+            act on it, and which output or side effect should appear next.
+          </span>
+        </div>
+
+        <div className="teaching-step-grid compact">
+          <div className="teaching-step-card">
+            <span>For control systems</span>
+            <p>
+              This lets you reason about sensor capture, filtering, control decisions, and actuator
+              updates as a timed loop rather than a pile of disconnected code.
+            </p>
+          </div>
+          <div className="teaching-step-card">
+            <span>For performance work</span>
+            <p>
+              You can start estimating where time is spent: flash wait states, instruction count,
+              memory traffic, branches, and peripheral access.
+            </p>
+          </div>
+          <div className="teaching-step-card">
+            <span>For debugging</span>
+            <p>
+              If a GPIO pin never changes, you can walk backward through the chain instead of guessing:
+              was the register written, was the branch taken, was the value computed, was the input read?
+            </p>
+          </div>
+          <div className="teaching-step-card">
+            <span>For architecture growth</span>
+            <p>
+              Bigger processors add caches, pipelines, buses, DMA, and protection features, but this
+              chapter's runtime skeleton still remains underneath.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 export default function ChapterThirteen({ chapterLabel = "Chapter 12", chapterNumber = "12" }) {
   const [profileId, setProfileId] = useState(executionProfiles[2].id);
 
@@ -451,7 +541,8 @@ export default function ChapterThirteen({ chapterLabel = "Chapter 12", chapterNu
         <p>
           This chapter connects stored machine code to real runtime behavior. We show how code and data live in flash
           and RAM, how the clocked CPU fetches and decodes instructions, how registers and the ALU participate, and
-          how those steps finally read inputs or drive outputs on a microcontroller.
+          how those steps finally read inputs or drive outputs on a microcontroller. The goal is to replace the vague
+          phrase "the code runs" with a clear mental movie of what the machine is doing every clocked moment.
         </p>
       </div>
 
@@ -481,49 +572,167 @@ export default function ChapterThirteen({ chapterLabel = "Chapter 12", chapterNu
         }}
       />
 
+      <RuntimeMindsetPanel />
+
       <section className="chapter-section" id="chapter-12-placement">
         <SectionHeading
           eyebrow={formatSectionLabel(chapterNumber, 1)}
           title="How code sits in flash and data sits in RAM"
-          description="Start with one code example, then view it as C, assembly, and machine code while placing it into flash and RAM."
+          description="Start with one code example, then view it as C, assembly, and machine code while placing each form into flash and RAM with an honest execution model."
+        />
+        <InteractionGuide
+          title="How to read the flash-and-RAM placement lab"
+          items={[
+            {
+              title: "Switch the code view deliberately",
+              body: "One behavior can be described in several forms before it becomes the stored program image the CPU will execute.",
+            },
+            {
+              title: "Compare flash and RAM jobs",
+              body: "Flash keeps the stable program image while RAM holds changing state during execution.",
+            },
+            {
+              title: "Use the execution model honestly",
+              body: "Different systems fetch and place code differently, so avoid flattening every controller into one oversimplified story.",
+            },
+          ]}
         />
         <MemoryPlacementLab profileId={profileId} onProfileChange={setProfileId} />
+        <RecapCheckpoint
+          title="Checkpoint: stored program and working state are different"
+          items={[
+            "Flash usually stores the long-term program image and persistent constants.",
+            "RAM keeps changing data such as variables, buffers, and stack frames.",
+            "The program can stay the same in flash while the runtime story changes completely because RAM and inputs are different.",
+          ]}
+          question="Could you explain why an MCU can execute from flash and still rely heavily on RAM at the same time?"
+        />
+        <DeepDiveBlock
+          title="Why the flash-versus-RAM split matters so much"
+          summary="This is one of the cleanest mental models in embedded systems."
+          points={[
+            {
+              title: "Persistence versus volatility",
+              body: "Flash survives power loss, while RAM is optimized for fast changing state during live execution.",
+            },
+            {
+              title: "Runtime uniqueness",
+              body: "The same flash image can behave differently on each run because the RAM state and external inputs are changing.",
+            },
+            {
+              title: "Debugging clarity",
+              body: "When something is wrong, you need to know whether the problem belongs in stored code, initialized data, or changing runtime state.",
+            },
+          ]}
+        />
       </section>
 
       <section className="chapter-section" id="chapter-12-engine">
         <SectionHeading
           eyebrow={formatSectionLabel(chapterNumber, 2)}
           title="How the clocked CPU moves code and data through the machine"
-          description="Watch flash, RAM, registers, ALU, GPIO, and the clock act together so inputs and outputs stop feeling magical."
+          description="Watch flash, RAM, registers, ALU, GPIO, and the clock act together so inputs and outputs stop feeling magical and start feeling causally connected."
         />
         <CpuEngineLab profileId={profileId} onProfileChange={setProfileId} />
+        <RecapCheckpoint
+          title="Checkpoint: runtime is a timed movement story"
+          items={[
+            "Execution is an ordered path through stored instructions, registers, ALU work, RAM state, and peripherals.",
+            "The clock gives each part an ordered chance to fetch, hold, compute, or forward state.",
+            "Inputs and outputs become understandable when they are narrated as timed machine events.",
+          ]}
+          question="Could you describe one GPIO output change as a sequence of timed machine steps?"
+        />
       </section>
 
       <section className="chapter-section" id="chapter-12-units">
         <SectionHeading
           eyebrow={formatSectionLabel(chapterNumber, 3)}
           title="CPU units and what each one does"
-          description="Program counter, decoder, registers, ALU, bus interface, and GPIO each play a different role in execution."
+          description="Program counter, decoder, registers, ALU, bus interface, and GPIO each play a different role in execution, and understanding those roles makes debugging much more concrete."
         />
         <CpuUnitsLab profileId={profileId} onProfileChange={setProfileId} />
+        <RecapCheckpoint
+          title="Checkpoint: the CPU is a team of specialized units"
+          items={[
+            "The program counter tracks where execution is, the decoder interprets instructions, and registers hold fast working values.",
+            "The ALU performs arithmetic or logical work while bus interfaces and peripherals connect that work to the rest of the machine.",
+            "Knowing the units makes runtime explanations much more concrete.",
+          ]}
+          question="If one execution step fails, can you name which CPU unit should have been responsible?"
+        />
+        <DeepDiveBlock
+          title="Why CPU-unit literacy helps real debugging"
+          summary="This is where block diagrams become diagnostic tools."
+          points={[
+            {
+              title: "Failure localization",
+              body: "A fetch issue, a decode issue, an ALU issue, and a GPIO issue do not look the same once you understand the unit roles.",
+            },
+            {
+              title: "Predictive reasoning",
+              body: "Strong engineers can often describe the expected unit-by-unit activity before they even attach a debugger.",
+            },
+            {
+              title: "Architecture growth",
+              body: "As systems become more advanced, more units appear, but the habit of role-based reasoning still scales cleanly.",
+            },
+          ]}
+        />
       </section>
 
       <section className="chapter-section" id="chapter-12-cycle">
         <SectionHeading
           eyebrow={formatSectionLabel(chapterNumber, 4)}
           title="Fetch-decode-execute cycle"
-          description="Follow the repeating instruction cycle so the full execution loop becomes memorable and visual."
+          description="Follow the repeating instruction cycle so the full execution loop becomes memorable, visual, and easy to narrate from memory."
         />
         <FetchCycleLab profileId={profileId} onProfileChange={setProfileId} />
+        <RecapCheckpoint
+          title="Checkpoint: execution is a repeating loop"
+          items={[
+            "Fetch-decode-execute is the recurring rhythm behind software running on a CPU.",
+            "Each instruction repeats the same broad cycle even when the detailed work changes.",
+            "Once this loop is clear, the phrase 'the code runs' becomes much less vague.",
+          ]}
+          question="Could you explain one loop iteration of fetch-decode-execute without skipping the decode step?"
+        />
       </section>
 
       <section className="chapter-section" id="chapter-12-recap">
         <SectionHeading
           eyebrow={formatSectionLabel(chapterNumber, 5)}
           title="Flash and RAM in full context"
-          description="Finish by tying memory, execution, clocking, input, output, and controller width back into one mental model."
+          description="Finish by tying memory, execution, clocking, input, output, and controller width back into one runtime mental model that can scale to bigger systems."
         />
         <FlashRamRecapLab />
+        <RecapCheckpoint
+          title="Checkpoint: the whole runtime movie should now be coherent"
+          items={[
+            "Stored machine code, working RAM state, CPU units, and clock timing cooperate in one runtime chain.",
+            "Inputs are captured, processed, and turned into outputs through repeated instruction execution.",
+            "This runtime skeleton still applies even when more advanced processors add caches, DMA, or pipelines on top.",
+          ]}
+          question="Could you narrate the full runtime story of one embedded action from stored code to visible hardware effect?"
+        />
+        <DeepDiveBlock
+          title="What advanced runtime adds on top of this foundation"
+          summary="This is the bridge from beginner MCU execution to serious system design."
+          points={[
+            {
+              title: "Stack and function calls",
+              body: "Real programs keep return addresses, local variables, and temporary call context on the stack, so runtime correctness depends on disciplined memory use as functions call each other.",
+            },
+            {
+              title: "Interrupts change the timeline",
+              body: "An interrupt can pause the normal instruction stream, save context, handle an urgent event, and then return, which is why timing analysis must include asynchronous events as well as the main loop.",
+            },
+            {
+              title: "DMA and smarter buses",
+              body: "In larger systems, peripherals may move data directly to RAM without the CPU touching every byte, but the same runtime story still matters because the CPU must later consume, validate, and act on that data correctly.",
+            },
+          ]}
+        />
       </section>
     </section>
   );

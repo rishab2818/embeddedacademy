@@ -1,69 +1,67 @@
-import { useState } from "react";
-import GpioControllerLesson from "../components/GpioControllerLesson";
+import { useEffect, useMemo, useState } from "react";
+import ChapterPrimer from "../components/ChapterPrimer";
+import DeepDiveBlock from "../components/DeepDiveBlock";
+import InteractionGuide from "../components/InteractionGuide";
+import RecapCheckpoint from "../components/RecapCheckpoint";
 import SectionHeading from "../components/SectionHeading";
-import { advancedCViews, gpioTeachingControllers } from "../data/chapterSeven";
+import {
+  architectureChoiceOptions,
+  architectureComparisonLenses,
+  architectureDepthCards,
+  architectureExamples,
+  architectureFlowScenarios,
+  architectureImportanceCards,
+  architectureModels,
+  architecturePrimerItems,
+  architectureQuizScenarios,
+  architectureTrapCards,
+} from "../data/chapterSeven";
+import { formatSectionLabel } from "../utils/courseLabels";
 
-function AdvancedCPanel() {
-  const [activeView, setActiveView] = useState(advancedCViews[0].id);
-  const view = advancedCViews.find((item) => item.id === activeView) ?? advancedCViews[0];
-
+function ArchitectureMindsetPanel() {
   return (
     <div className="chapter-grid chapter-grid-wide">
-      <div className="panel gpio-teaching-panel">
-        <p className="eyebrow">Advanced C view</p>
-        <h3>Later, one hardware register can be described in more than one C style</h3>
+      <div className="panel architecture-panel-stack">
+        <p className="eyebrow">Why this topic matters</p>
+        <h3>Architecture is the traffic plan of the computer</h3>
 
-        <div className="button-row">
-          {advancedCViews.map((item) => (
-            <button
-              key={item.id}
-              type="button"
-              className={`chip-button ${item.id === activeView ? "active" : ""}`}
-              onClick={() => setActiveView(item.id)}
-            >
-              {item.label}
-            </button>
+        <div className="teaching-step-grid compact">
+          {architectureImportanceCards.map((card) => (
+            <article key={card.title} className="teaching-step-card">
+              <span>{card.title}</span>
+              <p>{card.body}</p>
+            </article>
           ))}
         </div>
 
         <div className="callout">
-          <strong>{view.title}</strong>
-          <span>{view.explain}</span>
-        </div>
-
-        <div className="source-card pipeline-stage-card">
-          {view.code.map((line) => (
-            <div key={`${view.id}-${line}`} className="source-line">
-              {line}
-            </div>
-          ))}
+          <strong>Practical memory hook</strong>
+          <span>
+            If you know where instructions live, where data lives, and whether they travel on the
+            same road or different roads, later topics like timing, flash, RAM, DMA, caches, and
+            bus bottlenecks become much easier to reason about.
+          </span>
         </div>
       </div>
 
-      <div className="panel gpio-teaching-panel">
-        <p className="eyebrow">When to learn this</p>
-        <h3>These are useful, but they are not the first step</h3>
+      <div className="panel architecture-panel-stack">
+        <p className="eyebrow">Beginner traps</p>
+        <h3>These confusions break the mental model early</h3>
 
         <div className="teaching-step-grid compact">
-          <div className="teaching-step-card">
-            <span>First</span>
-            <p>Learn that hardware registers are just memory locations with specific meanings.</p>
-          </div>
-          <div className="teaching-step-card">
-            <span>Then</span>
-            <p>Learn to set, clear, read, and test bits with simple masks in plain C.</p>
-          </div>
-          <div className="teaching-step-card">
-            <span>Finally</span>
-            <p>Use bitfields, packed structs, and unions when you understand why they help.</p>
-          </div>
+          {architectureTrapCards.map((card) => (
+            <article key={card.title} className="teaching-step-card">
+              <span>{card.title}</span>
+              <p>{card.body}</p>
+            </article>
+          ))}
         </div>
 
         <div className="callout">
-          <strong>Important beginner note</strong>
+          <strong>Best way to read the rest of the chapter</strong>
           <span>
-            `#pragma pack`, bitfields, and unions are powerful, but they also depend on layout and
-            compiler rules. That is why the main lesson above stays with direct memory access first.
+            Keep asking one question: when the CPU wants the next instruction and the next piece of
+            data, do those requests cooperate easily or do they compete?
           </span>
         </div>
       </div>
@@ -71,102 +69,502 @@ function AdvancedCPanel() {
   );
 }
 
-export default function ChapterSeven({ chapterLabel = "Chapter X.1" }) {
+function ArchitectureFlowLab({ architectureId }) {
+  const [scenarioId, setScenarioId] = useState(architectureFlowScenarios[0].id);
+  const [stepIndex, setStepIndex] = useState(0);
+  const [autoPlay, setAutoPlay] = useState(true);
+
+  const scenario = useMemo(
+    () =>
+      architectureFlowScenarios.find((item) => item.id === scenarioId) ??
+      architectureFlowScenarios[0],
+    [scenarioId]
+  );
+  const model = architectureModels[architectureId];
+  const activeBeat = scenario.beats[stepIndex] ?? scenario.beats[0];
+  const scene = activeBeat[architectureId];
+  const metrics = scenario.metrics[architectureId];
+
+  useEffect(() => {
+    setStepIndex(0);
+  }, [scenarioId]);
+
+  useEffect(() => {
+    if (!autoPlay) {
+      return undefined;
+    }
+
+    const timer = window.setInterval(() => {
+      setStepIndex((current) => (current + 1) % scenario.beats.length);
+    }, 1900);
+
+    return () => window.clearInterval(timer);
+  }, [autoPlay, scenario.beats.length]);
+
   return (
-    <section className="chapter" id="chapter-7">
+    <div className="chapter-grid chapter-grid-wide">
+      <div className="panel architecture-panel-stack">
+        <div className="panel-header">
+          <div>
+            <p className="eyebrow">{model.label} machine movie</p>
+            <h3>{model.headline}</h3>
+            <p className="panel-copy">{model.analogy}</p>
+          </div>
+          <button
+            type="button"
+            className={`toggle-button ${autoPlay ? "on" : ""}`}
+            onClick={() => setAutoPlay((current) => !current)}
+          >
+            {autoPlay ? "Auto play" : "Manual"}
+          </button>
+        </div>
+
+        <blockquote className="architecture-quote-card">
+          <span>Requirement quote</span>
+          <p>{scenario.requirementQuote}</p>
+        </blockquote>
+
+        <div className="button-row architecture-chip-row">
+          {architectureFlowScenarios.map((item) => (
+            <button
+              key={item.id}
+              type="button"
+              className={`chip-button ${item.id === scenarioId ? "active" : ""}`}
+              onClick={() => setScenarioId(item.id)}
+            >
+              {item.label}
+            </button>
+          ))}
+        </div>
+
+        <div className={`architecture-stage-shell architecture-${architectureId}`}>
+          <article className="architecture-stage-card program active">
+            <span>{architectureId === "von" ? "Unified memory side" : "Instruction side"}</span>
+            <strong>{architectureId === "von" ? "Instruction traffic uses the shared road" : "Program memory feeds opcodes"}</strong>
+            <p>{scene.programTask}</p>
+          </article>
+
+          <article className="architecture-stage-card cpu focus">
+            <span>CPU core</span>
+            <strong>{activeBeat.title}</strong>
+            <p>{scene.cpuTask}</p>
+          </article>
+
+          <article className="architecture-stage-card data active">
+            <span>{architectureId === "von" ? "Same shared memory road" : "Data side"}</span>
+            <strong>{architectureId === "von" ? "Data must take turns" : "Data memory works independently"}</strong>
+            <p>{scene.dataTask}</p>
+          </article>
+        </div>
+
+        <div className="architecture-traffic-grid">
+          <article className={`architecture-traffic-card ${architectureId === "von" ? "shared" : "split"} live`}>
+            <span>Traffic view</span>
+            <strong>{scene.traffic}</strong>
+            <p>{scene.parallel}</p>
+          </article>
+          <article className="architecture-traffic-card">
+            <span>Why this beat matters</span>
+            <strong>{scene.takeaway}</strong>
+            <p>{scenario.overview}</p>
+          </article>
+        </div>
+
+        <div className="architecture-step-grid">
+          {scenario.beats.map((beat, index) => (
+            <button
+              key={`${scenario.id}-${beat.id}`}
+              type="button"
+              className={`architecture-step-card ${index === stepIndex ? "active" : ""}`}
+              onClick={() => setStepIndex(index)}
+            >
+              <span>Beat {index + 1}</span>
+              <strong>{beat.title}</strong>
+            </button>
+          ))}
+        </div>
+      </div>
+
+      <div className="panel architecture-panel-stack">
+        <p className="eyebrow">Interpret the animation</p>
+        <h3>{model.shortLabel}</h3>
+        <p className="panel-copy">{model.memoryShape}</p>
+
+        <div className="architecture-metric-grid">
+          <article className="architecture-metric-card">
+            <span>Strength</span>
+            <strong>{model.strength}</strong>
+          </article>
+          <article className="architecture-metric-card">
+            <span>Weakness</span>
+            <strong>{model.weakness}</strong>
+          </article>
+          <article className="architecture-metric-card">
+            <span>Best fit</span>
+            <strong>{model.bestFit}</strong>
+          </article>
+        </div>
+
+        <div className="callout">
+          <strong>In this scenario</strong>
+          <span>
+            {metrics.performance} {metrics.fit} Watch for this: {metrics.caution}
+          </span>
+        </div>
+
+        <div className="teaching-step-grid compact">
+          {scenario.whyItMatters.map((item) => (
+            <article key={item} className="teaching-step-card">
+              <span>What to notice</span>
+              <p>{item}</p>
+            </article>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function ArchitectureTradeoffLab() {
+  const [lensId, setLensId] = useState(architectureComparisonLenses[0].id);
+  const lens =
+    architectureComparisonLenses.find((item) => item.id === lensId) ??
+    architectureComparisonLenses[0];
+
+  return (
+    <div className="chapter-grid chapter-grid-wide">
+      <div className="panel architecture-panel-stack">
+        <p className="eyebrow">Tradeoff studio</p>
+        <h3>Compare the architectures through one engineering lens at a time</h3>
+
+        <div className="button-row architecture-chip-row">
+          {architectureComparisonLenses.map((item) => (
+            <button
+              key={item.id}
+              type="button"
+              className={`chip-button ${item.id === lensId ? "active" : ""}`}
+              onClick={() => setLensId(item.id)}
+            >
+              {item.label}
+            </button>
+          ))}
+        </div>
+
+        <div className="callout">
+          <strong>{lens.label}</strong>
+          <span>{lens.question}</span>
+        </div>
+
+        <div className="architecture-compare-grid">
+          {architectureChoiceOptions.map((option) => (
+            <article key={option.id} className="architecture-compare-card">
+              <span>{option.label}</span>
+              <strong>{lens.notes[option.id].title}</strong>
+              <p>{lens.notes[option.id].body}</p>
+            </article>
+          ))}
+        </div>
+      </div>
+
+      <div className="panel architecture-panel-stack">
+        <p className="eyebrow">Expert depth</p>
+        <h3>Modern products are often hybrid for good reasons</h3>
+
+        <div className="teaching-step-grid compact">
+          {architectureDepthCards.map((card) => (
+            <article key={card.title} className="teaching-step-card">
+              <span>{card.title}</span>
+              <p>{card.body}</p>
+            </article>
+          ))}
+        </div>
+
+        <div className="callout">
+          <strong>Most important expert correction</strong>
+          <span>
+            In modern embedded design, the smartest answer is often not "Von Neumann always" or
+            "Harvard always." The better answer is: which machine organization best matches the
+            timing, flexibility, toolchain, and safety needs of this product?
+          </span>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function RealWorldExamplesLab() {
+  const [exampleId, setExampleId] = useState(architectureExamples[0].id);
+  const example =
+    architectureExamples.find((item) => item.id === exampleId) ?? architectureExamples[0];
+
+  return (
+    <div className="chapter-grid chapter-grid-wide">
+      <div className="panel architecture-panel-stack">
+        <p className="eyebrow">Real product examples</p>
+        <h3>See how this looks in actual device families</h3>
+
+        <div className="button-row architecture-chip-row">
+          {architectureExamples.map((item) => (
+            <button
+              key={item.id}
+              type="button"
+              className={`chip-button ${item.id === exampleId ? "active" : ""}`}
+              onClick={() => setExampleId(item.id)}
+            >
+              {item.label}
+            </button>
+          ))}
+        </div>
+
+        <blockquote className="architecture-quote-card">
+          <span>Product-team quote</span>
+          <p>{example.requirementQuote}</p>
+        </blockquote>
+
+        <div className="architecture-example-card">
+          <span>{example.leaning}</span>
+          <strong>{example.label}</strong>
+          <p>{example.deviceStory}</p>
+        </div>
+      </div>
+
+      <div className="panel architecture-panel-stack">
+        <p className="eyebrow">Why it fits</p>
+        <h3>Connect the architecture to the engineering goal</h3>
+
+        <div className="teaching-step-grid compact">
+          <article className="teaching-step-card">
+            <span>Why this architecture makes sense</span>
+            <p>{example.whyItFits}</p>
+          </article>
+          <article className="teaching-step-card">
+            <span>What to watch out for</span>
+            <p>{example.watchOut}</p>
+          </article>
+        </div>
+
+        <div className="callout">
+          <strong>Learn the pattern, not just the label</strong>
+          <span>
+            Device families matter because architecture is always serving a product goal: repeated
+            control, streaming data, or a huge flexible software ecosystem.
+          </span>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function ArchitectureDecisionQuiz() {
+  const [answers, setAnswers] = useState({});
+  const correctCount = architectureQuizScenarios.filter(
+    (scenario) => answers[scenario.id] === scenario.correct
+  ).length;
+
+  return (
+    <div className="panel architecture-panel-stack">
+      <div className="panel-header stacked">
+        <div>
+          <p className="eyebrow">Architecture decision lab</p>
+          <h3>Choose the best fit, then check the reasoning</h3>
+          <p className="panel-copy">
+            This is not about memorizing one winner. It is about matching an architecture to a
+            product's real constraints.
+          </p>
+        </div>
+      </div>
+
+      <div className="architecture-score-card">
+        <span>Current score</span>
+        <strong>
+          {correctCount} / {architectureQuizScenarios.length}
+        </strong>
+        <p>Read the explanation even when you are right. That is where the expert-level pattern lives.</p>
+      </div>
+
+      <div className="architecture-quiz-grid">
+        {architectureQuizScenarios.map((scenario) => {
+          const selected = answers[scenario.id];
+          const isAnswered = Boolean(selected);
+
+          return (
+            <article key={scenario.id} className="architecture-quiz-card">
+              <span>{scenario.title}</span>
+              <strong>{scenario.prompt}</strong>
+              <blockquote className="architecture-quiz-quote">{scenario.quote}</blockquote>
+
+              <div className="architecture-option-row">
+                {architectureChoiceOptions.map((option) => {
+                  const isCorrect = option.id === scenario.correct;
+                  const isSelected = option.id === selected;
+                  const stateClass = !isAnswered
+                    ? ""
+                    : isCorrect
+                      ? "correct"
+                      : isSelected
+                        ? "wrong"
+                        : "";
+
+                  return (
+                    <button
+                      key={`${scenario.id}-${option.id}`}
+                      type="button"
+                      className={`architecture-option-button ${isSelected ? "selected" : ""} ${stateClass}`}
+                      onClick={() =>
+                        setAnswers((current) => ({ ...current, [scenario.id]: option.id }))
+                      }
+                    >
+                      {option.label}
+                    </button>
+                  );
+                })}
+              </div>
+
+              {isAnswered ? (
+                <>
+                  <div className="callout">
+                    <strong>
+                      {selected === scenario.correct ? "Correct choice" : `Better answer: ${architectureModels[scenario.correct].label}`}
+                    </strong>
+                    <span>{scenario.why}</span>
+                  </div>
+
+                  <div className="teaching-step-grid compact">
+                    {architectureChoiceOptions.map((option) => (
+                      <article
+                        key={`${scenario.id}-${option.id}-diagnostic`}
+                        className="teaching-step-card"
+                      >
+                        <span>
+                          {option.id === scenario.correct
+                            ? `${option.label}: best fit`
+                            : `${option.label}: why not ideal`}
+                        </span>
+                        <p>{scenario.diagnostics?.[option.id]}</p>
+                      </article>
+                    ))}
+                  </div>
+                </>
+              ) : null}
+            </article>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
+
+export default function ChapterSeven({ chapterLabel = "Chapter 15", chapterNumber = "15" }) {
+  return (
+    <section className="chapter" id="chapter-15">
       <div className="chapter-header">
         <p className="chapter-kicker">{chapterLabel}</p>
-        <h2>Programming GPIO on the RO uController</h2>
+        <h2>Von Neumann and Harvard architecture</h2>
         <p>
-          This chapter slows GPIO programming down for complete beginners. We start with one
-          simple 16-bit microcontroller, explain what a GPIO pin is, show which memory location is
-          read or written, and then translate the same idea from plain English to C, assembly,
-          opcodes, and machine code. After that, the same story is repeated on a wider 32-bit
-          controller.
+          This chapter explains how a computer organizes the movement of instructions and data. We
+          start with friendly mental models, then go all the way to throughput, bottlenecks,
+          deterministic control loops, modern hybrid processors, and architecture choices for real
+          products such as controllers, DSP systems, drones, and laptops.
         </p>
       </div>
 
-      <section className="chapter-section" id="chapter-7-intro">
+      <ChapterPrimer
+        title="Four ideas to lock in before the animation starts"
+        items={architecturePrimerItems}
+        callout={{
+          title: "One sentence to remember",
+          body: "Von Neumann and Harvard are two different answers to one question: when the CPU wants the next instruction and the next piece of data, how is the machine organized to supply them?",
+        }}
+      />
+
+      <section className="chapter-section" id="chapter-15-why">
         <SectionHeading
-          eyebrow="Big picture first"
-          title="A GPIO pin is a tiny digital doorway between software and the outside world"
-          description="If you write to the right GPIO memory, an output pin can turn an LED on. If you read from the right GPIO memory, your program can learn whether a button or sensor is HIGH or LOW."
+          eyebrow={formatSectionLabel(chapterNumber, 1)}
+          title="Why architecture matters before you ever write optimized code"
+          description="Use this section to build the high-level picture first. Once you understand the traffic plan of the machine, performance and memory behavior stop feeling mysterious."
         />
-
-        <div className="chapter-grid chapter-grid-wide">
-          <div className="panel gpio-teaching-panel">
-            <div className="teaching-step-grid compact">
-              <div className="teaching-step-card">
-                <span>1. Choose direction</span>
-                <p>
-                  The `DIR` register answers one question: is this pin an INPUT or an OUTPUT?
-                </p>
-              </div>
-              <div className="teaching-step-card">
-                <span>2. Read or write data</span>
-                <p>
-                  The `DATA` register writes output levels. The `INPUT` register tells you what
-                  came in from outside.
-                </p>
-              </div>
-              <div className="teaching-step-card">
-                <span>3. Watch hardware react</span>
-                <p>
-                  That one bit change in memory becomes a real electrical HIGH or LOW on a pin.
-                </p>
-              </div>
-            </div>
-          </div>
-
-          <div className="panel gpio-teaching-panel">
-            <div className="translation-legend">
-              <div className="translation-legend-card">
-                <strong>Microcontroller</strong>
-                <p>
-                  A microcontroller is a small computer built to control real hardware directly.
-                </p>
-              </div>
-              <div className="translation-legend-card">
-                <strong>GPIO</strong>
-                <p>GPIO means General Purpose Input Output, a pin you can read or drive.</p>
-              </div>
-              <div className="translation-legend-card">
-                <strong>Opcode</strong>
-                <p>
-                  An opcode is the tiny machine-level instruction number that tells the CPU what
-                  action to perform.
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
+        <ArchitectureMindsetPanel />
       </section>
 
-      <section className="chapter-section" id="chapter-7-ro16">
+      <section className="chapter-section" id="chapter-15-von-neumann">
         <SectionHeading
-          eyebrow="Part 1"
-          title="Start with RO uController 16"
-          description="This is the first controller to learn because it stays small: 16-bit registers and 8 GPIO pins. Focus only on one pin story at a time."
+          eyebrow={formatSectionLabel(chapterNumber, 2)}
+          title="Von Neumann architecture in motion"
+          description="Watch one shared-memory road serve both instructions and data so the famous bottleneck becomes visual instead of just verbal."
         />
-        <GpioControllerLesson controller={gpioTeachingControllers[0]} />
+        <ArchitectureFlowLab architectureId="von" />
       </section>
 
-      <section className="chapter-section" id="chapter-7-ro32">
+      <section className="chapter-section" id="chapter-15-harvard">
         <SectionHeading
-          eyebrow="Part 2"
-          title="Now repeat the same idea on RO uController 32"
-          description="Nothing magical changes here. The controller becomes wider, the GPIO block now has 16 pins, and the register addresses become 32-bit sized, but the same memory idea still works."
+          eyebrow={formatSectionLabel(chapterNumber, 3)}
+          title="Harvard architecture in motion"
+          description="Now watch the split-memory idea. Separate instruction and data paths make the CPU feel better fed, especially in control loops and stream-processing systems."
         />
-        <GpioControllerLesson controller={gpioTeachingControllers[1]} />
+        <ArchitectureFlowLab architectureId="harvard" />
       </section>
 
-      <section className="chapter-section" id="chapter-7-advanced-c">
+      <section className="chapter-section" id="chapter-15-tradeoffs">
         <SectionHeading
-          eyebrow="Part 3"
-          title="More advanced C ways to describe the same hardware"
-          description="Once the plain memory model feels comfortable, you can start looking at bitfields, packed structs, and unions as alternate C views over the same bytes."
+          eyebrow={formatSectionLabel(chapterNumber, 4)}
+          title="Advantages, disadvantages, and modern hybrids"
+          description="This is the expert bridge: compare the tradeoffs honestly, then connect them to real device families and modern modified-Harvard designs."
         />
-        <AdvancedCPanel />
+        <ArchitectureTradeoffLab />
+        <RealWorldExamplesLab />
+        <DeepDiveBlock
+          title="Why modern processors rarely stay pure"
+          summary="Real products steal the best ideas from both schools."
+          points={[
+            {
+              title: "Performance pressure",
+              body: "Separate instruction and data paths, caches, and prefetch logic help keep the CPU fed even when the software view feels more unified.",
+            },
+            {
+              title: "Programming pressure",
+              body: "Developers, compilers, debuggers, and operating systems usually work more comfortably when the software-facing memory model is not painfully split into unrelated worlds.",
+            },
+            {
+              title: "Safety and control pressure",
+              body: "Embedded products may still deliberately separate code and data paths or permissions to make timing, integrity, or accidental-corruption risks easier to manage.",
+            },
+          ]}
+        />
+      </section>
+
+      <section className="chapter-section" id="chapter-15-quiz">
+        <SectionHeading
+          eyebrow={formatSectionLabel(chapterNumber, 5)}
+          title="Architecture decision quiz for real applications"
+          description="Choose the best architecture for each application and use the explanations to practice engineering judgment, not just recall."
+        />
+        <InteractionGuide
+          title="How to use the architecture decision lab like an engineer"
+          items={[
+            {
+              title: "Start with the product goal",
+              body: "Ask what the product values most: flexible software, deterministic loops, high streaming throughput, or a modern compromise between them.",
+            },
+            {
+              title: "Then ask what traffic dominates",
+              body: "Is the machine constantly fetching instructions and data together, or is it trying to support a huge unified software ecosystem?",
+            },
+            {
+              title: "Read the wrong-answer diagnostics too",
+              body: "The fastest way to become expert here is to understand why each non-winning architecture is less appropriate for that scenario.",
+            },
+          ]}
+        />
+        <ArchitectureDecisionQuiz />
+        <RecapCheckpoint
+          title="Checkpoint: architecture choice is product reasoning, not slogan repetition"
+          items={[
+            "Von Neumann is powerful when a broad flexible software model matters most.",
+            "Harvard shines when repeated instruction fetch and data movement need cleaner separation and steadier throughput.",
+            "Modified Harvard often explains modern embedded reality because it balances performance with a friendlier programming model.",
+          ]}
+          question="Could you justify an architecture choice by product constraints and traffic patterns rather than by saying one school is always superior?"
+        />
       </section>
     </section>
   );

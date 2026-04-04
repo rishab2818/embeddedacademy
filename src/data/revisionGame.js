@@ -15,6 +15,17 @@ export const revisionMissions = [
     successTitle: "Calibration channel restored",
     successBody:
       "0xDD is 1101 1101. In signed 8-bit two's complement that pattern means -35, not 221. The same byte stayed in memory; only the meaning changed.",
+    engineeringCheck:
+      "Before touching the code, ask whether the byte pattern changed or whether only the receiving interpretation changed.",
+    expertLesson:
+      "Signedness bugs appear constantly at firmware boundaries: sensor packets, serial protocols, register maps, file formats, and telemetry dashboards can all preserve the same bits while disagreeing about their meaning.",
+    diagnosticChecklist: [
+      "What exact bit pattern is stored right now?",
+      "What type does the producer assume and what type does the consumer assume?",
+      "Is the downstream control logic expecting signed or unsigned behavior?",
+    ],
+    practicalTransfer:
+      "This exact failure shows up in calibration channels, motor-control corrections, current offsets, and network packets where one software layer silently treats a signed correction as a large positive number.",
     options: [
       {
         id: "a",
@@ -67,6 +78,17 @@ export const revisionMissions = [
     successTitle: "Address map aligned",
     successBody:
       "On a byte-addressed machine, a 32-bit value occupies four neighboring byte addresses. The address names where the first byte starts; the value itself spans contiguous storage.",
+    engineeringCheck:
+      "Ask whether you are talking about the software name of the object or the physical bytes that actually occupy memory.",
+    expertLesson:
+      "Memory-model clarity is what lets engineers reason about structs, DMA buffers, packet layouts, linker maps, and debugger views without mixing up one logical variable with the many bytes that physically represent it.",
+    diagnosticChecklist: [
+      "How wide is the value in bits and bytes?",
+      "Is the machine byte-addressed?",
+      "Which contiguous addresses must be occupied to hold the entire value?",
+    ],
+    practicalTransfer:
+      "This mental model is essential when you inspect peripheral registers byte by byte, decode packet buffers, or explain why one struct member overlaps the next in memory.",
     options: [
       {
         id: "a",
@@ -119,6 +141,17 @@ export const revisionMissions = [
     successTitle: "Floating-point channel restored",
     successBody:
       "A float uses IEEE 754 encoding. The bus carries the encoded bytes as raw bit patterns. The receiver reconstructs the numeric value from those bytes, not from printable text digits.",
+    engineeringCheck:
+      "Ask whether the transport layer expects a raw binary representation or a text protocol that humans can read.",
+    expertLesson:
+      "Embedded interfaces fail when teams confuse representation with presentation. A value in memory is usually a packed binary encoding first, while human-readable text is a deliberate conversion step layered on top.",
+    diagnosticChecklist: [
+      "What binary representation does this numeric type use in memory?",
+      "Did the protocol specify raw bytes or printable text?",
+      "Can the receiver reconstruct the same numeric meaning from the transmitted bytes?",
+    ],
+    practicalTransfer:
+      "This is the difference between sending telemetry as a compact binary packet versus printing values as ASCII for a terminal or log viewer.",
     options: [
       {
         id: "a",
@@ -171,6 +204,17 @@ export const revisionMissions = [
     successTitle: "Pointer tunnel mapped",
     successBody:
       "The second 16-bit element uses bytes 2 and 3: 0x78 then 0x56 in memory. On a little-endian machine those combine into 0x5678 when read as one 16-bit value.",
+    engineeringCheck:
+      "Separate three ideas carefully: byte order in memory, grouping size chosen by the pointer type, and which element index the code is actually addressing.",
+    expertLesson:
+      "Pointer bugs usually come from one wrong assumption about layout. Type casts, alignment, endianness, and indexing all influence how the same bytes are reinterpreted by the CPU.",
+    diagnosticChecklist: [
+      "Which bytes belong to this indexed element after the cast?",
+      "How many bytes does each pointer step cover?",
+      "What byte order does the architecture use when grouping those bytes into one value?",
+    ],
+    practicalTransfer:
+      "This kind of reasoning shows up in driver code, binary protocols, sensor frames, DMA descriptors, and packed communication buffers.",
     options: [
       {
         id: "a",
@@ -223,6 +267,17 @@ export const revisionMissions = [
     successTitle: "Signal chain synchronized",
     successBody:
       "A healthy loop senses input, stores the latest value in registers or memory, applies logic, and only then updates the output. That prevents stale or imaginary data from driving hardware.",
+    engineeringCheck:
+      "Ask what the freshest trustworthy input sample is, where it is stored, and whether the output decision is based on that new state or on an older stale value.",
+    expertLesson:
+      "Control reliability depends on causality. Good firmware respects the order sense, store, decide, act. When that order is violated, outputs become disconnected from reality even if the code still 'runs'.",
+    diagnosticChecklist: [
+      "Where does the new input enter the system?",
+      "When is the latest sample stored or latched?",
+      "Which exact state does the output logic use when deciding what to drive?",
+    ],
+    practicalTransfer:
+      "This is the core discipline behind motor drives, sensor fusion loops, thermostats, battery management, and any closed-loop controller that must react to real hardware rather than stale software assumptions.",
     options: [
       {
         id: "a",
@@ -275,6 +330,17 @@ export const revisionMissions = [
     successTitle: "Deadline integrity recovered",
     successBody:
       "Hard real-time problems care about predictability, not just throughput. A smaller MCU with tightly controlled execution can be a better fit than a more powerful but less deterministic system.",
+    engineeringCheck:
+      "Ask for the worst-case response bound, not just the average benchmark speed or headline CPU frequency.",
+    expertLesson:
+      "Serious embedded design is about guarantees. A spectacular average throughput number is useless if one rare latency spike still causes a missed brake event, control-loop overrun, or safety violation.",
+    diagnosticChecklist: [
+      "What is the hard deadline and what counts as failure?",
+      "Can the platform bound worst-case latency rather than only average latency?",
+      "Which architecture choice makes the timing behavior easier to prove and validate?",
+    ],
+    practicalTransfer:
+      "This is why braking ECUs, flight surfaces, industrial safety interlocks, and medical control loops are judged by predictability and verification, not only by raw compute power.",
     options: [
       {
         id: "a",
@@ -327,6 +393,17 @@ export const revisionMissions = [
     successTitle: "Full stack signal path secured",
     successBody:
       "A narrow connector favors serial transfer. The arriving bits are reconstructed into bytes, stored in memory, then copied into a GPIO register. When the selected GPIO bit goes HIGH, that voltage can raise a MOSFET gate and switch the fan path on.",
+    engineeringCheck:
+      "Narrate the whole chain without skipping layers: software meaning, binary encoding, transport, storage, register update, and final electrical effect.",
+    expertLesson:
+      "Expert embedded engineers can walk a value from source code all the way to a transistor gate. That chain-thinking is what makes complex systems debuggable instead of mystical.",
+    diagnosticChecklist: [
+      "How is the value transported across the connector: serial or parallel, and why?",
+      "Where is the received state stored before it becomes an output decision?",
+      "Which register bit and voltage transition finally control the transistor gate?",
+    ],
+    practicalTransfer:
+      "This same end-to-end reasoning appears in fan drivers, relays, power stages, LED control, actuator interfaces, and remote boards connected over SPI, I2C, UART, CAN, or custom serial links.",
     options: [
       {
         id: "a",

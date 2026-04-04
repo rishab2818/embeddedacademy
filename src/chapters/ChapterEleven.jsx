@@ -1,6 +1,9 @@
 ﻿import { useEffect, useMemo, useState } from "react";
 import ChapterPrimer from "../components/ChapterPrimer";
+import DeepDiveBlock from "../components/DeepDiveBlock";
 import FancySelect from "../components/FancySelect";
+import InteractionGuide from "../components/InteractionGuide";
+import RecapCheckpoint from "../components/RecapCheckpoint";
 import SectionHeading from "../components/SectionHeading";
 import {
   bitwiseOperators,
@@ -645,6 +648,93 @@ function FullCycleLab({ cards, stageIndex, onStageChange, autoPlay, onToggleAuto
   );
 }
 
+function TranslationMindsetPanel() {
+  return (
+    <div className="chapter-grid chapter-grid-wide">
+      <div className="panel coding-panel-stack">
+        <p className="eyebrow">How experts read this chapter</p>
+        <h3>Every layer is the same behavior viewed through a different lens</h3>
+
+        <div className="teaching-step-grid compact">
+          <div className="teaching-step-card">
+            <span>Requirement lens</span>
+            <p>
+              Start by stating the intended behavior in plain English. If the requirement is vague,
+              every lower layer will also become vague and brittle.
+            </p>
+          </div>
+          <div className="teaching-step-card">
+            <span>Source-code lens</span>
+            <p>
+              C organizes the behavior using names, scope, types, expressions, and control flow so a
+              human can reason about it before the machine executes it.
+            </p>
+          </div>
+          <div className="teaching-step-card">
+            <span>CPU lens</span>
+            <p>
+              Assembly reveals what the processor actually has to do: fetch values, move them through
+              registers, run ALU work, branch, and store results.
+            </p>
+          </div>
+          <div className="teaching-step-card">
+            <span>Bit-field lens</span>
+            <p>
+              Machine code removes friendly words and leaves only encoded instruction fields that the
+              decoder can understand electrically and architecturally.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div className="panel coding-panel-stack">
+        <p className="eyebrow">Why this chapter matters</p>
+        <h3>This is where programming stops feeling like magic</h3>
+
+        <div className="callout">
+          <strong>Real expert habit</strong>
+          <span>
+            When a system misbehaves, strong engineers can move up and down these layers. They can
+            explain the requirement, inspect the source, reason about the assembly, and predict what
+            instruction bits and machine state should exist at runtime.
+          </span>
+        </div>
+
+        <div className="teaching-step-grid compact">
+          <div className="teaching-step-card">
+            <span>Bitwise logic</span>
+            <p>
+              This is not a side topic. Bitwise work is how embedded systems test flags, pack fields,
+              update registers, and speak exact hardware protocols.
+            </p>
+          </div>
+          <div className="teaching-step-card">
+            <span>Variables and scope</span>
+            <p>
+              Global and local variables are not just syntax rules. They shape where data lives, how
+              long it exists, and how visible it is across the program.
+            </p>
+          </div>
+          <div className="teaching-step-card">
+            <span>Translation costs</span>
+            <p>
+              Every layer throws away some human friendliness and gains more machine precision. Good
+              engineers learn to stay comfortable across that tradeoff.
+            </p>
+          </div>
+          <div className="teaching-step-card">
+            <span>System design payoff</span>
+            <p>
+              If you can trace one idea through all these representations, you are much closer to
+              designing real firmware instead of only copying code patterns.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 export default function ChapterEleven({ chapterLabel = "Chapter 10", chapterNumber = "10" }) {
   const [model, setModel] = useState({
     sensorA: 18,
@@ -718,8 +808,9 @@ export default function ChapterEleven({ chapterLabel = "Chapter 10", chapterNumb
         <p>
           This chapter is the bridge into real coding. We start with bitwise operations, then build
           one small C program, translate the same logic into assembly, convert it into machine-level
-          instruction words, and keep every step interactive so even a non-technical learner can see
-          how one idea travels through the whole computing stack.
+          instruction words, and keep every step interactive so a beginner can see one idea traveling
+          through the entire stack. By the end, programming should feel less like typing mysterious
+          symbols and more like shaping behavior that the hardware can eventually execute exactly.
         </p>
       </div>
 
@@ -745,24 +836,87 @@ export default function ChapterEleven({ chapterLabel = "Chapter 10", chapterNumb
         ]}
         callout={{
           title: "Why this feels hard at first",
-          body: "You are learning the same idea in several languages at once. The goal is not memorizing each form separately, but recognizing that each form describes the same behavior at a different level.",
+          body: "You are learning the same idea in several languages at once. The goal is not memorizing each form separately, but recognizing that each form describes the same behavior at a different level of abstraction and machine closeness.",
         }}
       />
+
+      <TranslationMindsetPanel />
 
       <section className="chapter-section" id="chapter-10-bitwise">
         <SectionHeading
           eyebrow={formatSectionLabel(chapterNumber, 1)}
           title="Bitwise operations on boolean, char, int16, and int32"
-          description="Use live sliders and animated bit rows to see exactly how AND, OR, XOR, NOT, and shifts change the stored pattern."
+          description="Use live sliders and animated bit rows to see exactly how AND, OR, XOR, NOT, and shifts change the stored pattern and why those operations are fundamental to real register-level firmware."
+        />
+        <InteractionGuide
+          title="How to read the bitwise lab"
+          items={[
+            {
+              title: "Watch the operand bits first",
+              body: "The left and right rows are the stored patterns the operator is acting on, not decorative visuals.",
+            },
+            {
+              title: "Then watch the result row",
+              body: "Changed or focused bits tell you exactly which positions the operation transformed.",
+            },
+            {
+              title: "Connect it to firmware",
+              body: "These same operations later become masks, shifts, register updates, and packed protocol logic.",
+            },
+          ]}
         />
         <BitwiseLab />
+        <RecapCheckpoint
+          title="Checkpoint: bitwise logic changes real stored patterns"
+          items={[
+            "Bitwise operators act directly on bit positions rather than on human-friendly decimal ideas.",
+            "AND, OR, XOR, NOT, and shifts are how embedded code manipulates flags and fields.",
+            "The visual rows in this lab are the same patterns hardware-facing code later depends on.",
+          ]}
+          question="Could you explain what one mask is doing to a register bit pattern without saying only 'it updates it'?"
+        />
+        <DeepDiveBlock
+          title="Why bitwise work keeps coming back in embedded systems"
+          summary="This is one of the most reusable skills in low-level work."
+          points={[
+            {
+              title: "Register control",
+              body: "Peripheral configuration often means turning individual bits or small fields on and off without disturbing the rest of the register.",
+            },
+            {
+              title: "Compact storage",
+              body: "Packed data formats save memory and bandwidth, but they demand bitwise extraction and placement logic.",
+            },
+            {
+              title: "Precise debugging",
+              body: "When one wrong bit changes a mode or status field, bitwise reasoning is the clearest way to explain the bug.",
+            },
+          ]}
+        />
       </section>
 
       <section className="chapter-section" id="chapter-10-code">
         <SectionHeading
           eyebrow={formatSectionLabel(chapterNumber, 2)}
           title="Write one small real program and understand every variable"
-          description="The same example includes global variables, local variables, addition, subtraction, multiplication, division, and bitwise logic."
+          description="The same example includes global variables, local variables, arithmetic, conditional logic, and bitwise work so you can study how a realistic embedded function is structured."
+        />
+        <InteractionGuide
+          title="How to read the shared code example"
+          items={[
+            {
+              title: "Drive it with live values",
+              body: "The sliders and toggles keep the code, assembly, and machine-code sections connected to one common behavior.",
+            },
+            {
+              title: "Use the focus chips",
+              body: "Each focus chip isolates one concept such as globals, locals, branches, or the final result.",
+            },
+            {
+              title: "Read it as one story",
+              body: "This chapter works best when you keep asking how the same behavior is being expressed at each layer.",
+            },
+          ]}
         />
         <CodeMeaningLab
           model={model}
@@ -771,13 +925,22 @@ export default function ChapterEleven({ chapterLabel = "Chapter 10", chapterNumb
           focusId={focusId}
           onFocusChange={setFocusId}
         />
+        <RecapCheckpoint
+          title="Checkpoint: source code is the human-organized view of behavior"
+          items={[
+            "Globals represent shared state outside one function call, while locals are temporary working values.",
+            "Arithmetic, conditions, and bitwise expressions in C are still only descriptions of later machine work.",
+            "The code is readable for humans because it hides many lower-level details that the next sections will expose.",
+          ]}
+          question="If you changed one live input, could you predict which variables and branches would change before seeing the output?"
+        />
       </section>
 
       <section className="chapter-section" id="chapter-10-assembly">
         <SectionHeading
           eyebrow={formatSectionLabel(chapterNumber, 3)}
           title="Translate the same code into assembly and learn load, store, registers, and branches"
-          description="Assembly removes friendly syntax and shows the exact CPU-style steps: move values into registers, run ALU operations, store results, and return."
+          description="Assembly removes friendly syntax and shows the exact CPU-style steps: move values into registers, run ALU operations, branch on conditions, store results, and return."
         />
         <AssemblyBridgeLab
           instructions={instructions}
@@ -786,18 +949,72 @@ export default function ChapterEleven({ chapterLabel = "Chapter 10", chapterNumb
           autoPlay={assemblyAutoPlay}
           onToggleAutoPlay={() => setAssemblyAutoPlay((current) => !current)}
         />
+        <RecapCheckpoint
+          title="Checkpoint: assembly shows the CPU's working verbs"
+          items={[
+            "Load brings values from memory into registers, and store sends results back out.",
+            "Registers hold the CPU's immediate working values while the ALU performs the operation.",
+            "Branches decide which instruction comes next based on current state.",
+          ]}
+          question="Could you describe one assembly instruction in terms of what moved, where it moved, and why?"
+        />
+        <DeepDiveBlock
+          title="Why assembly still matters to high-level firmware engineers"
+          summary="You do not need to write everything in assembly to benefit from reading it."
+          points={[
+            {
+              title: "Compiler trust but verify",
+              body: "Assembly reveals whether the compiler produced the load/store and branch pattern you expected.",
+            },
+            {
+              title: "Performance reading",
+              body: "Timing-sensitive code often becomes easier to reason about once you can see the instruction-level work actually being performed.",
+            },
+            {
+              title: "Debugging insight",
+              body: "When optimized code behaves unexpectedly, assembly is often the clearest view of what the CPU will really execute.",
+            },
+          ]}
+        />
       </section>
 
       <section className="chapter-section" id="chapter-10-machine-code">
         <SectionHeading
           eyebrow={formatSectionLabel(chapterNumber, 4)}
           title="Convert assembly into machine-level instruction words"
-          description="See how mnemonics turn into opcodes, register fields, immediate values, and raw binary that the processor can actually fetch and decode."
+          description="See how mnemonics turn into opcodes, register fields, immediate values, and raw binary that the processor can actually fetch, decode, and execute."
         />
         <MachineCodeLab
           instructions={instructions}
           activeInstructionId={activeInstructionId}
           onSelectInstruction={setActiveInstructionId}
+        />
+        <RecapCheckpoint
+          title="Checkpoint: the CPU reads fields, not words"
+          items={[
+            "Assembly mnemonics are still a human-readable convenience layer.",
+            "The real instruction is an encoded binary word with opcode and operand fields.",
+            "Machine code is target-specific because different processors encode the same intent differently.",
+          ]}
+          question="If the CPU cannot read the text `ADD`, what exact kind of information is it decoding instead?"
+        />
+        <DeepDiveBlock
+          title="Why one C line does not equal one instruction"
+          summary="This is one of the biggest beginner-to-expert corrections in low-level work."
+          points={[
+            {
+              title: "One source statement can expand",
+              body: "A single C statement may require several loads, arithmetic steps, comparisons, branches, and stores before the hardware sees a final result.",
+            },
+            {
+              title: "Optimization changes the shape",
+              body: "The compiler may inline, reorder, combine, or eliminate work while still preserving the program's intended behavior, so the machine view often looks different from the source view.",
+            },
+            {
+              title: "Calling conventions matter",
+              body: "Real functions also involve argument passing, return values, stack use, and register-saving rules that do not appear in neat beginner source code.",
+            },
+          ]}
         />
       </section>
 
@@ -805,7 +1022,7 @@ export default function ChapterEleven({ chapterLabel = "Chapter 10", chapterNumb
         <SectionHeading
           eyebrow={formatSectionLabel(chapterNumber, 5)}
           title="See the complete journey from requirement to machine action"
-          description="Finish with one animated walkthrough that keeps the same live example but re-expresses it at each level of abstraction."
+          description="Finish with one animated walkthrough that keeps the same live example but re-expresses it at each level of abstraction so the whole translation chain stays connected."
         />
         <FullCycleLab
           cards={cycleCards}
@@ -814,6 +1031,33 @@ export default function ChapterEleven({ chapterLabel = "Chapter 10", chapterNumb
           autoPlay={cycleAutoPlay}
           onToggleAutoPlay={() => setCycleAutoPlay((current) => !current)}
           programState={programState}
+        />
+        <RecapCheckpoint
+          title="Checkpoint: one behavior can survive many representations"
+          items={[
+            "English, C, assembly, and machine code are all views of one intended behavior.",
+            "Each lower layer gives up some friendliness and gains more machine precision.",
+            "Expert embedded work depends on being able to move between these views without losing the behavior itself.",
+          ]}
+          question="Could you explain the same function once in beginner English and once in CPU-oriented language without changing its meaning?"
+        />
+        <DeepDiveBlock
+          title="How experts use this translation chain in real debugging"
+          summary="This is where the chapter becomes an engineering tool rather than a lesson."
+          points={[
+            {
+              title: "Requirement mismatch",
+              body: "Sometimes the bug is not in the assembly or the machine code. The original human requirement was vague, so every later layer is faithfully implementing a bad idea.",
+            },
+            {
+              title: "Source-level mismatch",
+              body: "At other times the requirement is correct, but the C logic expresses it wrongly through a bad condition, unsafe cast, or incorrect data-flow assumption.",
+            },
+            {
+              title: "Lower-level mismatch",
+              body: "And sometimes the source is fine, but the interesting question becomes what exact instructions, register use, and memory effects the toolchain emitted for the target processor.",
+            },
+          ]}
         />
       </section>
     </section>

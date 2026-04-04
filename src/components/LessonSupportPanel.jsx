@@ -9,7 +9,7 @@ export default function LessonSupportPanel({ support }) {
     <section className="panel lesson-support-panel">
       <div className="panel-header stacked">
         <div>
-          <p className="eyebrow">Easy Start</p>
+          <p className="eyebrow">Start Here</p>
           <h3>{support.title}</h3>
           <p className="panel-copy">{support.intro}</p>
         </div>
@@ -25,13 +25,13 @@ export default function LessonSupportPanel({ support }) {
       </div>
 
       <div className="callout">
-        <strong>Common confusion to avoid</strong>
+        <strong>Watch for this confusion</strong>
         <span>{support.watchOut}</span>
       </div>
 
       <div className="button-row">
         <Link className="secondary-link" to="/abbreviations">
-          Open abbreviations page
+          Open glossary
         </Link>
       </div>
     </section>

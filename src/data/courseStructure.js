@@ -1,3 +1,21 @@
+export const phaseMeta = {
+  foundations: {
+    label: "Core foundations",
+    shortLabel: "Foundations",
+    blurb: "Bits, memory, data types, pointers, and the embedded programming baseline.",
+  },
+  systems: {
+    label: "System flow",
+    shortLabel: "System flow",
+    blurb: "Buses, timing, code translation, flash, RAM, and runtime execution.",
+  },
+  revision: {
+    label: "Revision by reasoning",
+    shortLabel: "Revision",
+    blurb: "Mission-style practice that checks causal thinking instead of memorized definitions.",
+  },
+};
+
 export const courseChapters = [
   {
     id: "chapter-1",
@@ -5,6 +23,7 @@ export const courseChapters = [
     slug: "bits-and-signedness",
     title: "Bits and Signedness",
     chapterLabel: "Chapter 1",
+    phase: "foundations",
     componentKey: "chapterOne",
     summary:
       "How computers represent values using bits, MOSFET logic, decimal/binary/hex notation, and signed vs unsigned bytes.",
@@ -21,6 +40,7 @@ export const courseChapters = [
     slug: "memory-and-addressing",
     title: "Memory and Addressing",
     chapterLabel: "Chapter 2",
+    phase: "foundations",
     componentKey: "chapterTwo",
     summary:
       "What 8-bit and 32-bit systems look like, what memory is, what an address means, and how values live in memory.",
@@ -36,6 +56,7 @@ export const courseChapters = [
     slug: "basic-data-types",
     title: "Data Types",
     chapterLabel: "Chapter 3",
+    phase: "foundations",
     componentKey: "chapterThree",
     summary:
       "Signed and unsigned integer types, float16, float32, IEEE 754 fields, and how all of them occupy memory.",
@@ -51,6 +72,7 @@ export const courseChapters = [
     slug: "variables-arrays-pointers",
     title: "Variables and Pointers",
     chapterLabel: "Chapter 4",
+    phase: "foundations",
     componentKey: "chapterFour",
     summary:
       "How names map to memory, how arrays stay contiguous, how pointers store addresses, and what typecasting changes.",
@@ -67,6 +89,7 @@ export const courseChapters = [
     slug: "embedded-input-flow",
     title: "Embedded Flow",
     chapterLabel: "Chapter 5",
+    phase: "foundations",
     componentKey: "chapterFive",
     summary:
       "Three simple embedded loops that show data coming into memory and causing output actions.",
@@ -82,6 +105,7 @@ export const courseChapters = [
     slug: "what-is-embedded-programming",
     title: "Embedded Basics",
     chapterLabel: "Chapter 6",
+    phase: "foundations",
     componentKey: "chapterSix",
     summary:
       "The big picture of embedded programming, real-time deadlines, microcontrollers, microprocessors, and compilers.",
@@ -98,6 +122,7 @@ export const courseChapters = [
     slug: "serial-and-parallel-bus-fundamentals",
     title: "Bus Flow",
     chapterLabel: "Chapter 7",
+    phase: "systems",
     componentKey: "chapterEight",
     summary:
       "Learn how char, int, and float values become bytes, flow through registers and buses, land in memory, and connect to MOSFET-driven voltage in practical hardware.",
@@ -114,10 +139,15 @@ export const courseChapters = [
     slug: "game-revision-1-signal-rescue",
     title: "Signal Rescue",
     chapterLabel: "Chapter 8",
+    phase: "revision",
     componentKey: "chapterNine",
     summary:
       "Play through interactive embedded rescue missions that force you to reason through bits, memory, floats, pointers, bus flow, and real-time design instead of memorizing definitions.",
-    sections: [{ id: "chapter-8-game", label: "8.1 Revision arena" }],
+    sections: [
+      { id: "chapter-8-guide", label: "8.1 Field guide" },
+      { id: "chapter-8-game", label: "8.2 Revision arena" },
+      { id: "chapter-8-outcomes", label: "8.3 Mastery review" },
+    ],
   },
   {
     id: "chapter-9",
@@ -125,6 +155,7 @@ export const courseChapters = [
     slug: "microcontroller-clocks-and-timing",
     title: "Clocks and Timing",
     chapterLabel: "Chapter 9",
+    phase: "systems",
     componentKey: "chapterTen",
     summary:
       "Learn what the clock really is, how PIC16 and STM32F1 configure it, and how timed beats let instructions, buses, memory, inputs, and outputs turn software into real hardware action.",
@@ -142,6 +173,7 @@ export const courseChapters = [
     slug: "english-to-code-assembly-machine-code",
     title: "Code to Machine",
     chapterLabel: "Chapter 10",
+    phase: "systems",
     componentKey: "chapterEleven",
     summary:
       "Start with bitwise operations, build one small C program with globals and locals, then translate the same logic into assembly and machine code with interactive animations.",
@@ -159,6 +191,7 @@ export const courseChapters = [
     slug: "address-bus-data-bus-and-compilation",
     title: "Buses and Compilation",
     chapterLabel: "Chapter 11",
+    phase: "systems",
     componentKey: "chapterTwelve",
     summary:
       "Understand address buses, data buses, 8-bit vs 16-bit vs 32-bit controllers, PIC vs STM bus styles, compilation stages, and why machines finally use binary.",
@@ -176,6 +209,7 @@ export const courseChapters = [
     slug: "flash-ram-and-execution",
     title: "Flash and Execution",
     chapterLabel: "Chapter 12",
+    phase: "systems",
     componentKey: "chapterThirteen",
     summary:
       "Learn how machine code sits in flash, how RAM stores changing state, how the clocked CPU fetches and executes instructions, and how inputs and outputs really move through the microcontroller.",
@@ -188,15 +222,58 @@ export const courseChapters = [
     ],
   },
   {
-    id: "chapter-13",
-    number: "13",
+    id: "chapter-14",
+    number: "14",
     slug: "runtime-rescue",
     title: "Runtime Rescue",
-    chapterLabel: "Chapter 13",
+    chapterLabel: "Chapter 14",
+    phase: "revision",
     componentKey: "chapterFourteen",
     summary:
       "Play through deeper system-debugging missions that connect clocks, buses, compilation, flash, RAM, fetch-decode-execute, and GPIO behavior into one picture.",
-    sections: [{ id: "chapter-13-game", label: "13.1 Revision arena" }],
+    sections: [
+      { id: "chapter-14-guide", label: "14.1 Field guide" },
+      { id: "chapter-14-game", label: "14.2 Revision arena" },
+      { id: "chapter-14-outcomes", label: "14.3 Mastery review" },
+    ],
+  },
+  {
+    id: "chapter-15",
+    number: "15",
+    slug: "von-neumann-and-harvard-architecture",
+    title: "Von Neumann and Harvard",
+    chapterLabel: "Chapter 15",
+    phase: "systems",
+    componentKey: "chapterSeven",
+    summary:
+      "Learn how Von Neumann, Harvard, and modified-Harvard machines organize instruction and data flow, why that changes bottlenecks and determinism, and how to choose the right architecture for real products.",
+    sections: [
+      { id: "chapter-15-why", label: "15.1 Why architecture matters" },
+      { id: "chapter-15-von-neumann", label: "15.2 Von Neumann in motion" },
+      { id: "chapter-15-harvard", label: "15.3 Harvard in motion" },
+      { id: "chapter-15-tradeoffs", label: "15.4 Tradeoffs and hybrids" },
+      { id: "chapter-15-quiz", label: "15.5 Architecture decision lab" },
+    ],
+  },
+  {
+    id: "chapter-16",
+    number: "16",
+    slug: "microcontroller-core-and-peripherals",
+    title: "Inside a Microcontroller",
+    chapterLabel: "Chapter 16",
+    phase: "systems",
+    componentKey: "chapterFifteen",
+    summary:
+      "Map the CPU, clocks, flash, RAM, buses, GPIO, timers, ADC, DAC, DMA, cache, and communication peripherals, then watch sensors and actuators flow through one complete microcontroller system movie.",
+    sections: [
+      { id: "chapter-16-atlas", label: "16.1 System atlas" },
+      { id: "chapter-16-gpio", label: "16.2 GPIO and pins" },
+      { id: "chapter-16-comms", label: "16.3 Communication peripherals" },
+      { id: "chapter-16-analog", label: "16.4 Analog and timed peripherals" },
+      { id: "chapter-16-buses", label: "16.5 Bus and memory traffic" },
+      { id: "chapter-16-system-movie", label: "16.6 Whole-system movie" },
+      { id: "chapter-16-playbook", label: "16.7 Peripheral playbook" },
+    ],
   },
 ];
 

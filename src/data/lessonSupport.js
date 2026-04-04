@@ -143,6 +143,30 @@
     watchOut:
       "Many microcontrollers execute directly from flash. They do not all copy the whole program into RAM first.",
   },
+  "von-neumann-and-harvard-architecture": {
+    title: "Start with the mental picture",
+    intro:
+      "This lesson is about the machine's traffic plan. It explains whether instructions and data share one road or travel on separate roads, and why that changes timing, throughput, and programming style.",
+    takeaways: [
+      "Von Neumann teaches one broad memory model with a possible shared-path bottleneck.",
+      "Harvard teaches separate instruction and data paths, which often helps repeated embedded loops.",
+      "Many modern devices are hybrids, so the best answer depends on the product goal rather than on a slogan.",
+    ],
+    watchOut:
+      "Do not treat architecture as only a history lesson. It directly affects real-time behavior, code placement, and how later memory and bus topics should be interpreted.",
+  },
+  "microcontroller-core-and-peripherals": {
+    title: "Start with the mental picture",
+    intro:
+      "This lesson is the full controller tour. It shows how CPU, clocks, flash, RAM, buses, GPIO, timers, ADC, DAC, DMA, cache, and communication peripherals cooperate inside one real microcontroller.",
+    takeaways: [
+      "Peripherals are hardware helpers that translate between internal digital state and external physical signals.",
+      "Pins can act as GPIO, analog inputs, or routed peripheral signals depending on configuration.",
+      "A real embedded product is a repeated system movie from sensor to storage to logic to actuator and back again.",
+    ],
+    watchOut:
+      "Do not reduce the microcontroller to only the CPU. Most practical embedded behavior depends on the surrounding peripheral and bus ecosystem.",
+  },
   "runtime-rescue": {
     title: "How to use this game",
     intro:

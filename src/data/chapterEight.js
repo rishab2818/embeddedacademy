@@ -7,7 +7,7 @@ export const busModes = [
     detail:
       "A serial bus reuses one data line again and again. Bits leave the sender one after another, so the wiring stays simple even when the message is long.",
     practical:
-      "This is why protocols such as UART, SPI, I2C, USB, and CAN can move useful data with fewer wires.",
+      "This is why protocols such as UART, SPI, I2C, USB, and CAN can move useful data with fewer wires, even though they depend heavily on timing and protocol rules.",
     lanes: "1 data lane reused repeatedly",
     flowLabel: "Bit after bit",
   },
@@ -19,7 +19,7 @@ export const busModes = [
     detail:
       "A parallel bus uses several wires together. One byte can appear across eight lines at once because every line carries one bit in the same clock moment.",
     practical:
-      "This is common inside chips and boards where the distance is short and the designer can afford more traces.",
+      "This is common inside chips and boards where the distance is short and the designer can afford more traces, matched timing, and more routing space.",
     lanes: "8 data lanes in one beat",
     flowLabel: "Byte all at once",
   },

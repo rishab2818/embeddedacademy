@@ -1,5 +1,6 @@
 import { useMemo, useState } from "react";
 import ByteMemoryStrip from "../components/ByteMemoryStrip";
+import ChapterPrimer from "../components/ChapterPrimer";
 import SectionHeading from "../components/SectionHeading";
 import { bridgeSteps, busModes, busTradeoffs, sampleTypeOptions } from "../data/chapterEight";
 import { formatAddress, toBinary, toHex } from "../utils/bitMath";
@@ -53,6 +54,8 @@ function BusModeExplorer({ busMode, onBusModeChange, sample, activeByteIndex }) 
           <strong>Plain-English takeaway</strong>
           <span>
             {activeMode.detail} {activeMode.practical}
+            The deeper lesson is that buses are not abstract arrows in diagrams. They are timed
+            electrical pathways that physically move bit patterns between blocks.
           </span>
         </div>
       </div>
@@ -173,7 +176,10 @@ function TypeEncodingLab({ typeId, onTypeChange, rawInput, onInputChange, sample
 
         <div className="callout">
           <strong>What software thinks</strong>
-          <span>{sample.humanText}</span>
+          <span>
+            {sample.humanText} The bus, memory, and registers do not know "int" or "float" in the
+            human sense. They only move and store the encoded bytes.
+          </span>
         </div>
 
         <div className="source-card bus-source-card">
@@ -312,7 +318,8 @@ function PracticalMosfetBridge({
           <strong>Newbie analogy</strong>
           <span>
             The CPU is writing a row of tiny yes/no switches. Memory keeps that row safe, and later a GPIO
-            register can reuse one of those yes/no choices to control a real transistor.
+            register can reuse one of those yes/no choices to control a real transistor. This is the
+            bridge between software symbols and physical voltage behavior.
           </span>
         </div>
       </div>
@@ -448,21 +455,47 @@ export default function ChapterEight({ chapterLabel = "Chapter 7", chapterNumber
     <section className="chapter" id="chapter-7">
       <div className="chapter-header">
         <p className="chapter-kicker">{chapterLabel}</p>
-        <h2>Serial and parallel buses, from software values to real voltage</h2>
+        <h2>Serial and parallel buses, from software meaning to physical signal movement</h2>
         <p>
           This chapter explains how a value like <code>{selectedType.codeLabel}</code>{" "}
           <code>{sample.valueLabel}</code> becomes bytes, travels through registers and buses,
           lands in memory, and can finally help control a MOSFET that switches a real load. The
-          goal is to make the journey feel visual, playful, and friendly even if you are new to
-          both coding and electronics.
+          goal is to make the whole trip visible enough that software and electronics stop feeling
+          like separate worlds.
         </p>
       </div>
+
+      <ChapterPrimer
+        title="Why this chapter matters so much"
+        items={[
+          {
+            title: "Software values do not teleport",
+            body: "A value written in source code becomes bytes in registers and memory, then those bytes move as timed electrical signals.",
+          },
+          {
+            title: "Buses are the roads of a computer",
+            body: "CPU cores, memory blocks, peripherals, and GPIO logic all need pathways for information movement. A bus is that pathway.",
+          },
+          {
+            title: "Encoding comes before transport",
+            body: "The machine must first decide what byte pattern represents the value. Only then can a serial or parallel bus move it.",
+          },
+          {
+            title: "Voltage is the final physical reality",
+            body: "At the end of the chain, all of this computation can become a pin voltage that drives a transistor, LED, motor, sensor interface, or communication line.",
+          },
+        ]}
+        callout={{
+          title: "Expert habit",
+          body: "Whenever you study a subsystem, ask: what is the value, how is it encoded, where is it stored, how is it transported, and what physical behavior can it eventually cause?",
+        }}
+      />
 
       <section className="chapter-section" id="chapter-7-buses">
         <SectionHeading
           eyebrow={formatSectionLabel(chapterNumber, 1)}
           title="Serial bus vs parallel bus"
-          description="Both buses move the same bits. The big difference is whether they travel one after another on fewer wires or many together on more wires."
+          description="Both buses move the same information. The difference is whether the bits travel one after another on fewer wires or together on many wires in the same timing window."
         />
         <BusModeExplorer
           busMode={busMode}
@@ -476,7 +509,7 @@ export default function ChapterEight({ chapterLabel = "Chapter 7", chapterNumber
         <SectionHeading
           eyebrow={formatSectionLabel(chapterNumber, 2)}
           title="What happens when you write char, int, or float?"
-          description="Choose a type, enter a value, and watch the software meaning collapse into raw bytes that hardware can actually move."
+          description="Choose a type, enter a value, and watch software meaning collapse into the raw encoded bytes that hardware can actually transport and store."
         />
         <TypeEncodingLab
           typeId={typeId}
@@ -491,7 +524,7 @@ export default function ChapterEight({ chapterLabel = "Chapter 7", chapterNumber
         <SectionHeading
           eyebrow={formatSectionLabel(chapterNumber, 3)}
           title="Follow the whole journey: value -> register -> bus -> memory -> MOSFET -> voltage"
-          description="This is the bridge between software and electronics. Numbers do not magically fly into chips; they move as HIGH and LOW electrical states."
+          description="This is the bridge between software and electronics. Numbers do not magically fly into chips; they move as timed HIGH and LOW electrical states."
         />
         <JourneyStory
           busMode={busMode}
@@ -513,7 +546,7 @@ export default function ChapterEight({ chapterLabel = "Chapter 7", chapterNumber
         <SectionHeading
           eyebrow={formatSectionLabel(chapterNumber, 4)}
           title="Advantages and disadvantages"
-          description="Neither bus is automatically better. Designers choose based on wires, timing, distance, speed, simplicity, and cost."
+          description="Neither bus is automatically better. Designers choose based on timing, distance, pin count, routing complexity, bandwidth, simplicity, and cost."
         />
         <TradeoffPanel />
       </section>

@@ -2,32 +2,32 @@ export const embeddedExamples = [
   {
     id: "thermostat",
     label: "Smart thermostat",
-    analogy: "Like a room caretaker who keeps checking temperature and adjusting the heater.",
+    analogy: "Like a room caretaker who keeps checking temperature, comparing it with a goal, and adjusting the heating system before comfort is lost.",
     inputs: ["temperature sensor", "button press"],
     thinking: "compare room temperature with target value",
     outputs: ["heater relay", "display"],
     whyEmbedded:
-      "It is a dedicated computer inside one product, built to do one job again and again.",
+      "It is a dedicated computer inside one product, built to monitor the environment continuously and control a physical system directly.",
   },
   {
     id: "traffic",
     label: "Traffic signal",
-    analogy: "Like a strict conductor who must switch lights on time so the road stays safe.",
+    analogy: "Like a strict conductor who must switch states on time, obey safety rules, and react correctly when a pedestrian requests a crossing.",
     inputs: ["timer tick", "pedestrian button"],
     thinking: "choose the current traffic state",
     outputs: ["red light", "yellow light", "green light"],
     whyEmbedded:
-      "It constantly senses the world, makes a decision, and drives hardware outputs.",
+      "It continuously senses the world, tracks state, obeys timing constraints, and drives hardware outputs that affect safety.",
   },
   {
     id: "washing",
     label: "Washing machine",
-    analogy: "Like a helper following a fixed recipe: fill, rotate, drain, repeat.",
+    analogy: "Like a helper following a recipe with safety checks: fill, rotate, drain, spin, and react when something abnormal happens.",
     inputs: ["water level sensor", "door switch"],
     thinking: "follow the selected wash program safely",
     outputs: ["motor", "valve", "buzzer"],
     whyEmbedded:
-      "It runs inside an appliance and controls the real physical process of washing clothes.",
+      "It runs inside an appliance and controls a real physical process with sensors, actuators, state transitions, and timing limits.",
   },
 ];
 
@@ -71,15 +71,15 @@ export const processingSystems = [
     analogy: "A compact workshop where the worker, tools, and small storage all live in one room.",
     builtIn: ["CPU core", "RAM", "flash", "GPIO", "timers", "UART/I2C/SPI"],
     bestFor: "Dedicated control tasks, low power devices, sensors, appliances, robots.",
-    why: "Most embedded products want one chip that already includes the parts needed to sense and control hardware.",
+    why: "Most embedded products want one chip that already contains timing peripherals, memory, and I/O blocks so the design stays smaller, cheaper, lower power, and easier to control predictably.",
   },
   {
     id: "mpu",
     label: "Microprocessor",
-    analogy: "A manager who is powerful but depends on several separate rooms and support teams around it.",
+    analogy: "A manager who is powerful but depends on several separate rooms and support teams around it, such as external RAM, storage, power management, and often an operating system.",
     builtIn: ["CPU core", "needs external RAM", "needs external flash", "usually runs rich OS"],
     bestFor: "Complex interfaces, Linux systems, multimedia, gateways, and heavy applications.",
-    why: "A microprocessor usually needs external memory and support chips, but can run much larger software stacks.",
+    why: "A microprocessor usually needs external memory and support chips, but it can run much larger software stacks, richer interfaces, and more computationally demanding applications.",
   },
 ];
 
@@ -93,7 +93,7 @@ export const systemUseCases = [
   {
     id: "drone",
     label: "Flight controller",
-    needs: "fast control loop, sensors, precise timing",
+    needs: "fast control loop, sensors, precise timing, deterministic behavior",
     recommended: "mcu",
   },
   {
@@ -112,7 +112,7 @@ export const systemUseCases = [
 
 export const compilerExample = {
   sourceCode: [
-    "if pressure > 140:",
+    "if pressure > threshold:",
     "    led = ON",
     "else:",
     "    led = OFF",
@@ -121,26 +121,26 @@ export const compilerExample = {
     {
       id: "source",
       label: "Source code",
-      explain: "This is the human-friendly form that programmers write.",
-      output: ["pressure > 140 ?", "LED = ON/OFF"],
+      explain: "This is the human-friendly form that programmers write to describe decisions, not electrical activity directly.",
+      output: ["read pressure", "compare with threshold", "choose LED state"],
     },
     {
       id: "compiler",
       label: "Compiler",
-      explain: "The compiler acts like a translator that converts your idea into CPU instructions.",
-      output: ["compare register", "branch if greater", "store output bit"],
+      explain: "The compiler translates your intention into specific operations the target CPU knows how to perform.",
+      output: ["load sensor value", "compare register", "branch if greater", "store output bit"],
     },
     {
       id: "machine",
       label: "Machine code",
-      explain: "Now the CPU has exact low-level instructions it can execute step by step.",
+      explain: "Now the CPU has exact low-level instructions encoded in bytes and ready to execute step by step.",
       output: ["LOAD", "CMP", "JGT", "STORE"],
     },
     {
       id: "hardware",
       label: "Hardware action",
-      explain: "The running instructions finally change a real output pin and the LED reacts.",
-      output: ["GPIO bit = 1", "LED glows"],
+      explain: "The running instructions finally change a real output register and the hardware pin changes state.",
+      output: ["GPIO bit updated", "pin voltage changes", "LED glows"],
     },
   ],
 };

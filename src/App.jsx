@@ -1,10 +1,12 @@
-import { useEffect, useState } from "react";
+import { Suspense, lazy, useEffect, useState } from "react";
 import { Routes, Route } from "react-router-dom";
-import AbbreviationsPage from "./pages/AbbreviationsPage";
-import HomePage from "./pages/HomePage";
-import LessonPage from "./pages/LessonPage";
+import RouteLoadingPanel from "./components/RouteLoadingPanel";
 import SiteTopBar from "./components/SiteTopBar";
 import { clamp, clampToByte } from "./utils/bitMath";
+
+const AbbreviationsPage = lazy(() => import("./pages/AbbreviationsPage"));
+const HomePage = lazy(() => import("./pages/HomePage"));
+const LessonPage = lazy(() => import("./pages/LessonPage"));
 
 export default function App() {
   const [byteValue, setByteValue] = useState(221);
@@ -48,6 +50,7 @@ export default function App() {
     chapterFour: {},
     chapterFive: {},
     chapterSix: {},
+    chapterSeven: {},
     chapterEight: {},
     chapterNine: {},
     chapterTen: {},
@@ -55,6 +58,7 @@ export default function App() {
     chapterTwelve: {},
     chapterThirteen: {},
     chapterFourteen: {},
+    chapterFifteen: {},
   };
 
   return (
@@ -62,16 +66,28 @@ export default function App() {
       <div className="ambient ambient-one" />
       <div className="ambient ambient-two" />
       <div className="ambient ambient-three" />
-      <SiteTopBar theme={theme} onToggleTheme={() => setTheme((current) => (current === "dark" ? "light" : "dark"))} />
+      <SiteTopBar
+        theme={theme}
+        onToggleTheme={() => setTheme((current) => (current === "dark" ? "light" : "dark"))}
+      />
 
-      <Routes>
-        <Route path="/" element={<HomePage />} />
-        <Route path="/abbreviations" element={<AbbreviationsPage />} />
-        <Route
-          path="/lesson/:lessonSlug"
-          element={<LessonPage sharedChapterProps={sharedChapterProps} />}
-        />
-      </Routes>
+      <Suspense
+        fallback={
+          <RouteLoadingPanel
+            title="Loading view"
+            body="Preparing the next page with route-level code splitting for a lighter initial load."
+          />
+        }
+      >
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/abbreviations" element={<AbbreviationsPage />} />
+          <Route
+            path="/lesson/:lessonSlug"
+            element={<LessonPage sharedChapterProps={sharedChapterProps} />}
+          />
+        </Routes>
+      </Suspense>
     </div>
   );
 }

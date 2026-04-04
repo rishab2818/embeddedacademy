@@ -1,6 +1,9 @@
 ﻿import { useEffect, useMemo, useState } from "react";
 import ChapterPrimer from "../components/ChapterPrimer";
+import DeepDiveBlock from "../components/DeepDiveBlock";
 import FancySelect from "../components/FancySelect";
+import InteractionGuide from "../components/InteractionGuide";
+import RecapCheckpoint from "../components/RecapCheckpoint";
 import SectionHeading from "../components/SectionHeading";
 import {
   binaryReasonCards,
@@ -622,6 +625,84 @@ function BinaryReasonLab() {
   );
 }
 
+function BusMindsetPanel() {
+  return (
+    <div className="chapter-grid chapter-grid-wide">
+      <div className="panel bus-panel-stack">
+        <p className="eyebrow">How to think about this chapter</p>
+        <h3>The system is a city of locations, payloads, widths, and translations</h3>
+
+        <div className="teaching-step-grid compact">
+          <div className="teaching-step-card">
+            <span>Locations are not values</span>
+            <p>
+              An address identifies a destination in the memory map. The destination might be flash,
+              RAM, or a peripheral register, but the address itself is not the payload being moved.
+            </p>
+          </div>
+          <div className="teaching-step-card">
+            <span>Widths shape efficiency</span>
+            <p>
+              Controller width affects how naturally the CPU handles values, instruction fetches, and
+              bus movement. It changes feel and efficiency, not the existence of the basic concepts.
+            </p>
+          </div>
+          <div className="teaching-step-card">
+            <span>Families have accents</span>
+            <p>
+              PIC and STM32 parts solve similar problems with different architectural flavors. Learn
+              the shared ideas first, then notice each family's accent.
+            </p>
+          </div>
+          <div className="teaching-step-card">
+            <span>Toolchains finish the picture</span>
+            <p>
+              The buses and widths matter because the compiler, assembler, and linker are preparing a
+              binary image that must fit the chosen architecture correctly.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div className="panel bus-panel-stack">
+        <p className="eyebrow">Common beginner traps</p>
+        <h3>These four confusions create most bus-level misunderstanding</h3>
+
+        <div className="teaching-step-grid compact">
+          <div className="teaching-step-card">
+            <span>Trap 1</span>
+            <p>
+              Thinking that because an address bus has many lines, it must also carry the sensor value
+              itself. It does not. It points to the source or destination.
+            </p>
+          </div>
+          <div className="teaching-step-card">
+            <span>Trap 2</span>
+            <p>
+              Assuming 32-bit automatically means "better in every way." Width is only one part of
+              overall design; real-time demands, power, cost, and peripherals still matter.
+            </p>
+          </div>
+          <div className="teaching-step-card">
+            <span>Trap 3</span>
+            <p>
+              Treating compilation as word replacement. The toolchain is deciding legality, layout,
+              relocation, and target-specific instruction form.
+            </p>
+          </div>
+          <div className="teaching-step-card">
+            <span>Trap 4</span>
+            <p>
+              Treating binary as a classroom trick. Binary wins because electrical hardware can detect
+              two broad stable states far more reliably than many finely spaced analog levels.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 export default function ChapterTwelve({ chapterLabel = "Chapter 11", chapterNumber = "11" }) {
   const [controllerId, setControllerId] = useState(controllerProfiles[2].id);
 
@@ -633,7 +714,9 @@ export default function ChapterTwelve({ chapterLabel = "Chapter 11", chapterNumb
         <p>
           This chapter explains how a CPU chooses locations with the address bus, moves values with the
           data bus, why 8-bit, 16-bit, and 32-bit controllers feel different, how PIC and STM families
-          organize those ideas, and how source code is finally compiled down into stored binary.
+          organize those ideas, and how source code is finally compiled down into stored binary. These
+          topics are the bridge between software structure and the physical machine pathways that carry
+          instructions and data at runtime.
         </p>
       </div>
 
@@ -659,53 +742,206 @@ export default function ChapterTwelve({ chapterLabel = "Chapter 11", chapterNumb
         ]}
         callout={{
           title: "Simple memory hook",
-          body: "Address is the destination. Data is the payload. Compilation is how the payload-producing instructions are created in the first place.",
+          body: "Address is the destination. Data is the payload. Bit width affects the size of the road. Compilation is how the payload-producing instructions are created in the first place.",
         }}
       />
+
+      <BusMindsetPanel />
 
       <section className="chapter-section" id="chapter-11-widths">
         <SectionHeading
           eyebrow={formatSectionLabel(chapterNumber, 1)}
           title="What 8-bit, 16-bit, and 32-bit mean"
-          description="Start with the CPU's natural working width so the bus discussion has a clear foundation."
+          description="Start with the CPU's natural working width so the bus discussion has a clear foundation and the later architecture comparisons make intuitive sense."
         />
         <WidthMeaningLab controllerId={controllerId} onControllerChange={setControllerId} />
+        <RecapCheckpoint
+          title="Checkpoint: width shapes the CPU's natural chunk"
+          items={[
+            "Bit width mainly describes the CPU's natural working size, not every path in the whole chip.",
+            "Wider controllers handle larger chunks more directly, but they still live inside broader system tradeoffs.",
+            "Instruction width, data width, and address reach can relate to core width without being identical.",
+          ]}
+          question="Could you explain why a 32-bit controller still does not tell you everything about its bus organization?"
+        />
       </section>
 
       <section className="chapter-section" id="chapter-11-buses">
         <SectionHeading
           eyebrow={formatSectionLabel(chapterNumber, 2)}
           title="Address bus and data bus"
-          description="The address bus says where the transfer should happen. The data bus carries the actual value that is being read or written."
+          description="The address bus says where the transfer should happen. The data bus carries the actual value that is being read or written, and the two must never be mentally swapped."
+        />
+        <InteractionGuide
+          title="How to read the bus transaction animator"
+          items={[
+            {
+              title: "Start with the address path",
+              body: "The address bus chooses the location first, because the machine needs a destination before it can move a payload.",
+            },
+            {
+              title: "Then watch the data path",
+              body: "The data bus shows the actual value being moved during the transaction.",
+            },
+            {
+              title: "Use the step cards",
+              body: "They break one bus transfer into an ordered sequence instead of a flat hardware picture.",
+            },
+          ]}
         />
         <BusTransactionLab controllerId={controllerId} onControllerChange={setControllerId} />
+        <RecapCheckpoint
+          title="Checkpoint: address means where, data means what"
+          items={[
+            "Address and data are different roles even when they appear in the same transfer.",
+            "The address bus names the source or destination location.",
+            "The data bus carries the payload value being read or written.",
+          ]}
+          question="If a transfer fails, do you know how to tell whether the wrong part was the chosen location or the payload itself?"
+        />
+        <DeepDiveBlock
+          title="Why bus literacy matters beyond vocabulary"
+          summary="This is where software meets the hardware transport layer."
+          points={[
+            {
+              title: "Memory-mapped peripherals",
+              body: "Many device drivers are really bus transactions targeting special addresses rather than ordinary RAM.",
+            },
+            {
+              title: "Throughput and timing",
+              body: "Bus width and organization affect how naturally values move and therefore influence runtime behavior.",
+            },
+            {
+              title: "Debugging clarity",
+              body: "A lot of low-level confusion disappears once engineers describe transfers accurately as location selection plus payload movement.",
+            },
+          ]}
+        />
       </section>
 
       <section className="chapter-section" id="chapter-11-pic-stm">
         <SectionHeading
           eyebrow={formatSectionLabel(chapterNumber, 3)}
           title="How it looks in PIC and STM"
-          description="Compare the narrow PIC16 style, the wider PIC24 style, and the STM32 Cortex-M style so the same bus words become family-specific mental pictures."
+          description="Compare the narrow PIC16 style, the wider PIC24 style, and the STM32 Cortex-M style so the same bus words become family-specific mental pictures without losing the shared fundamentals."
         />
         <PicVsStmLab controllerId={controllerId} onControllerChange={setControllerId} />
+        <RecapCheckpoint
+          title="Checkpoint: device families speak with different accents"
+          items={[
+            "PIC and STM families still share the same broad concepts of instruction flow, data movement, and memory-mapped behavior.",
+            "What changes is the width, organization, and programming feel of those same ideas.",
+            "Learning the common foundation first makes vendor-specific details far easier to absorb.",
+          ]}
+          question="Could you compare two controller families without losing the shared bus ideas underneath them?"
+        />
       </section>
 
       <section className="chapter-section" id="chapter-11-compilation">
         <SectionHeading
           eyebrow={formatSectionLabel(chapterNumber, 4)}
           title="Compilation and conversion to binary"
-          description="Follow the full path from requirement to source to compiler decisions to object code, linked firmware image, and stored 1s and 0s."
+          description="Follow the full path from requirement to source to compiler decisions to object code, linked firmware image, and stored 1s and 0s for one concrete target."
+        />
+        <InteractionGuide
+          title="How to read the compilation theater"
+          items={[
+            {
+              title: "Treat each stage as a transformation",
+              body: "Each stage changes the form of the program while trying to preserve its intended behavior.",
+            },
+            {
+              title: "Ask why the stage exists",
+              body: "The toolchain is not only translating words. It is also checking legality, arranging layout, and targeting a specific architecture.",
+            },
+            {
+              title: "Keep the target machine in mind",
+              body: "The final binary only makes sense for the chosen CPU, memory model, and linker layout.",
+            },
+          ]}
         />
         <CompilationLab />
+        <RecapCheckpoint
+          title="Checkpoint: compilation is a real pipeline"
+          items={[
+            "Source code is transformed through several stages before it becomes a final firmware image.",
+            "Assembler and linker are essential parts of the story, not side notes.",
+            "The CPU finally executes stored instruction bits rather than the source text humans wrote.",
+          ]}
+          question="Could you explain what the linker does without reducing it to only 'combining files'?"
+        />
+        <DeepDiveBlock
+          title="Why toolchain literacy matters in embedded projects"
+          summary="This is where code structure meets memory layout and target architecture."
+          points={[
+            {
+              title: "Layout control",
+              body: "Sections, symbols, and addresses matter because the final image must fit the target's flash, RAM, and startup expectations correctly.",
+            },
+            {
+              title: "Architecture dependence",
+              body: "The same source can produce very different binaries on different processors because the target instruction set and memory rules changed.",
+            },
+            {
+              title: "Debugging payoff",
+              body: "When builds behave strangely, boot code fails, or optimized binaries surprise you, toolchain understanding becomes a real advantage.",
+            },
+          ]}
+        />
+        <DeepDiveBlock
+          title="What linker scripts and memory maps are really deciding"
+          summary="This is one of the most practical expert bridges in the chapter."
+          points={[
+            {
+              title: "What lives in flash",
+              body: "Executable code, constants, vector tables, and read-only data are usually assigned to specific flash regions so the CPU can fetch them correctly at reset and during runtime.",
+            },
+            {
+              title: "What must live in RAM",
+              body: "Mutable data, stack space, heap space, buffers, and sometimes DMA-visible regions must be placed where the processor and peripherals can read and write them safely.",
+            },
+            {
+              title: "Why startup code exists",
+              body: "The linker and startup code cooperate: one decides where sections belong, and the other copies or zero-initializes the right data so the runtime memory state matches the program's expectations.",
+            },
+          ]}
+        />
       </section>
 
       <section className="chapter-section" id="chapter-11-binary">
         <SectionHeading
           eyebrow={formatSectionLabel(chapterNumber, 5)}
           title="Why the machine finally uses only 1 and 0"
-          description="Use a live voltage-and-noise demo to see why binary logic is more reliable than trying to distinguish many tiny signal levels."
+          description="Use a live voltage-and-noise demo to see why binary logic is more reliable than trying to distinguish many tiny signal levels on real physical wires."
         />
         <BinaryReasonLab />
+        <RecapCheckpoint
+          title="Checkpoint: binary wins because hardware needs safe margins"
+          items={[
+            "Real wires are noisy, so broad HIGH and LOW zones are more reliable than many small analog levels.",
+            "Binary is a practical engineering decision rooted in switching hardware.",
+            "That physical reality is why later buses, memories, and instructions all reduce back to 1s and 0s.",
+          ]}
+          question="Could you defend binary from a circuit-behavior point of view rather than only from history or tradition?"
+        />
+        <DeepDiveBlock
+          title="Why binary thinking still matters in advanced systems"
+          summary="Even very powerful processors are still built on this electrical bargain."
+          points={[
+            {
+              title: "Abstraction keeps stacking",
+              body: "Operating systems, compilers, packet formats, image files, and AI models all look high level, but underneath they still reduce to stored and transported binary states.",
+            },
+            {
+              title: "Signal integrity never disappears",
+              body: "As systems get faster, engineers worry even more about margins, skew, interference, and timing because the hardware still has to distinguish valid logic levels reliably.",
+            },
+            {
+              title: "Debuggers eventually hit physics",
+              body: "A beautiful software design still fails if the board, clocking, or signaling conditions stop the machine from recognizing those final binary states correctly.",
+            },
+          ]}
+        />
       </section>
     </section>
   );
