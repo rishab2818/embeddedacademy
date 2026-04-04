@@ -6756,6 +6756,13 @@ body {
   line-height: 1.65;
 }
 
+.mcu-atlas-card p {
+  display: -webkit-box;
+  -webkit-line-clamp: 4;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
 .mcu-atlas-card.active,
 .mcu-step-card.active,
 .mcu-node-card.active {
@@ -6852,12 +6859,8 @@ body {
 }
 
 @media (max-width: 720px) {
-  .mcu-atlas-grid,
-  .mcu-node-grid,
-  .mcu-step-grid,
-  .mcu-stat-grid,
-  .connection-pattern-grid {
-    grid-template-columns: 1fr;
+  .mcu-atlas-grid {
+    grid-template-columns: 1fr 1fr;
   }
 
   .mcu-atlas-card,
@@ -6868,6 +6871,28 @@ body {
   .mcu-node-card {
     padding: 14px;
     border-radius: 18px;
+  }
+
+  .mcu-node-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .mcu-step-grid {
+    display: flex;
+    overflow-x: auto;
+    scroll-snap-type: x proximity;
+    padding-bottom: 2px;
+  }
+
+  .mcu-step-card {
+    min-width: 220px;
+    flex: 0 0 220px;
+    scroll-snap-align: start;
+  }
+
+  .mcu-stat-grid,
+  .connection-pattern-grid {
+    grid-template-columns: 1fr;
   }
 }
 

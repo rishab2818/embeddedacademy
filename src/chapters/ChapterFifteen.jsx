@@ -379,14 +379,6 @@ function CommunicationLab() {
           </article>
         </div>
 
-        <div className="connection-pattern-grid">
-          {connectionPatterns.map((item) => (
-            <article key={item.title} className="connection-pattern-card">
-              <span>{item.title}</span>
-              <p>{item.body}</p>
-            </article>
-          ))}
-        </div>
       </div>
     </div>
   );
@@ -863,6 +855,19 @@ export default function ChapterFifteen({ chapterLabel = "Chapter 16", chapterNum
             },
           ]}
         />
+        <DeepDiveBlock
+          title="Typical sensor and device connection patterns"
+          summary="Open this when you want a practical board-level view of who usually connects how."
+        >
+          <div className="connection-pattern-grid">
+            {connectionPatterns.map((item) => (
+              <article key={item.title} className="connection-pattern-card">
+                <span>{item.title}</span>
+                <p>{item.body}</p>
+              </article>
+            ))}
+          </div>
+        </DeepDiveBlock>
       </section>
 
       <section className="chapter-section" id="chapter-16-analog">

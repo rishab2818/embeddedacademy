@@ -79,9 +79,9 @@ export default function LessonPage({ sharedChapterProps }) {
 
           <div className="lesson-header-progress-block">
             <div className="lesson-header-progress-copy">
-              <span>Course progress</span>
+              <span>Course position</span>
               <strong>
-                Chapter {chapterIndex + 1} of {flatLessons.length}
+                Lesson {chapterIndex + 1} of {flatLessons.length}
               </strong>
             </div>
             <div className="lesson-header-progress-bar" aria-hidden="true">
